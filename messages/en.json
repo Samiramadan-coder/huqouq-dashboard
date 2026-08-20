@@ -1,0 +1,142 @@
+{
+  "Common": {
+    "English": "English",
+    "Arabic": "Arabic",
+    "Showing": "Showing",
+    "Previous": "Previous",
+    "Next": "Next",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Delete": "Delete",
+    "DeleteConfirmation": "Are you sure you want to delete this item? This action cannot be undone.",
+    "Confirmation": "Confirmation",
+    "Error": "Error",
+    "ErrorOccurred": "An error occurred while processing your request. Please try again.",
+    "AddPhoto": "Add Photo",
+    "Bouquet": "Bouquet",
+    "Preserved": "Preserved",
+    "Gift": "Gift",
+    "Seasonal": "Seasonal",
+    "Wedding": "Wedding",
+    "Eid": "Eid",
+    "Corporate": "Corporate",
+    "Visible": "Live",
+    "Hidden": "Hidden",
+    "VisibilityUpdated": "Visibility updated successfully",
+    "VisibilityUpdateFailed": "Failed to update visibility. Please try again.",
+    "DeletedSuccessfully": "Deleted successfully",
+    "DeleteFailed": "Delete failed. Please try again.",
+    "ReorderedSuccessfully": "Reordered successfully",
+    "ReorderFailed": "Failed to reorder. Please try again.",
+    "CreatedSuccessfully": "Created successfully",
+    "CreationFailed": "Creation failed. Please try again.",
+    "UpdatedSuccessfully": "Updated successfully",
+    "UpdateFailed": "Update failed. Please try again.",
+    "New": "New",
+    "AED": "AED",
+    "ImageAddedSuccessfully": "Image added successfully",
+    "ImageAddFailed": "Failed to add image. Please try again.",
+    "NotFound": "Not Found"
+  },
+  "Auth": {
+    "Login": {
+      "Title": "Login",
+      "Description": "Enter your credentials to access your account",
+      "Email": "Email",
+      "Password": "Password",
+      "Submit": "Login",
+      "LoginSuccess": "Login successful",
+      "LoginFailed": "Login failed. Please check your credentials and try again.",
+      "InvalidEmail": "Invalid email",
+      "PasswordIsRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters"
+    }
+  },
+  "layout": {
+    "header": {
+      "dashboard": "Dashboard"
+    },
+    "sidebar": {
+      "brandName": "Huqouq",
+      "brandSubtitle": "Admin Panel",
+      "toggleExpand": "Expand sidebar",
+      "toggleCollapse": "Collapse sidebar",
+      "navigation": {
+        "overview": "Overview",
+        "dashboard": "Dashboard",
+        "approvals": "Approvals",
+        "lawyerApprovals": "Lawyer Approvals"
+      }
+    }
+  },
+  "LawyerApprovals": {
+    "pendingReview": "Pending Review",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "flagged": "Flagged",
+    "searchPlaceholder": "Search by name or specialization...",
+    "applicationsAwaitingReview": "{count} applications awaiting review",
+    "applicationsApproved": "{count} applications approved and now active on the platform",
+    "applicationsRejected": "{count} applications rejected",
+    "backToPending": "Back to Pending",
+    "approveSection": "Approve Section",
+    "flagSection": "Flag Section",
+    "undo": "Undo",
+    "sectionApproved": "Section approved successfully",
+    "sectionApprovalFailed": "Failed to approve section. Please try again.",
+    "reasonIsRequired": "Reason is required",
+    "reasonPlaceholder": "Enter the reason for flagging this section",
+    "reasonLabel": "Reason",
+    "sectionFlagged": "Section flagged successfully",
+    "sectionFlagFailed": "Failed to flag section. Please try again.",
+    "sectionUndoSuccess": "Section status reverted to pending successfully",
+    "sectionUndoFailed": "Failed to revert section status. Please try again.",
+    "profileRejected": "Profile rejected successfully",
+    "profileRejectFailed": "Failed to reject profile. Please try again.",
+    "reject": "Reject - Request Changes",
+    "approve": "Approve Profile",
+    "profileApproved": "Profile approved successfully",
+    "profileApproveFailed": "Failed to approve profile. Please try again.",
+    "Table": {
+      "lawyer": "Lawyer",
+      "accountType": "Account Type",
+      "specializations": "Specializations",
+      "submitted": "Submitted",
+      "noApplications": "No applications found"
+    },
+    "Actions": {
+      "review": "Review"
+    },
+    "ProfessionalInfo": {
+      "professionalHeadline": "Professional Headline",
+      "phone": "Phone",
+      "email": "Email",
+      "location": "Location",
+      "emirate": "Emirate",
+      "yearsOfExperience": "Years of Experience",
+      "consultationFee": "Consultation Fee",
+      "submissionDate": "Submission Date"
+    },
+    "Specialization": {
+      "mainSpecializations": "Main Specializations",
+      "subSpecializations": "Sub-Specializations / Services Offered"
+    },
+    "LanguagesBio": {
+      "languagesSpoken": "Languages Spoken",
+      "professionalBio": "Professional Bio",
+      "websiteUrl": "Website URL"
+    },
+    "Experience": {
+      "Present": "Present"
+    },
+    "BarCertificate": {
+      "title": "Bar Certificate",
+      "documentPreview": "Document Preview",
+      "barNumber": "Bar Number",
+      "issuingBody": "Issuing Body",
+      "issueDate": "Issue Date",
+      "expiryDate": "Expiry Date",
+      "downloadOriginalCertificate": "Download Original Certificate (PDF)"
+    }
+  }
+}

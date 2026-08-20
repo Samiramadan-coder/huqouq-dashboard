@@ -1,0 +1,142 @@
+{
+  "Common": {
+    "English": "الإنجليزية",
+    "Arabic": "العربية",
+    "Showing": "عرض",
+    "Previous": "السابق",
+    "Next": "التالي",
+    "Save": "حفظ",
+    "Cancel": "إلغاء",
+    "Delete": "حذف",
+    "DeleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
+    "Confirmation": "تأكيد",
+    "Error": "خطأ",
+    "ErrorOccurred": "حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.",
+    "AddPhoto": "إضافة صورة",
+    "Bouquet": "باقة",
+    "Preserved": "محفوظ",
+    "Gift": "هدية",
+    "Seasonal": "موسمي",
+    "Wedding": "زفاف",
+    "Eid": "عيد",
+    "Corporate": "شركة",
+    "Visible": "مباشر",
+    "Hidden": "مخفي",
+    "VisibilityUpdated": "تم تحديث رؤية الفئة بنجاح",
+    "VisibilityUpdateFailed": "فشل تحديث رؤية الفئة. يرجى المحاولة مرة أخرى.",
+    "DeletedSuccessfully": "تم الحذف بنجاح",
+    "DeleteFailed": "فشل الحذف. يرجى المحاولة مرة أخرى.",
+    "ReorderedSuccessfully": "تم إعادة الترتيب بنجاح",
+    "ReorderFailed": "فشل إعادة الترتيب. يرجى المحاولة مرة أخرى.",
+    "CreatedSuccessfully": "تم الإنشاء بنجاح",
+    "CreationFailed": "فشل الإنشاء. يرجى المحاولة مرة أخرى.",
+    "UpdatedSuccessfully": "تم التحديث بنجاح",
+    "UpdateFailed": "فشل التحديث. يرجى المحاولة مرة أخرى.",
+    "New": "جديد",
+    "AED": "درهم",
+    "ImageAddedSuccessfully": "تمت إضافة الصورة بنجاح",
+    "ImageAddFailed": "فشل في إضافة الصورة. يرجى المحاولة مرة أخرى.",
+    "NotFound": "غير موجود"
+  },
+  "Auth": {
+    "Login": {
+      "Title": "تسجيل الدخول",
+      "Description": "أدخل بيانات اعتمادك للوصول إلى حسابك",
+      "Email": "البريد الإلكتروني",
+      "Password": "كلمة المرور",
+      "Submit": "تسجيل الدخول",
+      "LoginSuccess": "تم تسجيل الدخول بنجاح",
+      "LoginFailed": "فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد",
+      "InvalidEmail": "البريد الإلكتروني غير صالح",
+      "PasswordIsRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "يجب أن تكون كلمة المرور 8 أحرف على الأقل"
+    }
+  },
+  "layout": {
+    "header": {
+      "dashboard": "لوحة التحكم"
+    },
+    "sidebar": {
+      "brandName": "حقوق",
+      "brandSubtitle": "لوحة الإدارة",
+      "toggleExpand": "توسيع الشريط الجانبي",
+      "toggleCollapse": "طي الشريط الجانبي",
+      "navigation": {
+        "overview": "نظرة عامة",
+        "dashboard": "لوحة التحكم",
+        "approvals": "الموافقات",
+        "lawyerApprovals": "موافقات المحامي"
+      }
+    }
+  },
+  "LawyerApprovals": {
+    "pendingReview": "بانتظار المراجعة",
+    "approved": "تمت الموافقة",
+    "rejected": "مرفوض",
+    "flagged": "تم الإبلاغ",
+    "searchPlaceholder": "ابحث بالاسم أو التخصص...",
+    "applicationsAwaitingReview": "{count} طلبات بانتظار المراجعة",
+    "applicationsApproved": "{count} طلبات تمت الموافقة عليها الآن نشط على المنصة",
+    "applicationsRejected": "{count} طلبات مرفوضة",
+    "backToPending": "العودة إلى في الانتظار",
+    "approveSection": "الموافقة على القسم",
+    "flagSection": "الإبلاغ عن القسم",
+    "undo": "تراجع",
+    "sectionApproved": "تمت الموافقة على القسم بنجاح",
+    "sectionApprovalFailed": "فشل في الموافقة على القسم. يرجى المحاولة مرة أخرى.",
+    "reasonIsRequired": "السبب مطلوب",
+    "reasonPlaceholder": "أدخل سبب الإبلاغ عن هذا القسم",
+    "reasonLabel": "السبب",
+    "sectionFlagged": "تم الإبلاغ عن القسم بنجاح",
+    "sectionFlagFailed": "فشل في الإبلاغ عن القسم. يرجى المحاولة مرة أخرى.",
+    "sectionUndoSuccess": "تمت إعادة حالة القسم إلى الانتظار بنجاح",
+    "sectionUndoFailed": "فشل في إعادة حالة القسم. يرجى المحاولة مرة أخرى.",
+    "profileRejected": "تم رفض الملف الشخصي بنجاح",
+    "profileRejectFailed": "فشل في رفض الملف الشخصي. يرجى المحاولة مرة أخرى.",
+    "reject": "رفض - طلب التغييرات",
+    "approve": "الموافقة على الملف الشخصي",
+    "profileApproved": "تمت الموافقة على الملف الشخصي بنجاح",
+    "profileApproveFailed": "فشل في الموافقة على الملف الشخصي. يرجى المحاولة مرة أخرى.",
+    "Table": {
+      "lawyer": "المحامي",
+      "accountType": "نوع الحساب",
+      "specializations": "التخصصات",
+      "submitted": "تاريخ التقديم",
+      "noApplications": "لم يتم العثور على أي طلبات"
+    },
+    "Actions": {
+      "review": "مراجعة"
+    },
+    "ProfessionalInfo": {
+      "professionalHeadline": "العنوان المهني",
+      "phone": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "location": "الموقع",
+      "emirate": "الإمارة",
+      "yearsOfExperience": "سنوات الخبرة",
+      "consultationFee": "رسوم الاستشارة",
+      "submissionDate": "تاريخ التقديم"
+    },
+    "Specialization": {
+      "mainSpecializations": "التخصصات الرئيسية",
+      "subSpecializations": "التخصصات الفرعية / الخدمات المقدمة"
+    },
+    "LanguagesBio": {
+      "languagesSpoken": "اللغات المتحدث بها",
+      "professionalBio": "النبذة المهنية",
+      "websiteUrl": "رابط الموقع الإلكتروني"
+    },
+    "Experience": {
+      "Present": "الحالي"
+    },
+    "BarCertificate": {
+      "title": "شهادة مزاولة المحاماة",
+      "documentPreview": "معاينة المستند",
+      "barNumber": "رقم الترخيص",
+      "issuingBody": "جهة الإصدار",
+      "issueDate": "تاريخ الإصدار",
+      "expiryDate": "تاريخ الانتهاء",
+      "downloadOriginalCertificate": "تحميل الشهادة الأصلية (PDF)"
+    }
+  }
+}

@@ -139,5 +139,44 @@
       "expiryDate": "تاريخ الانتهاء",
       "downloadOriginalCertificate": "تحميل الشهادة الأصلية (PDF)"
     }
+  },
+  "CaseApprovals": {
+    "pendingReview": "قيد المراجعة",
+    "approved": "تمت الموافقة",
+    "rejected": "تم الرفض",
+    "searchPlaceholder": "ابحث عن طريق العنوان أو الفئة....",
+    "Table": {
+      "client": "العميل",
+      "title": "عنوان القضية",
+      "category": "الفئة",
+      "urgency": "الأهمية",
+      "submitted": "تاريخ التقديم",
+      "documents": "المستندات المرفقة",
+      "noCases": "لم يتم العثور على أي قضايا"
+    },
+    "Actions": {
+      "review": "مراجعة"
+    },
+    "Filters": {
+      "allCategories": "جميع الفئات",
+      "allUrgency": "جميع مستويات الأهمية",
+      "urgent": "عاجل",
+      "standard": "عادي",
+      "very_urgent": "عاجل جدًا"
+    },
+    "Details": {
+      "client": "العميل",
+      "budget": "الميزانية",
+      "submitted": "تم التقديم {date}",
+      "caseDescription": "وصف القضية",
+      "attachedDocuments": "المستندات المرفقة",
+      "documentPreview": "معاينة المستند",
+      "reject": "رفض القضية",
+      "approve": "الموافقة على القضية",
+      "reject_success": "تم رفض القضية بنجاح",
+      "reject_failure": "فشل في رفض القضية",
+      "approve_success": "تمت الموافقة على القضية بنجاح",
+      "approve_failure": "فشل في الموافقة على القضية"
+    }
   }
 }

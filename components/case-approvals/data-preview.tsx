@@ -105,10 +105,10 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
       ) : (
         <TableRow>
           <TableCell
-            colSpan={5}
+            colSpan={6}
             className="text-center py-4 text-sm text-gray-500"
           >
-            {t("Table.noApplications")}
+            {t("Table.noCases")}
           </TableCell>
         </TableRow>
       )}

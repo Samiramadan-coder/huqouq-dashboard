@@ -151,7 +151,8 @@
       "category": "Category",
       "urgency": "Urgency",
       "submitted": "Submitted",
-      "documents": "documents attached"
+      "documents": "documents attached",
+      "noCases": "No Cases found"
     },
     "Actions": {
       "review": "Review"
@@ -171,7 +172,11 @@
       "attachedDocuments": "Attached Documents",
       "documentPreview": "Document Preview",
       "reject": "Reject Case",
-      "approve": "Approve Case"
+      "approve": "Approve Case",
+      "reject_success": "Case rejected successfully",
+      "reject_failure": "Failed to reject case",
+      "approve_success": "Case approved successfully",
+      "approve_failure": "Failed to approve case"
     }
   }
 }

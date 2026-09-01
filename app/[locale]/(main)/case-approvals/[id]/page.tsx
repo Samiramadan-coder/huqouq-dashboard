@@ -11,6 +11,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
   const { data, ok } = await http.get<{ data: CaseDetails }>(
     `/api/admin/case-approvals/${id}`,
+    {
+      next: { tags: [`case-approval-${id}`] },
+    },
   );
 
   if (!ok) {

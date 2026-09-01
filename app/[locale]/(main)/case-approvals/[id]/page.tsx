@@ -20,8 +20,6 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     throw new Error("Failed to fetch case approval details");
   }
 
-  console.log(data);
-
   return (
     <div className="p-4 sm:p-6">
       <CaseDetailsPreview caseDetails={data.data} />

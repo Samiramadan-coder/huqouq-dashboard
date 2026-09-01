@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  X,
-  Check,
   MapPin,
   FileText,
   Banknote,
@@ -11,7 +9,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+import RejectBtn from "./reject-btn";
+import ApproveBtn from "./approve-btn";
 import { formatDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Separator } from "../ui/separator";
@@ -19,10 +18,6 @@ import { CaseDetails } from "@/types/case-approvals";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { approveCase, rejectCase } from "@/lib/cases-approvals";
-import { Spinner } from "../ui/spinner";
-import { useRouter } from "@/i18n/navigation";
-import { toast } from "sonner";
 
 type CaseDocument = CaseDetails["documents"][number];
 
@@ -31,63 +26,16 @@ export default function CaseDetailsPreview({
 }: {
   caseDetails: CaseDetails;
 }) {
-  const router = useRouter();
   const t = useTranslations("CaseApprovals.Details");
-  const [loadingReject, setLoadingReject] = useState(false);
-  const [loadingApprove, setLoadingApprove] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<CaseDocument | null>(
     null,
   );
 
-  async function handleReject() {
-    setLoadingReject(true);
-
-    const result = await rejectCase(caseDetails.id);
-
-    if (result.success) {
-      toast.success(t("reject_success"));
-      router.back();
-    } else {
-      toast.error(t("reject_failure"));
-    }
-
-    setLoadingReject(false);
-  }
-
-  async function handleApprove() {
-    setLoadingApprove(true);
-
-    const result = await approveCase(caseDetails.id);
-
-    if (result.success) {
-      toast.success(t("approve_success"));
-      router.back();
-    } else {
-      toast.error(t("approve_failure"));
-    }
-
-    setLoadingApprove(false);
-  }
-
   return (
     <>
       <div className="px-6 py-3 bg-white flex justify-end border-t border-gray-200l space-x-4 fixed bottom-0 inset-s-0 w-full">
-        <Button
-          variant="outline"
-          className="bg-transparent text-red-700 border-red-200 h-11"
-          onClick={handleReject}
-        >
-          {loadingReject ? <Spinner /> : <X className="size-3" />}
-          {t("reject")}
-        </Button>
-        <Button
-          variant="outline"
-          className="bg-transparent text-emerald-700 border-emerald-200 h-11"
-          onClick={handleApprove}
-        >
-          {loadingApprove ? <Spinner /> : <Check className="size-3" />}
-          {t("approve")}
-        </Button>
+        <RejectBtn caseId={caseDetails.id} />
+        <ApproveBtn caseId={caseDetails.id} />
       </div>
 
       <div className="space-y-4">

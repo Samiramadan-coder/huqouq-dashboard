@@ -6,9 +6,10 @@ import { http } from "./http";
 // Reject Profile
 export async function rejectCase(
   caseId: number,
+  reason: string,
 ): Promise<{ success: boolean }> {
   try {
-    await http.post(`/api/admin/case-approvals/${caseId}/reject`);
+    await http.post(`/api/admin/case-approvals/${caseId}/reject`, { reason });
     updateTag(`case-approval-${caseId}`);
     return { success: true };
   } catch (error) {

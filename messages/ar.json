@@ -176,7 +176,8 @@
       "reject_success": "تم رفض القضية بنجاح",
       "reject_failure": "فشل في رفض القضية",
       "approve_success": "تمت الموافقة على القضية بنجاح",
-      "approve_failure": "فشل في الموافقة على القضية"
+      "approve_failure": "فشل في الموافقة على القضية",
+      "backToPending": "العودة إلى قيد المراجعة"
     }
   }
 }

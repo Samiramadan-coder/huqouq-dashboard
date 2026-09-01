@@ -182,7 +182,8 @@
       "rejectTitle": "Reject Case",
       "rejectDescription": "Are you sure you want to reject this case?",
       "cancel": "Cancel",
-      "reason_required": "Reason is required"
+      "reason_required": "Reason is required",
+      "backToPending": "Back to Pending"
     }
   }
 }

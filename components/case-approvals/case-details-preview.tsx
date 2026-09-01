@@ -1,32 +1,61 @@
-import { CaseDetails } from "@/types/case-approvals";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+"use client";
+
 import {
-  Banknote,
-  CalendarDays,
-  FileText,
+  X,
+  Check,
   MapPin,
+  FileText,
+  Banknote,
   Paperclip,
+  CalendarDays,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useState } from "react";
 import { Badge } from "../ui/badge";
-import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
 import { formatDate } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import { Separator } from "../ui/separator";
+import { CaseDetails } from "@/types/case-approvals";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+
+type CaseDocument = CaseDetails["documents"][number];
 
 export default function CaseDetailsPreview({
   caseDetails,
 }: {
   caseDetails: CaseDetails;
 }) {
+  const t = useTranslations("CaseApprovals.Details");
+  const [selectedDocument, setSelectedDocument] = useState<CaseDocument | null>(
+    null,
+  );
+
   return (
     <div className="space-y-4">
-      <div className="p-4 sm:p-6 bg-white flex justify-end border-t border-gray-200l space-x-4 fixed bottom-0 inset-s-0 w-full"></div>
+      <div className="p-4 sm:p-6 bg-white flex justify-end border-t border-gray-200l space-x-4 fixed bottom-0 inset-s-0 w-full">
+        <Button
+          variant="outline"
+          className="bg-transparent text-red-700 border-red-200 h-11"
+        >
+          <X className="size-3" />
+          {t("reject")}
+        </Button>
+        <Button
+          variant="outline"
+          className="bg-transparent text-emerald-700 border-emerald-200 h-11"
+        >
+          <Check className="size-3" />
+          {t("approve")}
+        </Button>
+      </div>
 
       <Card className="py-0 gap-0 ring-0! border border-primary/15">
         <CardHeader className="gap-2 px-5 py-4">
           <CardTitle className="text-base font-bold">
             {caseDetails.title}
           </CardTitle>
-
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
             <Badge
               variant="outline"
@@ -34,27 +63,24 @@ export default function CaseDetailsPreview({
             >
               {caseDetails.specialization.name}
             </Badge>
-
             <div className="flex items-center gap-1 text-gray-500 text-xs">
               <MapPin className="size-3.5" />
               <span>{caseDetails.city}</span>
             </div>
-
             <div className="flex items-center gap-1 text-gray-500 text-xs">
               <CalendarDays className="size-3.5" />
-              <span>Submitted {formatDate(caseDetails.created_at)}</span>
+              <span>
+                {t("submitted", { date: formatDate(caseDetails.created_at) })}
+              </span>
             </div>
           </div>
         </CardHeader>
-
         <Separator className="bg-primary/15" />
-
         <CardContent className="grid p-0 md:grid-cols-2">
           <div className="px-5 py-4">
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
-              Client
+              {t("client")}
             </p>
-
             <div className="flex items-center gap-3">
               <Avatar className="size-7">
                 <AvatarImage
@@ -65,7 +91,6 @@ export default function CaseDetailsPreview({
                   {caseDetails.client.name.charAt(0)}
                 </AvatarFallback>
               </Avatar>
-
               <div>
                 <p className="text-[13px] font-semibold text-gray-800">
                   {caseDetails.client.name}
@@ -77,9 +102,8 @@ export default function CaseDetailsPreview({
 
           <div className="px-5 py-4">
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
-              Budget
+              {t("budget")}
             </p>
-
             <div className="flex items-center gap-2">
               <Banknote className="size-4 text-gray-400" />
               <span className="text-[13px] font-semibold text-gray-800">
@@ -94,7 +118,7 @@ export default function CaseDetailsPreview({
         <CardHeader className="gap-2 px-5 py-4">
           <CardTitle className="text-[13.5px] font-semibold flex items-center gap-2">
             <FileText className="size-4 text-secondary" />
-            Case Description
+            {t("caseDescription")}
           </CardTitle>
         </CardHeader>
         <Separator className="bg-primary/15" />
@@ -109,7 +133,7 @@ export default function CaseDetailsPreview({
         <CardHeader className="gap-2 px-5 py-4">
           <CardTitle className="text-[13.5px] font-semibold flex items-center gap-2">
             <Paperclip className="size-4 text-secondary" />
-            Attached Documents
+            {t("attachedDocuments")}
           </CardTitle>
         </CardHeader>
         <Separator className="bg-primary/15" />
@@ -118,7 +142,8 @@ export default function CaseDetailsPreview({
             {caseDetails.documents?.map((doc) => (
               <div
                 key={doc.id}
-                className="p-3 border bg-primary/5 border-primary/10 rounded-lg flex items-center gap-4"
+                onClick={() => setSelectedDocument(doc)}
+                className="cursor-pointer p-3 border bg-primary/5 border-primary/10 rounded-lg flex items-center gap-4"
               >
                 <div className="p-2 bg-white rounded-lg border border-primary/15">
                   <FileText className="size-4 text-red-400" />
@@ -137,6 +162,25 @@ export default function CaseDetailsPreview({
           </div>
         </CardContent>
       </Card>
+
+      <Dialog
+        open={!!selectedDocument}
+        onOpenChange={(open) => !open && setSelectedDocument(null)}
+      >
+        <DialogContent className="sm:max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>
+              {selectedDocument?.name ?? t("documentPreview")}
+            </DialogTitle>
+          </DialogHeader>
+          {selectedDocument && (
+            <iframe
+              src={selectedDocument.url}
+              className="w-full h-[75vh] rounded-lg border border-primary/15"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

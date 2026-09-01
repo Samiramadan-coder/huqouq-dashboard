@@ -162,6 +162,16 @@
       "urgent": "Urgent",
       "standard": "Standard",
       "very_urgent": "Very Urgent"
+    },
+    "Details": {
+      "client": "Client",
+      "budget": "Budget",
+      "submitted": "Submitted {date}",
+      "caseDescription": "Case Description",
+      "attachedDocuments": "Attached Documents",
+      "documentPreview": "Document Preview",
+      "reject": "Reject Case",
+      "approve": "Approve Case"
     }
   }
 }

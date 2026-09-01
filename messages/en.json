@@ -65,7 +65,8 @@
         "overview": "Overview",
         "dashboard": "Dashboard",
         "approvals": "Approvals",
-        "lawyerApprovals": "Lawyer Approvals"
+        "lawyerApprovals": "Lawyer Approvals",
+        "caseApprovals": "Case Approvals"
       }
     }
   },

@@ -65,7 +65,8 @@
         "overview": "نظرة عامة",
         "dashboard": "لوحة التحكم",
         "approvals": "الموافقات",
-        "lawyerApprovals": "موافقات المحامي"
+        "lawyerApprovals": "موافقات المحامي",
+        "caseApprovals": "موافقات القضايا"
       }
     }
   },

@@ -8,6 +8,9 @@ import { Inter, Cairo, Lora } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { DirectionProvider } from "@/components/ui/direction";
+import { ReferenceDataProvider } from "@/providers/reference-data.provider";
+import { http } from "@/lib/http";
+import { ReferenceData } from "@/types/reference-data";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -48,24 +51,35 @@ export default async function RootLayout({
 
   const dir = locale === "ar" ? "rtl" : "ltr";
 
+  // Fetch the reference data from the API
+  const { data, ok } = await http.get<ReferenceData>("/api/reference-data");
+
+  if (!ok) {
+    throw new Error("Failed to fetch reference data");
+  }
+
+  console.log(data);
+
   return (
     <html
       lang={locale}
       dir={dir}
       className={`${inter.variable} ${lora.variable} ${CairoFont.variable} h-full antialiased`}
     >
-      <NuqsAdapter>
-        <NextIntlClientProvider>
-          <TooltipProvider>
-            <DirectionProvider dir={dir}>
-              <body className="min-h-full flex flex-col">
-                {children}
-                <Toaster richColors />
-              </body>
-            </DirectionProvider>
-          </TooltipProvider>
-        </NextIntlClientProvider>
-      </NuqsAdapter>
+      <ReferenceDataProvider initialReferenceData={data}>
+        <NuqsAdapter>
+          <NextIntlClientProvider>
+            <TooltipProvider>
+              <DirectionProvider dir={dir}>
+                <body className="min-h-full flex flex-col">
+                  {children}
+                  <Toaster richColors />
+                </body>
+              </DirectionProvider>
+            </TooltipProvider>
+          </NextIntlClientProvider>
+        </NuqsAdapter>
+      </ReferenceDataProvider>
     </html>
   );
 }

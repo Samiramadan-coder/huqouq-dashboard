@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "api.blumepetals.com",
+        hostname: "api-v1.huqouq.com",
         port: "",
         pathname: "/**",
       },

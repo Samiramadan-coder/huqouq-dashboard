@@ -139,5 +139,22 @@
       "expiryDate": "Expiry Date",
       "downloadOriginalCertificate": "Download Original Certificate (PDF)"
     }
+  },
+  "CaseApprovals": {
+    "pendingReview": "Pending Review",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "searchPlaceholder": "Search by title or category....",
+    "Table": {
+      "client": "Client",
+      "title": "Case Title",
+      "category": "Category",
+      "urgency": "Urgency",
+      "submitted": "Submitted",
+      "documents": "documents attached"
+    },
+    "Actions": {
+      "review": "Review"
+    }
   }
 }

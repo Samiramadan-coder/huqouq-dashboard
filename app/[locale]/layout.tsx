@@ -58,8 +58,6 @@ export default async function RootLayout({
     throw new Error("Failed to fetch reference data");
   }
 
-  console.log(data);
-
   return (
     <html
       lang={locale}

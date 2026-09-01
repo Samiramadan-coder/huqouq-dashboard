@@ -1,14 +1,13 @@
+import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { cn, formatDate } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
-import { Lawyer } from "@/types/lawyer-approvals";
+import { cn, formatDate } from "@/lib/utils";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { Link } from "@/i18n/navigation";
 import { CaseDetails } from "@/types/case-approvals";
-import Image from "next/image";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
   const t = await getTranslations("CaseApprovals");
@@ -91,7 +90,7 @@ export default async function DataPreview({ cases }: { cases: CaseDetails[] }) {
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <Link href={`/cases-approvals/${caseItem.id}`}>
+              <Link href={`/case-approvals/${caseItem.id}`}>
                 <Button
                   variant="outline"
                   className="border-amber-200 bg-white rounded-sm text-amber-600 hover:text-white hover:bg-amber-600 text-xs"

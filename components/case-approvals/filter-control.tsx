@@ -10,13 +10,23 @@ import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Counts } from "@/types/case-approvals";
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useReferenceData } from "@/providers/reference-data.provider";
 
 const statuses = ["pending_review", "approved", "rejected"] as const;
 
 export function FilterControl({ counts }: { counts: Counts }) {
+  const { referenceData } = useReferenceData();
   const t = useTranslations("CaseApprovals");
 
-  const [{ status, q }, setFilters] = useQueryStates({
+  const [{ status, q, category, urgency }, setFilters] = useQueryStates({
     status: parseAsStringLiteral(statuses)
       .withDefault("pending_review")
       .withOptions({
@@ -24,6 +34,14 @@ export function FilterControl({ counts }: { counts: Counts }) {
         shallow: false,
       }),
     q: parseAsString.withDefault("").withOptions({
+      history: "push",
+      shallow: false,
+    }),
+    category: parseAsString.withDefault("").withOptions({
+      history: "push",
+      shallow: false,
+    }),
+    urgency: parseAsString.withDefault("").withOptions({
       history: "push",
       shallow: false,
     }),
@@ -90,7 +108,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
         })}
       </div>
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-4">
         <div className="relative w-full max-w-80">
           <Field>
             <InputGroup className="bg-white h-10">
@@ -110,6 +128,42 @@ export function FilterControl({ counts }: { counts: Counts }) {
             </InputGroup>
           </Field>
         </div>
+
+        <Select
+          value={category}
+          onValueChange={(value) => setFilters({ category: value })}
+        >
+          <SelectTrigger className="w-full max-w-48 min-h-10 bg-white">
+            <SelectValue placeholder={t("Filters.allCategories")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {referenceData?.specializations.map((spec) => (
+                <SelectItem key={spec.id} value={String(spec.id)}>
+                  {spec.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Select
+          value={urgency}
+          onValueChange={(value) => setFilters({ urgency: value })}
+        >
+          <SelectTrigger className="w-full max-w-48 min-h-10 bg-white">
+            <SelectValue placeholder={t("Filters.allUrgency")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {["urgent", "standard", "very_urgent"].map((spec) => (
+                <SelectItem key={spec} value={spec}>
+                  {t(`Filters.${spec}`)}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );

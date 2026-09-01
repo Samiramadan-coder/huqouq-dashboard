@@ -155,6 +155,13 @@
     },
     "Actions": {
       "review": "Review"
+    },
+    "Filters": {
+      "allCategories": "All Categories",
+      "allUrgency": "All Urgency Levels",
+      "urgent": "Urgent",
+      "standard": "Standard",
+      "very_urgent": "Very Urgent"
     }
   }
 }

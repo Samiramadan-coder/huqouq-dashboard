@@ -8,6 +8,7 @@ import DataPreview from "@/components/case-approvals/data-preview";
 type SearchParams = {
   status?: "pending_review" | "approved" | "rejected";
   q?: string;
+  category?: string;
 };
 
 async function CasesList({ searchParams }: { searchParams: SearchParams }) {
@@ -18,6 +19,7 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
     params: {
       status: searchParams.status ?? "pending_review",
       q: searchParams.q ?? "",
+      category: searchParams.category ?? "",
     },
   });
 

@@ -26,26 +26,27 @@ export function FilterControl({ counts }: { counts: Counts }) {
   const { referenceData } = useReferenceData();
   const t = useTranslations("CaseApprovals");
 
-  const [{ status, q, category, urgency }, setFilters] = useQueryStates({
-    status: parseAsStringLiteral(statuses)
-      .withDefault("pending_review")
-      .withOptions({
+  const [{ status, q, specialization_id, urgency }, setFilters] =
+    useQueryStates({
+      status: parseAsStringLiteral(statuses)
+        .withDefault("pending_review")
+        .withOptions({
+          history: "push",
+          shallow: false,
+        }),
+      q: parseAsString.withDefault("").withOptions({
         history: "push",
         shallow: false,
       }),
-    q: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-    category: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-    urgency: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-  });
+      specialization_id: parseAsString.withDefault("").withOptions({
+        history: "push",
+        shallow: false,
+      }),
+      urgency: parseAsString.withDefault("").withOptions({
+        history: "push",
+        shallow: false,
+      }),
+    });
 
   const tabs = [
     {
@@ -130,8 +131,8 @@ export function FilterControl({ counts }: { counts: Counts }) {
         </div>
 
         <Select
-          value={category}
-          onValueChange={(value) => setFilters({ category: value })}
+          value={specialization_id}
+          onValueChange={(value) => setFilters({ specialization_id: value })}
         >
           <SelectTrigger className="w-full max-w-48 min-h-10 bg-white">
             <SelectValue placeholder={t("Filters.allCategories")} />

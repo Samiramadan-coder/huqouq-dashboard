@@ -1,12 +1,11 @@
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 import { formatDate } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import ReViewBtn from "../reusable/review-btn";
 import { Lawyer } from "@/types/lawyer-approvals";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { Link } from "@/i18n/navigation";
 
 export default async function DataPreview({ lawyers }: { lawyers: Lawyer[] }) {
   const t = await getTranslations("LawyerApprovals");
@@ -65,13 +64,7 @@ export default async function DataPreview({ lawyers }: { lawyers: Lawyer[] }) {
             </TableCell>
             <TableCell className="px-5 py-3">
               <Link href={`/lawyer-approvals/${lawyer.id}`}>
-                <Button
-                  variant="outline"
-                  className="border-amber-200 bg-white rounded-sm text-amber-600 hover:text-white hover:bg-amber-600 text-xs"
-                >
-                  {t("Actions.review")}
-                  <ArrowRight className="size-4 rtl:rotate-180" />
-                </Button>
+                <ReViewBtn />
               </Link>
             </TableCell>
           </TableRow>

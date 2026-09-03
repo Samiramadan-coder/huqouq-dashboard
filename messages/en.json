@@ -36,7 +36,8 @@
     "AED": "AED",
     "ImageAddedSuccessfully": "Image added successfully",
     "ImageAddFailed": "Failed to add image. Please try again.",
-    "NotFound": "Not Found"
+    "NotFound": "Not Found",
+    "Review": "Review"
   },
   "Auth": {
     "Login": {
@@ -152,10 +153,10 @@
       "urgency": "Urgency",
       "submitted": "Submitted",
       "documents": "documents attached",
-      "noCases": "No Cases found"
-    },
-    "Actions": {
-      "review": "Review"
+      "noCases": "No Cases found",
+      "decisionDate": "Decision Date",
+      "ReviewedBy": "Reviewed By",
+      "RejectionReason": "Rejection Reason"
     },
     "Filters": {
       "allCategories": "All Categories",

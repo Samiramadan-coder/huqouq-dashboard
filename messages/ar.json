@@ -36,7 +36,8 @@
     "AED": "درهم",
     "ImageAddedSuccessfully": "تمت إضافة الصورة بنجاح",
     "ImageAddFailed": "فشل في إضافة الصورة. يرجى المحاولة مرة أخرى.",
-    "NotFound": "غير موجود"
+    "NotFound": "غير موجود",
+    "Review": "مراجعة"
   },
   "Auth": {
     "Login": {
@@ -152,10 +153,10 @@
       "urgency": "الأهمية",
       "submitted": "تاريخ التقديم",
       "documents": "المستندات المرفقة",
-      "noCases": "لم يتم العثور على أي قضايا"
-    },
-    "Actions": {
-      "review": "مراجعة"
+      "noCases": "لم يتم العثور على أي قضايا",
+      "decisionDate": "تاريخ القرار",
+      "ReviewedBy": "تمت المراجعة بواسطة",
+      "RejectionReason": "سبب الرفض"
     },
     "Filters": {
       "allCategories": "جميع الفئات",

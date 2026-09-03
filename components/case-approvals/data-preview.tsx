@@ -1,24 +1,27 @@
 import Image from "next/image";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 import { Link } from "@/i18n/navigation";
-import { ArrowRight } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { Pagination } from "@/types/shared";
+import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails } from "@/types/case-approvals";
+import { CaseDetails, CaseStatus } from "@/types/case-approvals";
 import UrgencyBadge from "../reusable/urgency-label";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { Pagination } from "@/types/shared";
 import PaginationTemplate from "../reusable/pagination-temlate";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { CircleCheck, CircleX } from "lucide-react";
 
 export default async function DataPreview({
   cases,
   pagination,
+  tableStatus,
 }: {
   cases: CaseDetails[];
   pagination: Pagination;
+  tableStatus: CaseStatus;
 }) {
+  console.log(tableStatus);
   const t = await getTranslations("CaseApprovals");
 
   const columns = (): DataTableColumn[] => [
@@ -26,7 +29,18 @@ export default async function DataPreview({
     { label: t("Table.title") },
     { label: t("Table.category") },
     { label: t("Table.urgency") },
-    { label: t("Table.submitted") },
+    ...(tableStatus === "rejected"
+      ? [{ label: t("Table.RejectionReason") }]
+      : []),
+    {
+      label:
+        tableStatus === "pending_review"
+          ? t("Table.submitted")
+          : t("Table.decisionDate"),
+    },
+    ...(tableStatus === "pending_review"
+      ? []
+      : [{ label: t("Table.ReviewedBy") }]),
     { label: "" },
   ];
 
@@ -85,22 +99,50 @@ export default async function DataPreview({
                 />
               </TableCell>
 
+              {tableStatus === "rejected" && (
+                <TableCell className="px-5 py-3">
+                  <p className="text-gray-500 text-[12px]">
+                    {caseItem.rejection_reason}
+                  </p>
+                </TableCell>
+              )}
+
               <TableCell className="px-5 py-3">
                 <p className="text-xs text-gray-400 truncate">
-                  {formatDate(caseItem.created_at)}
+                  {formatDate(
+                    tableStatus === "pending_review"
+                      ? caseItem.created_at
+                      : caseItem.reviewed_at || "",
+                  )}
                 </p>
               </TableCell>
 
+              {tableStatus !== "pending_review" && (
+                <TableCell className="px-5 py-3">
+                  <p className="text-gray-500 text-[12px]">-</p>
+                </TableCell>
+              )}
+
               <TableCell className="px-5 py-3">
-                <Link href={`/case-approvals/${caseItem.id}`}>
-                  <Button
-                    variant="outline"
-                    className="border-amber-200 bg-white rounded-sm text-amber-600 hover:text-white hover:bg-amber-600 text-xs"
-                  >
-                    {t("Actions.review")}
-                    <ArrowRight className="size-4 rtl:rotate-180" />
-                  </Button>
-                </Link>
+                {tableStatus === "pending_review" && (
+                  <Link href={`/case-approvals/${caseItem.id}`}>
+                    <ReViewBtn />
+                  </Link>
+                )}
+
+                {tableStatus === "approved" && (
+                  <Badge className="bg-green-50 text-green-700 border border-green-200 text-[11px]">
+                    <CircleCheck className="size-3" />
+                    {t("approved")}
+                  </Badge>
+                )}
+
+                {tableStatus === "rejected" && (
+                  <Badge className="bg-red-50 text-red-600 border border-red-200 text-[11px]">
+                    <CircleX className="size-3" />
+                    {t("rejected")}
+                  </Badge>
+                )}
               </TableCell>
             </TableRow>
           ))

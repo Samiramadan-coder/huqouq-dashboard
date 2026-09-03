@@ -2,12 +2,12 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
-import { CaseDetails, Counts } from "@/types/case-approvals";
+import { CaseDetails, CaseStatus, Counts } from "@/types/case-approvals";
 import DataPreview from "@/components/case-approvals/data-preview";
 import { FilterControl } from "@/components/case-approvals/filter-control";
 
 type SearchParams = {
-  status?: "pending_review" | "approved" | "rejected";
+  status?: CaseStatus;
   q?: string;
   specialization_id?: string;
   urgency?: string;
@@ -35,10 +35,16 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch lawyer approvals");
   }
 
+  console.log(data);
+
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <FilterControl counts={data.counts} />
-      <DataPreview cases={data.data} pagination={data.meta} />
+      <DataPreview
+        cases={data.data}
+        pagination={data.meta}
+        tableStatus={status ?? "pending_review"}
+      />
     </div>
   );
 }

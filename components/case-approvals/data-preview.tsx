@@ -48,8 +48,7 @@ export default async function DataPreview({
       columns={columns()}
       countUnit={t("Table.client")}
       rowsCount={cases.length}
-      currentPage={pagination.current_page}
-      totalPages={pagination.last_page}
+      pagination={pagination}
     >
       {cases.length ? (
         cases.map((caseItem) => (

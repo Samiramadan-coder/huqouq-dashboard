@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import {
   Pagination,
   PaginationContent,
@@ -81,11 +82,12 @@ export default function PaginationTemplate({
                 setPageParam((currentPage - 1).toString());
               }
             }}
-            className={
+            className={cn(
+              `text-[12px]`,
               currentPage === 1
                 ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
-            }
+                : "cursor-pointer",
+            )}
           />
         </PaginationItem>
 
@@ -124,11 +126,12 @@ export default function PaginationTemplate({
                 setPageParam((currentPage + 1).toString());
               }
             }}
-            className={
+            className={cn(
+              `text-[12px]`,
               currentPage === totalPages
                 ? "pointer-events-none opacity-50"
-                : "cursor-pointer"
-            }
+                : "cursor-pointer",
+            )}
           />
         </PaginationItem>
       </PaginationContent>

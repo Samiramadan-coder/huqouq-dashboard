@@ -42,8 +42,7 @@ export default async function DataPreview({
       columns={columns()}
       countUnit={t("Table.lawyer")}
       rowsCount={lawyers.length}
-      currentPage={pagination.current_page}
-      totalPages={pagination.last_page}
+      pagination={pagination}
     >
       {lawyers.length ? (
         lawyers.map((lawyer) => (

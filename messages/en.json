@@ -37,7 +37,10 @@
     "ImageAddedSuccessfully": "Image added successfully",
     "ImageAddFailed": "Failed to add image. Please try again.",
     "NotFound": "Not Found",
-    "Review": "Review"
+    "Review": "Review",
+    "To": "To",
+    "From": "From",
+    "Of": "Of"
   },
   "Auth": {
     "Login": {

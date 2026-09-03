@@ -37,7 +37,10 @@
     "ImageAddedSuccessfully": "تمت إضافة الصورة بنجاح",
     "ImageAddFailed": "فشل في إضافة الصورة. يرجى المحاولة مرة أخرى.",
     "NotFound": "غير موجود",
-    "Review": "مراجعة"
+    "Review": "مراجعة",
+    "To": "إلى",
+    "From": "من",
+    "Of": "من"
   },
   "Auth": {
     "Login": {

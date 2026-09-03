@@ -20,7 +20,6 @@ export default async function DataPreview({
   pagination: Pagination;
   tableStatus: CaseStatus;
 }) {
-  console.log(tableStatus);
   const t = await getTranslations("CaseApprovals");
 
   const columns = (): DataTableColumn[] => [

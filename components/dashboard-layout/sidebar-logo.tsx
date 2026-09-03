@@ -12,7 +12,7 @@ export default function SidebarLogo() {
 
   return (
     <>
-      <div className="py-3 px-1 flex items-center gap-4">
+      <div className="py-3 px-4 flex items-center gap-4">
         <div>
           <svg
             width="28"

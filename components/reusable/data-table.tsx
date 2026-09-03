@@ -1,8 +1,8 @@
 import {
   Table,
   TableBody,
-  // TableCell,
-  // TableFooter,
+  TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -10,8 +10,8 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
-// import { useTranslations } from "next-intl";
-// import PaginationTemplate from "./pagination-temlate";
+import { useTranslations } from "next-intl";
+import PaginationTemplate from "./pagination-temlate";
 
 export type DataTableColumn = {
   label: string;
@@ -30,14 +30,14 @@ interface DataTableProps {
 
 export function DataTable({
   columns,
-  // rowsCount,
-  // countUnit,
+  rowsCount,
+  countUnit,
   children,
   onCheckboxChange,
-  // currentPage,
-  // totalPages,
+  currentPage,
+  totalPages,
 }: DataTableProps) {
-  // const t = useTranslations("Common");
+  const t = useTranslations("Common");
 
   return (
     <div className="w-full min-w-0 border border-border rounded-lg overflow-hidden">
@@ -65,9 +65,9 @@ export function DataTable({
         </TableHeader>
         <TableBody className="bg-white">{children}</TableBody>
 
-        {/* <TableFooter className="bg-white">
+        <TableFooter className="bg-white">
           <TableRow>
-            <TableCell className="px-4 py-3 text-sm text-muted-foreground">
+            <TableCell className="px-4 py-3 text-[13px] text-muted-foreground">
               {t("Showing")}{" "}
               <span className="font-semibold text-black">{rowsCount}</span>{" "}
               {countUnit}
@@ -82,7 +82,7 @@ export function DataTable({
               )}
             </TableCell>
           </TableRow>
-        </TableFooter> */}
+        </TableFooter>
       </Table>
     </div>
   );

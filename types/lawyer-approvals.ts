@@ -1,6 +1,8 @@
 import z from "zod";
 import { T } from "./shared";
 
+export type TableStatus = "pending" | "approved" | "rejected";
+
 export type Education = {
   certificate_path: string | null;
   certificate_url: string | null;
@@ -55,7 +57,7 @@ export type LawyerProfile = {
   bio: string;
   completion_percentage: number;
   office_name: string;
-  profile_status: "in_review";
+  profile_status: "in_review" | "approved" | "needs_fix";
   rejection_reason: string | null;
   website_url: string;
   years_of_experience: number;

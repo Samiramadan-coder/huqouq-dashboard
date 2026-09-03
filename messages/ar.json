@@ -104,7 +104,10 @@
       "accountType": "نوع الحساب",
       "specializations": "التخصصات",
       "submitted": "تاريخ التقديم",
-      "noApplications": "لم يتم العثور على أي طلبات"
+      "noApplications": "لم يتم العثور على أي طلبات",
+      "decisionDate": "تاريخ القرار",
+      "ReviewedBy": "تمت المراجعة بواسطة",
+      "RejectionReason": "سبب الرفض"
     },
     "Actions": {
       "review": "مراجعة"

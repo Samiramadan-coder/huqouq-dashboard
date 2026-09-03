@@ -8,7 +8,6 @@ import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails, CaseStatus } from "@/types/case-approvals";
 import UrgencyBadge from "../reusable/urgency-label";
-import PaginationTemplate from "../reusable/pagination-temlate";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { CircleCheck, CircleX } from "lucide-react";
 
@@ -45,123 +44,118 @@ export default async function DataPreview({
   ];
 
   return (
-    <>
-      <DataTable
-        columns={columns()}
-        countUnit={t("Table.client")}
-        rowsCount={cases.length}
-      >
-        {cases.length ? (
-          cases.map((caseItem) => (
-            <TableRow key={caseItem.id}>
-              <TableCell className="px-5 py-3">
-                <div className="flex items-center gap-2">
-                  {caseItem.client.photo_url ? (
-                    <div className="w-8 h-8">
-                      <Image
-                        src={caseItem.client.photo_url}
-                        alt={caseItem.client.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-8 h-8 bg-gray-200 rounded-full grid place-content-center font-bold">
-                      {caseItem.client.name.charAt(0).toUpperCase()}
-                    </div>
-                  )}
-                  <p className="text-gray-700 text-[13px]">
-                    {caseItem.client.name}
-                  </p>
-                </div>
-              </TableCell>
-
-              <TableCell className="px-5 py-3">
-                <p className="font-semibold text-gray-800 leading-snug line-clamp-2 text-[13px]">
-                  {caseItem.title}
+    <DataTable
+      columns={columns()}
+      countUnit={t("Table.client")}
+      rowsCount={cases.length}
+      currentPage={pagination.current_page}
+      totalPages={pagination.last_page}
+    >
+      {cases.length ? (
+        cases.map((caseItem) => (
+          <TableRow key={caseItem.id}>
+            <TableCell className="px-5 py-3">
+              <div className="flex items-center gap-2">
+                {caseItem.client.photo_url ? (
+                  <div className="w-8 h-8">
+                    <Image
+                      src={caseItem.client.photo_url}
+                      alt={caseItem.client.name}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 bg-gray-200 rounded-full grid place-content-center font-bold">
+                    {caseItem.client.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <p className="text-gray-700 text-[13px]">
+                  {caseItem.client.name}
                 </p>
-                <p className="text-[11px] text-gray-400 mt-0.5">
-                  {caseItem.documents_count} {t("Table.documents")}
+              </div>
+            </TableCell>
+
+            <TableCell className="px-5 py-3">
+              <p className="font-semibold text-gray-800 leading-snug line-clamp-2 text-[13px]">
+                {caseItem.title}
+              </p>
+              <p className="text-[11px] text-gray-400 mt-0.5">
+                {caseItem.documents_count} {t("Table.documents")}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-5 py-3">
+              <Badge className="text-primary bg-primary/5 border border-primary/20 text-[11px]">
+                {caseItem.specialization.name}
+              </Badge>
+            </TableCell>
+
+            <TableCell className="px-5 py-3">
+              <UrgencyBadge
+                urgency={caseItem.urgency}
+                urgency_label={caseItem.urgency_label}
+              />
+            </TableCell>
+
+            {tableStatus === "rejected" && (
+              <TableCell className="px-5 py-3">
+                <p className="text-gray-500 text-[12px] max-w-100 whitespace-normal wrap-break-word">
+                  {caseItem.rejection_reason}
                 </p>
               </TableCell>
+            )}
 
+            <TableCell className="px-5 py-3">
+              <p className="text-xs text-gray-400 truncate">
+                {formatDate(
+                  tableStatus === "pending_review"
+                    ? caseItem.created_at
+                    : caseItem.reviewed_at || "",
+                )}
+              </p>
+            </TableCell>
+
+            {tableStatus !== "pending_review" && (
               <TableCell className="px-5 py-3">
-                <Badge className="text-primary bg-primary/5 border border-primary/20 text-[11px]">
-                  {caseItem.specialization.name}
+                <p className="text-gray-500 text-[12px]">-</p>
+              </TableCell>
+            )}
+
+            <TableCell className="px-5 py-3">
+              {tableStatus === "pending_review" && (
+                <Link href={`/case-approvals/${caseItem.id}`}>
+                  <ReViewBtn />
+                </Link>
+              )}
+
+              {tableStatus === "approved" && (
+                <Badge className="bg-green-50 text-green-700 border border-green-200 text-[11px]">
+                  <CircleCheck className="size-3" />
+                  {t("approved")}
                 </Badge>
-              </TableCell>
-
-              <TableCell className="px-5 py-3">
-                <UrgencyBadge
-                  urgency={caseItem.urgency}
-                  urgency_label={caseItem.urgency_label}
-                />
-              </TableCell>
+              )}
 
               {tableStatus === "rejected" && (
-                <TableCell className="px-5 py-3">
-                  <p className="text-gray-500 text-[12px]">
-                    {caseItem.rejection_reason}
-                  </p>
-                </TableCell>
+                <Badge className="bg-red-50 text-red-600 border border-red-200 text-[11px]">
+                  <CircleX className="size-3" />
+                  {t("rejected")}
+                </Badge>
               )}
-
-              <TableCell className="px-5 py-3">
-                <p className="text-xs text-gray-400 truncate">
-                  {formatDate(
-                    tableStatus === "pending_review"
-                      ? caseItem.created_at
-                      : caseItem.reviewed_at || "",
-                  )}
-                </p>
-              </TableCell>
-
-              {tableStatus !== "pending_review" && (
-                <TableCell className="px-5 py-3">
-                  <p className="text-gray-500 text-[12px]">-</p>
-                </TableCell>
-              )}
-
-              <TableCell className="px-5 py-3">
-                {tableStatus === "pending_review" && (
-                  <Link href={`/case-approvals/${caseItem.id}`}>
-                    <ReViewBtn />
-                  </Link>
-                )}
-
-                {tableStatus === "approved" && (
-                  <Badge className="bg-green-50 text-green-700 border border-green-200 text-[11px]">
-                    <CircleCheck className="size-3" />
-                    {t("approved")}
-                  </Badge>
-                )}
-
-                {tableStatus === "rejected" && (
-                  <Badge className="bg-red-50 text-red-600 border border-red-200 text-[11px]">
-                    <CircleX className="size-3" />
-                    {t("rejected")}
-                  </Badge>
-                )}
-              </TableCell>
-            </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell
-              colSpan={6}
-              className="text-center py-4 text-sm text-gray-500"
-            >
-              {t("Table.noCases")}
             </TableCell>
           </TableRow>
-        )}
-      </DataTable>
-
-      <PaginationTemplate
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
-      />
-    </>
+        ))
+      ) : (
+        <TableRow>
+          <TableCell
+            colSpan={6}
+            className="text-center py-4 text-sm text-gray-500"
+          >
+            {t("Table.noCases")}
+          </TableCell>
+        </TableRow>
+      )}
+    </DataTable>
   );
 }

@@ -104,7 +104,10 @@
       "accountType": "Account Type",
       "specializations": "Specializations",
       "submitted": "Submitted",
-      "noApplications": "No applications found"
+      "noApplications": "No applications found",
+      "decisionDate": "Decision Date",
+      "ReviewedBy": "Reviewed By",
+      "RejectionReason": "Rejection Reason"
     },
     "Actions": {
       "review": "Review"

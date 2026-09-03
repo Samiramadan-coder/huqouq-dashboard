@@ -9,8 +9,9 @@ import { Field } from "../ui/field";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
+import { TableStatus } from "@/types/lawyer-approvals";
 
-const statuses = ["pending", "approved", "rejected"] as const;
+const statuses = ["pending", "approved", "rejected"] as TableStatus[];
 
 type FilterControlProps = {
   counts: {
@@ -34,19 +35,23 @@ export function FilterControl({ counts }: FilterControlProps) {
     }),
   });
 
-  const tabs = [
+  const tabs: {
+    value: TableStatus;
+    label: string;
+    count: number;
+  }[] = [
     {
-      value: "pending" as const,
+      value: "pending",
       label: t("pendingReview"),
       count: counts.pending,
     },
     {
-      value: "approved" as const,
+      value: "approved",
       label: t("approved"),
       count: counts.approved,
     },
     {
-      value: "rejected" as const,
+      value: "rejected",
       label: t("rejected"),
       count: counts.rejected,
     },

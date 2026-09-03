@@ -23,8 +23,8 @@ export type User = {
 export type Pagination = {
   current_page: number;
   from: number;
-  has_more: boolean;
   last_page: number;
+  has_more: boolean;
   per_page: number;
   to: number;
   total: number;

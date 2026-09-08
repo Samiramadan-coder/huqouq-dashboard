@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Spinner } from "@/components/ui/spinner";
-import { Counts, Lawyer, TableStatus } from "@/types/lawyer-approvals";
+import { Counts, Lawyer } from "@/types/lawyer-approvals";
 import DataPreview from "@/components/lawyer-approvals/data-preview";
 import { FilterControl } from "@/components/lawyer-approvals/filter-control";
 import { Pagination } from "@/types/shared";
 
 type SearchParams = {
-  status?: TableStatus;
+  status?: keyof Counts;
   q?: string;
 };
 
@@ -26,6 +26,8 @@ async function LawyersList({ searchParams }: { searchParams: SearchParams }) {
   if (!ok) {
     throw new Error("Failed to fetch lawyer approvals");
   }
+
+  console.log(data.data);
 
   return (
     <div className="space-y-6 p-4 sm:p-6">

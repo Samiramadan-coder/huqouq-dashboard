@@ -1,8 +1,6 @@
 import z from "zod";
 import { T } from "./shared";
 
-export type TableStatus = "pending" | "approved" | "rejected";
-
 export type Education = {
   certificate_path: string | null;
   certificate_url: string | null;
@@ -61,6 +59,7 @@ export type LawyerProfile = {
   rejection_reason: string | null;
   website_url: string;
   years_of_experience: number;
+  reviewed_by: string | null;
   reviewed_at: string | null;
   languages: string[];
   education: Education[];

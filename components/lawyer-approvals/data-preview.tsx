@@ -3,11 +3,11 @@ import { formatDate } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/types/shared";
 import ReViewBtn from "../reusable/review-btn";
-import { Lawyer, TableStatus } from "@/types/lawyer-approvals";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { CircleCheck, CircleX } from "lucide-react";
+import { Counts, Lawyer } from "@/types/lawyer-approvals";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function DataPreview({
   lawyers,
@@ -16,7 +16,7 @@ export default async function DataPreview({
 }: {
   lawyers: Lawyer[];
   pagination: Pagination;
-  tableStatus: TableStatus;
+  tableStatus: keyof Counts;
 }) {
   const t = await getTranslations("LawyerApprovals");
 
@@ -100,7 +100,9 @@ export default async function DataPreview({
 
             {tableStatus !== "pending" && (
               <TableCell className="px-5 py-3">
-                <p className="text-gray-500 text-[12px]">-</p>
+                <p className="text-gray-500 text-[12px]">
+                  {lawyer.lawyer_profile.reviewed_by}
+                </p>
               </TableCell>
             )}
 

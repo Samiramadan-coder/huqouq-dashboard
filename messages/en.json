@@ -76,7 +76,7 @@
     }
   },
   "LawyerApprovals": {
-    "pendingReview": "Pending Review",
+    "pending": "Pending Review",
     "approved": "Approved",
     "rejected": "Rejected",
     "flagged": "Flagged",

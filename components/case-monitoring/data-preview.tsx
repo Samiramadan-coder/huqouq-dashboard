@@ -1,16 +1,10 @@
-import Image from "next/image";
-import { Badge } from "../ui/badge";
-import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
-import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
-import UrgencyBadge from "../reusable/urgency-label";
-import { Case, CaseStatus } from "@/types/case-approvals";
+import { CaseMonitoring } from "@/types/case-monitoring";
 import CaseStatusLabel from "../reusable/case-status-label";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { CaseMonitoring } from "@/types/case-monitoring";
 
 export default async function DataPreview({
   cases,

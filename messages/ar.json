@@ -76,7 +76,7 @@
     }
   },
   "LawyerApprovals": {
-    "pendingReview": "بانتظار المراجعة",
+    "pending": "بانتظار المراجعة",
     "approved": "تمت الموافقة",
     "rejected": "مرفوض",
     "flagged": "تم الإبلاغ",
@@ -191,6 +191,24 @@
       "approve_success": "تمت الموافقة على القضية بنجاح",
       "approve_failure": "فشل في الموافقة على القضية",
       "backToPending": "العودة إلى قيد المراجعة"
+    }
+  },
+  "CaseMonitoring": {
+    "all_active": "جميع القضايا النشطة",
+    "needs_attention": "تحتاج إلى اهتمام",
+    "in_progress": "قيد التنفيذ",
+    "pending_fees": "بانتظار الرسوم",
+    "closed": "مغلق",
+    "pending_closure": "بانتظار الإغلاق",
+    "Table": {
+      "case": "القضية",
+      "client": "العميل",
+      "lawyer": "المحامي",
+      "status": "الحالة",
+      "hired": "تم التوظيف",
+      "lastActivity": "آخر نشاط",
+      "agreedPrice": "السعر المتفق عليه",
+      "noCases": "لم يتم العثور على أي قضايا"
     }
   }
 }

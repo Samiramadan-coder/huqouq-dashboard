@@ -8,24 +8,25 @@ import {
 import { Field } from "../ui/field";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
-import { TableStatus } from "@/types/lawyer-approvals";
+import { parseAsString, useQueryStates } from "nuqs";
+import { Counts } from "@/types/lawyer-approvals";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-const statuses = ["pending", "approved", "rejected"] as TableStatus[];
+const statuses: (keyof Counts)[] = ["pending", "approved", "rejected"];
 
-type FilterControlProps = {
-  counts: {
-    pending: number;
-    approved: number;
-    rejected: number;
-  };
-};
+// type FilterControlProps = {
+//   counts: {
+//     pending: number;
+//     approved: number;
+//     rejected: number;
+//   };
+// };
 
-export function FilterControl({ counts }: FilterControlProps) {
+export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("LawyerApprovals");
 
   const [{ status, q }, setFilters] = useQueryStates({
-    status: parseAsStringLiteral(statuses).withDefault("pending").withOptions({
+    status: parseAsString.withDefault("pending").withOptions({
       history: "push",
       shallow: false,
     }),
@@ -35,70 +36,29 @@ export function FilterControl({ counts }: FilterControlProps) {
     }),
   });
 
-  const tabs: {
-    value: TableStatus;
-    label: string;
-    count: number;
-  }[] = [
-    {
-      value: "pending",
-      label: t("pendingReview"),
-      count: counts.pending,
-    },
-    {
-      value: "approved",
-      label: t("approved"),
-      count: counts.approved,
-    },
-    {
-      value: "rejected",
-      label: t("rejected"),
-      count: counts.rejected,
-    },
-  ];
-
   return (
     <div className="space-y-5">
-      <div className="inline-flex rounded-xl border bg-white p-1">
-        {tabs.map((tab) => {
-          const isActive = status === tab.value;
-
-          return (
-            <button
-              key={tab.value}
-              type="button"
-              onClick={() =>
-                setFilters({
-                  status: tab.value,
-                })
-              }
-              className={[
-                "cursor-pointer flex h-9 items-center gap-2 rounded-lg px-4 text-sm transition-colors",
-                isActive
-                  ? "bg-primary text-white"
-                  : "text-muted-foreground hover:bg-muted",
-              ].join(" ")}
-            >
-              {tab.label}
-
-              <span
-                className={[
-                  "flex size-5 items-center justify-center rounded-full text-xs",
-                  tab.value === "pending"
-                    ? isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-slate-100 text-slate-600"
-                    : tab.value === "approved"
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-red-100 text-red-600",
-                ].join(" ")}
+      <Tabs
+        value={status}
+        onValueChange={(value) => setFilters({ status: value })}
+      >
+        <TabsList className="h-auto! bg-white gap-2 p-2 rounded-lg">
+          {statuses.map((statusKey) => {
+            return (
+              <TabsTrigger
+                key={statusKey}
+                value={statusKey}
+                className="px-4 h-9 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
               >
-                {tab.count}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+                {t(statusKey)}{" "}
+                <span className="size-4.5 text-white text-[11px] grid place-content-center font-bold rounded-full bg-secondary">
+                  {counts[statusKey]}
+                </span>
+              </TabsTrigger>
+            );
+          })}
+        </TabsList>
+      </Tabs>
 
       <div className="flex items-center justify-between gap-4">
         <div className="relative w-full max-w-80">

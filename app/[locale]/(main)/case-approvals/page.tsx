@@ -1,8 +1,13 @@
+import {
+  Case,
+  CaseStatus,
+  Counts,
+  UrgencyCounts,
+} from "@/types/case-approvals";
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
-import { Case, CaseStatus, Counts } from "@/types/case-approvals";
 import DataPreview from "@/components/case-approvals/data-preview";
 import { FilterControl } from "@/components/case-approvals/filter-control";
 
@@ -20,6 +25,7 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
   const { data, ok } = await http.get<{
     data: Case[];
     counts: Counts;
+    urgency_counts: UrgencyCounts;
     meta: Pagination;
   }>("/api/admin/case-approvals", {
     params: {
@@ -39,7 +45,7 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
 
   return (
     <div className="space-y-6 p-4 sm:p-6">
-      <FilterControl counts={data.counts} />
+      <FilterControl counts={data.counts} urgencyCounts={data.urgency_counts} />
 
       <DataPreview
         cases={data.data}

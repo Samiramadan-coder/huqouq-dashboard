@@ -18,10 +18,11 @@ import {
 import { Field } from "../ui/field";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Counts } from "@/types/case-approvals";
+import { Counts, UrgencyCounts } from "@/types/case-approvals";
 import { parseAsString, useQueryStates } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useReferenceData } from "@/providers/reference-data.provider";
+import { Badge } from "../ui/badge";
 
 const statuses: (keyof Counts)[] = [
   "pending_review",
@@ -33,7 +34,13 @@ const statuses: (keyof Counts)[] = [
   "rejected",
 ];
 
-export function FilterControl({ counts }: { counts: Counts }) {
+export function FilterControl({
+  counts,
+  urgencyCounts,
+}: {
+  counts: Counts;
+  urgencyCounts: UrgencyCounts;
+}) {
   const { referenceData } = useReferenceData();
   const t = useTranslations("CaseApprovals");
 
@@ -137,6 +144,18 @@ export function FilterControl({ counts }: { counts: Counts }) {
             </SelectGroup>
           </SelectContent>
         </Select>
+
+        <div className="ms-auto flex items-center gap-2">
+          <Badge className="rounded-sm px-3 h-6 bg-destructive/2 text-destructive border-destructive/20">
+            <span className="size-1.5 rounded-full bg-destructive"></span>
+            {urgencyCounts.very_urgent} {t("Filters.very_urgent")}
+          </Badge>
+
+          <Badge className="rounded-sm px-3 h-6 bg-amber-50 text-amber-700 border-amber-200">
+            <span className="size-1.5 rounded-full bg-amber-700"></span>
+            {urgencyCounts.urgent} {t("Filters.urgent")}
+          </Badge>
+        </div>
       </div>
     </div>
   );

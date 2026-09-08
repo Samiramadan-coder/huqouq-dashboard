@@ -8,6 +8,13 @@ export type Counts = {
   rejected: number;
 };
 
+export type UrgencyCounts = {
+  critical: number;
+  standard: number;
+  urgent: number;
+  very_urgent: number;
+};
+
 export type CaseStatus =
   | "pending_closure"
   | "pending_review"

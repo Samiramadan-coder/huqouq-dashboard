@@ -16,17 +16,6 @@ type OfferStatus =
   | "declined"
   | "withdrawn";
 
-// type CaseStatus =
-//   | "pending_closure"
-//   | "pending_review"
-//   | "in_progress"
-//   | "published"
-//   | "pending_fees"
-//   | "has_offers"
-//   | "hired"
-//   | "closed"
-//   | "rejected";
-
 type Offer = {
   amount: number;
   created_at: string;

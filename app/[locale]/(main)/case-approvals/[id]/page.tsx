@@ -26,8 +26,6 @@ async function CaseDetailsInfo({ params }: { params: Params }) {
     throw new Error("Failed to fetch case approval details");
   }
 
-  console.log("data", data.data);
-
   return (
     <div>
       <div className="p-4 sm:p-6 bg-white border-b border-gray-200">

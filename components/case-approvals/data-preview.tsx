@@ -6,9 +6,9 @@ import { Pagination } from "@/types/shared";
 import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
-import { CircleCheck, CircleX } from "lucide-react";
 import UrgencyBadge from "../reusable/urgency-label";
 import { Case, CaseStatus } from "@/types/case-approvals";
+import CaseStatusLabel from "../reusable/case-status-label";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function DataPreview({
@@ -124,24 +124,12 @@ export default async function DataPreview({
             )}
 
             <TableCell className="px-5 py-3">
-              {tableStatus === "pending_review" && (
+              {tableStatus === "pending_review" ? (
                 <Link href={`/case-approvals/${caseItem.id}`}>
                   <ReViewBtn />
                 </Link>
-              )}
-
-              {tableStatus === "published" && (
-                <Badge className="bg-green-50 text-green-700 border border-green-200 text-[11px]">
-                  <CircleCheck className="size-3" />
-                  {t("published")}
-                </Badge>
-              )}
-
-              {tableStatus === "rejected" && (
-                <Badge className="bg-red-50 text-red-600 border border-red-200 text-[11px]">
-                  <CircleX className="size-3" />
-                  {t("rejected")}
-                </Badge>
+              ) : (
+                <CaseStatusLabel status={caseItem.status} />
               )}
             </TableCell>
           </TableRow>

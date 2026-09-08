@@ -72,7 +72,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
                 className="px-4 h-9 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
               >
                 {t(statusKey)}{" "}
-                <span className="size-4 text-[11px] grid place-content-center font-bold rounded-full bg-secondary">
+                <span className="size-4.5 text-white text-[11px] grid place-content-center font-bold rounded-full bg-secondary">
                   {counts[statusKey]}
                 </span>
               </TabsTrigger>

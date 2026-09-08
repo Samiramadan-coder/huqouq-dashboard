@@ -1,3 +1,5 @@
+import { CaseStatus } from "./case-approvals";
+
 export type Counts = {
   all_active: number;
   closed: number;
@@ -14,16 +16,16 @@ type OfferStatus =
   | "declined"
   | "withdrawn";
 
-type CaseStatus =
-  | "pending_closure"
-  | "pending_review"
-  | "in_progress"
-  | "published"
-  | "pending_fees"
-  | "has_offers"
-  | "hired"
-  | "closed"
-  | "rejected";
+// type CaseStatus =
+//   | "pending_closure"
+//   | "pending_review"
+//   | "in_progress"
+//   | "published"
+//   | "pending_fees"
+//   | "has_offers"
+//   | "hired"
+//   | "closed"
+//   | "rejected";
 
 type Offer = {
   amount: number;

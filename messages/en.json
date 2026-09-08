@@ -198,5 +198,23 @@
       "reason_required": "Reason is required",
       "backToPending": "Back to Pending"
     }
+  },
+  "CaseMonitoring": {
+    "all_active": "All Active",
+    "needs_attention": "Needs Attention",
+    "in_progress": "In Progress",
+    "pending_fees": "Pending Fees",
+    "closed": "Closed",
+    "pending_closure": "Pending Closure",
+    "Table": {
+      "case": "Case",
+      "client": "Client",
+      "lawyer": "Lawyer",
+      "status": "Status",
+      "hired": "Hired",
+      "lastActivity": "Last Activity",
+      "agreedPrice": "Agreed Price",
+      "noCases": "No Cases found"
+    }
   }
 }

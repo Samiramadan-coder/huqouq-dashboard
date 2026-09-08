@@ -1,15 +1,21 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
+import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
+import { CaseMonitoring, Counts } from "@/types/case-monitoring";
 
 async function ListOfCases() {
-  const { data, ok } = await http.get("/api/admin/case-monitoring");
+  const { data, ok } = await http.get<{
+    counts: Counts;
+    data: CaseMonitoring[];
+    meta: Pagination;
+  }>("/api/admin/case-monitoring");
 
   if (!ok) {
     throw new Error("Failed to fetch data");
   }
 
-  console.log(data);
+  console.log(data.counts);
   return <></>;
 }
 

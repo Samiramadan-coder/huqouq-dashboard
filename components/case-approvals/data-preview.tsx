@@ -6,17 +6,17 @@ import { Pagination } from "@/types/shared";
 import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails, CaseStatus } from "@/types/case-approvals";
-import UrgencyBadge from "../reusable/urgency-label";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { CircleCheck, CircleX } from "lucide-react";
+import UrgencyBadge from "../reusable/urgency-label";
+import { Case, CaseStatus } from "@/types/case-approvals";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function DataPreview({
   cases,
   pagination,
   tableStatus,
 }: {
-  cases: CaseDetails[];
+  cases: Case[];
   pagination: Pagination;
   tableStatus: CaseStatus;
 }) {
@@ -117,7 +117,9 @@ export default async function DataPreview({
 
             {tableStatus !== "pending_review" && (
               <TableCell className="px-5 py-3">
-                <p className="text-gray-500 text-[12px]">-</p>
+                <p className="text-gray-500 text-[12px]">
+                  {caseItem.reviewed_by}
+                </p>
               </TableCell>
             )}
 
@@ -128,10 +130,10 @@ export default async function DataPreview({
                 </Link>
               )}
 
-              {tableStatus === "approved" && (
+              {tableStatus === "published" && (
                 <Badge className="bg-green-50 text-green-700 border border-green-200 text-[11px]">
                   <CircleCheck className="size-3" />
-                  {t("approved")}
+                  {t("published")}
                 </Badge>
               )}
 
@@ -147,7 +149,7 @@ export default async function DataPreview({
       ) : (
         <TableRow>
           <TableCell
-            colSpan={6}
+            colSpan={columns().length}
             className="text-center py-4 text-sm text-gray-500"
           >
             {t("Table.noCases")}

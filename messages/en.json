@@ -149,9 +149,14 @@
     }
   },
   "CaseApprovals": {
-    "pendingReview": "Pending Review",
-    "approved": "Approved",
+    "pending_review": "Pending Review",
+    "published": "Published",
     "rejected": "Rejected",
+    "in_progress": "In Progress",
+    "pending_closure": "Pending Closure",
+    "pending_fees": "Pending Fees",
+    "has_offers": "Has Offers",
+    "closed": "Closed",
     "searchPlaceholder": "Search by title or category....",
     "Table": {
       "client": "Client",

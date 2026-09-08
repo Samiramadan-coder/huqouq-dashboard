@@ -149,9 +149,14 @@
     }
   },
   "CaseApprovals": {
-    "pendingReview": "قيد المراجعة",
-    "approved": "تمت الموافقة",
+    "pending_review": "بانتظار المراجعة",
+    "published": "تم النشر",
     "rejected": "تم الرفض",
+    "in_progress": "قيد التنفيذ",
+    "pending_closure": "بانتظار الإغلاق",
+    "pending_fees": "بانتظار الرسوم",
+    "has_offers": "لديه عروض",
+    "closed": "مغلق",
     "searchPlaceholder": "ابحث عن طريق العنوان أو الفئة....",
     "Table": {
       "client": "العميل",

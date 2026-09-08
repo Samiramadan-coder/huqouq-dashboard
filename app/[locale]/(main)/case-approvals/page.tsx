@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
-import { CaseDetails, CaseStatus, Counts } from "@/types/case-approvals";
+import { Case, CaseStatus, Counts } from "@/types/case-approvals";
 import DataPreview from "@/components/case-approvals/data-preview";
 import { FilterControl } from "@/components/case-approvals/filter-control";
 
@@ -18,7 +18,7 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
   const { page, q, specialization_id, status, urgency } = searchParams;
 
   const { data, ok } = await http.get<{
-    data: CaseDetails[];
+    data: Case[];
     counts: Counts;
     meta: Pagination;
   }>("/api/admin/case-approvals", {
@@ -35,9 +35,12 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch lawyer approvals");
   }
 
+  console.log("data", data);
+
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <FilterControl counts={data.counts} />
+
       <DataPreview
         cases={data.data}
         pagination={data.meta}

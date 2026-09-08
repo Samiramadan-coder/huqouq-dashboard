@@ -70,7 +70,8 @@
         "dashboard": "Dashboard",
         "approvals": "Approvals",
         "lawyerApprovals": "Lawyer Approvals",
-        "caseApprovals": "Case Approvals"
+        "caseApprovals": "Case Approvals",
+        "caseMonitoring": "Case Monitoring"
       }
     }
   },

@@ -1,5 +1,10 @@
 import { createElement } from "react";
-import { Briefcase, LayoutGrid, UserRoundCheck } from "lucide-react";
+import {
+  Briefcase,
+  LayoutGrid,
+  MonitorCheck,
+  UserRoundCheck,
+} from "lucide-react";
 import type { DashboardNavigationItem } from "@/types/dashboard-layout";
 
 export const navigation = (): DashboardNavigationItem[] => [
@@ -29,6 +34,13 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/case-approvals",
     type: "link",
     icon: createElement(Briefcase, { className: "h-4 w-4" }),
+    // count: 3,
+  },
+  {
+    label: "sidebar.navigation.caseMonitoring",
+    href: "/case-monitoring",
+    type: "link",
+    icon: createElement(MonitorCheck, { className: "h-4 w-4" }),
     // count: 3,
   },
 ];

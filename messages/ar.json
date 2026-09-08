@@ -70,7 +70,8 @@
         "dashboard": "لوحة التحكم",
         "approvals": "الموافقات",
         "lawyerApprovals": "موافقات المحامي",
-        "caseApprovals": "موافقات القضايا"
+        "caseApprovals": "موافقات القضايا",
+        "caseMonitoring": "مراقبة القضايا"
       }
     }
   },

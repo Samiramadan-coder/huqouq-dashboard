@@ -200,6 +200,7 @@
     "pending_fees": "بانتظار الرسوم",
     "closed": "مغلق",
     "pending_closure": "بانتظار الإغلاق",
+    "view": "عرض",
     "Table": {
       "case": "القضية",
       "client": "العميل",
@@ -208,7 +209,40 @@
       "hired": "تم التوظيف",
       "lastActivity": "آخر نشاط",
       "agreedPrice": "السعر المتفق عليه",
+      "actions": "الإجراءات",
       "noCases": "لم يتم العثور على أي قضايا"
+    },
+    "Details": {
+      "tab": "تفاصيل القضية",
+      "caseId": "رقم القضية",
+      "category": "الفئة",
+      "posted": "تاريخ النشر",
+      "hiredDate": "تاريخ التوظيف",
+      "location": "الموقع",
+      "budget": "الميزانية",
+      "notDisclosed": "غير معلن",
+      "description": "الوصف",
+      "attachedDocuments": "المستندات المرفقة",
+      "documentsAttached": "{count} مستندات مرفقة",
+      "noDocuments": "لا توجد مستندات مرفقة"
+    },
+    "Participants": {
+      "tab": "الأطراف",
+      "client": "العميل",
+      "lawyer": "المحامي",
+      "Client": {
+        "role": "العميل",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "joined": "انضم",
+        "totalCases": "إجمالي القضايا"
+      },
+      "Lawyer": {
+        "role": "المحامي",
+        "specialization": "التخصص",
+        "specializationValue": "قانون العمل",
+        "rating": "التقييم"
+      }
     }
   }
 }

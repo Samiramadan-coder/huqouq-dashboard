@@ -1,4 +1,5 @@
 import { formatDate } from "@/lib/utils";
+import CaseDetails from "./case-details";
 import { Pagination } from "@/types/shared";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
@@ -24,6 +25,7 @@ export default async function DataPreview({
     { label: t("Table.hired") },
     { label: t("Table.lastActivity") },
     { label: t("Table.agreedPrice") },
+    { label: t("Table.actions") },
   ];
 
   return (
@@ -72,6 +74,10 @@ export default async function DataPreview({
               <p className="whitespace-nowrap text-gray-700 font-medium text-[13px]">
                 {tCommon("AED")} {caseItem.accepted_offer.amount}
               </p>
+            </TableCell>
+
+            <TableCell className="px-5 py-3">
+              <CaseDetails caseItem={caseItem} />
             </TableCell>
           </TableRow>
         ))

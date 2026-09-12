@@ -206,6 +206,7 @@
     "pending_fees": "Pending Fees",
     "closed": "Closed",
     "pending_closure": "Pending Closure",
+    "view": "View",
     "Table": {
       "case": "Case",
       "client": "Client",
@@ -214,7 +215,40 @@
       "hired": "Hired",
       "lastActivity": "Last Activity",
       "agreedPrice": "Agreed Price",
+      "actions": "Actions",
       "noCases": "No Cases found"
+    },
+    "Details": {
+      "tab": "Case Details",
+      "caseId": "Case ID",
+      "category": "Category",
+      "posted": "Posted",
+      "hiredDate": "Hired Date",
+      "location": "Location",
+      "budget": "Budget",
+      "notDisclosed": "Not disclosed",
+      "description": "Description",
+      "attachedDocuments": "Attached Documents",
+      "documentsAttached": "{count} documents attached",
+      "noDocuments": "No documents attached"
+    },
+    "Participants": {
+      "tab": "Parties",
+      "client": "Client",
+      "lawyer": "Lawyer",
+      "Client": {
+        "role": "Client",
+        "email": "Email",
+        "phone": "Phone",
+        "joined": "Joined",
+        "totalCases": "Total Cases"
+      },
+      "Lawyer": {
+        "role": "Lawyer",
+        "specialization": "Specialization",
+        "specializationValue": "Labour Law",
+        "rating": "Rating"
+      }
     }
   }
 }

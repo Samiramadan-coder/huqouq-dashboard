@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { CaseMonitoring } from "@/types/case-monitoring";
 import CaseStatusLabel from "../reusable/case-status-label";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 export default async function DataPreview({
   cases,
@@ -37,25 +38,42 @@ export default async function DataPreview({
     >
       {cases.length ? (
         cases.map((caseItem) => (
-          <TableRow key={caseItem.id}>
+          <TableRow key={caseItem.id} className="border-gray-100">
             <TableCell className="px-5 py-3">
               <div>
                 <p className="font-medium text-gray-800 truncate leading-snug text-[13px]">
                   {caseItem.title}
                 </p>
+                <p className="text-[11px] text-gray-400 mt-0.5">
+                  {caseItem.specialization.name}
+                </p>
               </div>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <p className="whitespace-nowrap text-gray-500 font-medium text-[13px]">
-                {caseItem.client.name}
-              </p>
+              <div className="flex items-center gap-3">
+                <Avatar size="sm">
+                  <AvatarFallback className="bg-primary text-white">
+                    {caseItem.client.name[0]}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="whitespace-nowrap text-gray-700 font-medium text-[11px]">
+                  {caseItem.client.name}
+                </p>
+              </div>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <p className="whitespace-nowrap text-gray-500 font-medium text-[13px]">
-                {caseItem.hired_lawyer.name}
-              </p>
+              <div className="flex items-center gap-3">
+                <Avatar size="sm">
+                  <AvatarFallback className="bg-secondary text-white">
+                    {caseItem.hired_lawyer.name[0]}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="whitespace-nowrap text-gray-700 font-medium text-[11px]">
+                  {caseItem.hired_lawyer.name}
+                </p>
+              </div>
             </TableCell>
 
             <TableCell className="px-5 py-3">
@@ -63,7 +81,7 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <p className="whitespace-nowrap text-gray-500 font-medium text-[13px]">
+              <p className="whitespace-nowrap text-gray-500 text-[13px]">
                 {formatDate(caseItem.hired_at || "")}
               </p>
             </TableCell>
@@ -71,7 +89,7 @@ export default async function DataPreview({
             <TableCell className="px-5 py-3">-</TableCell>
 
             <TableCell className="px-5 py-3">
-              <p className="whitespace-nowrap text-gray-700 font-medium text-[13px]">
+              <p className="whitespace-nowrap text-gray-700 text-[13px]">
                 {tCommon("AED")} {caseItem.accepted_offer.amount}
               </p>
             </TableCell>

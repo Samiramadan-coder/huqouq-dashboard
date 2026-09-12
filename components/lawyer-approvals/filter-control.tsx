@@ -8,19 +8,11 @@ import {
 import { Field } from "../ui/field";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { parseAsString, useQueryStates } from "nuqs";
 import { Counts } from "@/types/lawyer-approvals";
+import { parseAsString, useQueryStates } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 const statuses: (keyof Counts)[] = ["pending", "approved", "rejected"];
-
-// type FilterControlProps = {
-//   counts: {
-//     pending: number;
-//     approved: number;
-//     rejected: number;
-//   };
-// };
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("LawyerApprovals");

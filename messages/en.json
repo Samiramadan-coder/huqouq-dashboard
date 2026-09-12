@@ -71,6 +71,7 @@
         "approvals": "Approvals",
         "lawyerApprovals": "Lawyer Approvals",
         "caseApprovals": "Case Approvals",
+        "operations": "Operations",
         "caseMonitoring": "Case Monitoring"
       }
     }

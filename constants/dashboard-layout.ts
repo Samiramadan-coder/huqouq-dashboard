@@ -37,6 +37,10 @@ export const navigation = (): DashboardNavigationItem[] => [
     // count: 3,
   },
   {
+    label: "sidebar.navigation.operations",
+    type: "label",
+  },
+  {
     label: "sidebar.navigation.caseMonitoring",
     href: "/case-monitoring",
     type: "link",

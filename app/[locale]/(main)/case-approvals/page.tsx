@@ -7,7 +7,7 @@ import {
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
+import { LoaderPinwheel } from "lucide-react";
 import DataPreview from "@/components/case-approvals/data-preview";
 import { FilterControl } from "@/components/case-approvals/filter-control";
 
@@ -61,7 +61,11 @@ export default async function Page({
 }) {
   return (
     <Suspense
-      fallback={<Spinner className="h-10 w-10 text-primary m-4 sm:m-4" />}
+      fallback={
+        <div className="p-4">
+          <LoaderPinwheel className="animate-spin text-secondary" />
+        </div>
+      }
     >
       <CasesList searchParams={await searchParams} />
     </Suspense>

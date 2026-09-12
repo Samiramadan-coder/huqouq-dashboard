@@ -1,11 +1,10 @@
-import CaseDetailsPreview from "@/components/case-approvals/case-details-preview";
-import { Spinner } from "@/components/ui/spinner";
-import { Link } from "@/i18n/navigation";
-import { http } from "@/lib/http";
-import { CaseDetails } from "@/types/case-approvals";
-import { ChevronLeft } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
+import { http } from "@/lib/http";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
+import { CaseDetails } from "@/types/case-approvals";
+import { ChevronLeft, LoaderPinwheel } from "lucide-react";
+import CaseDetailsPreview from "@/components/case-approvals/case-details-preview";
 
 type Params = {
   id: string;
@@ -45,7 +44,11 @@ async function CaseDetailsInfo({ params }: { params: Params }) {
 export default async function Page({ params }: { params: Promise<Params> }) {
   return (
     <Suspense
-      fallback={<Spinner className="h-10 w-10 text-primary m-4 sm:m-6" />}
+      fallback={
+        <div className="p-4">
+          <LoaderPinwheel className="animate-spin text-secondary" />
+        </div>
+      }
     >
       <CaseDetailsInfo params={await params} />
     </Suspense>

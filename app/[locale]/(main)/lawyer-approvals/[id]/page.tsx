@@ -1,10 +1,9 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
-import { ChevronLeft } from "lucide-react";
-import { Spinner } from "@/components/ui/spinner";
 import { Lawyer } from "@/types/lawyer-approvals";
 import { getTranslations } from "next-intl/server";
+import { ChevronLeft, LoaderPinwheel } from "lucide-react";
 import LawyerDetails from "@/components/lawyer-approvals/lawyer-details";
 
 type Params = { id: string };
@@ -41,7 +40,11 @@ async function LawyerProfile({ params }: { params: Params }) {
 export default async function Page({ params }: { params: Promise<Params> }) {
   return (
     <Suspense
-      fallback={<Spinner className="h-10 w-10 text-primary m-4 sm:m-6" />}
+      fallback={
+        <div className="p-4">
+          <LoaderPinwheel className="animate-spin text-secondary" />
+        </div>
+      }
     >
       <LawyerProfile params={await params} />
     </Suspense>

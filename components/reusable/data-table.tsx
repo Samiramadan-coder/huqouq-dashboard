@@ -39,7 +39,7 @@ export function DataTable({
   const t = useTranslations("Common");
 
   return (
-    <div className="w-full min-w-0 border border-border rounded-lg overflow-hidden">
+    <div className="w-full min-w-0 border border-gray-200 rounded-lg overflow-hidden">
       <Table className="[&_thead_th:first-child]:w-8 [&_thead_th:first-child]:px-3 [&_tbody_td:first-child]:w-8 [&_tbody_td:first-child]:px-3">
         <TableHeader>
           <TableRow>
@@ -64,29 +64,21 @@ export function DataTable({
         </TableHeader>
         <TableBody className="bg-white">{children}</TableBody>
 
-        <TableFooter className="bg-white">
+        <TableFooter className="bg-white border-gray-100">
           <TableRow>
-            <TableCell className="px-4 py-3 text-[13px] text-muted-foreground">
+            <TableCell className="px-4 py-3 text-[11px] text-gray-400">
               {!pagination ? (
                 <p>
-                  {t("Showing")}{" "}
-                  <span className="font-semibold text-black">{rowsCount}</span>{" "}
-                  {countUnit}
+                  {t("Showing")} <span>{rowsCount}</span> {countUnit}
                 </p>
               ) : (
                 <p>
-                  {t("Showing")}{" "}
-                  <span className="font-semibold text-black">
-                    {pagination.from}
-                  </span>{" "}
-                  {t("To")}{" "}
-                  <span className="font-semibold text-black">
-                    {pagination.to}
-                  </span>{" "}
-                  {t("Of")}{" "}
-                  <span className="font-semibold text-black">
-                    {pagination.total}
-                  </span>{" "}
+                  {t("Showing")}
+                  <span className="mx-1">{pagination.from}</span>
+                  {t("To")}
+                  <span className="mx-1">{pagination.to}</span>
+                  {t("Of")}
+                  <span className="mx-1">{pagination.total}</span>
                   {countUnit}
                 </p>
               )}

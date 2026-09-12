@@ -51,7 +51,7 @@ export default async function DataPreview({
     >
       {cases.length ? (
         cases.map((caseItem) => (
-          <TableRow key={caseItem.id}>
+          <TableRow key={caseItem.id} className="border-gray-100">
             <TableCell className="px-5 py-3">
               <div className="flex items-center gap-2">
                 {caseItem.client.photo_url ? (

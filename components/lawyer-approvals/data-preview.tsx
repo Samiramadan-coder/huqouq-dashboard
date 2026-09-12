@@ -8,6 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { CircleCheck, CircleX } from "lucide-react";
 import { Counts, Lawyer } from "@/types/lawyer-approvals";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 export default async function DataPreview({
   lawyers,
@@ -46,10 +47,14 @@ export default async function DataPreview({
     >
       {lawyers.length ? (
         lawyers.map((lawyer) => (
-          <TableRow key={lawyer.id}>
+          <TableRow key={lawyer.id} className="border-gray-100">
             <TableCell className="px-5 py-3">
-              <div>
-                <div></div>
+              <div className="flex items-center gap-2">
+                <Avatar size="sm">
+                  <AvatarFallback className="bg-primary text-white">
+                    {lawyer.name[0]}
+                  </AvatarFallback>
+                </Avatar>
                 <div>
                   <p className="text-gray-800 font-semibold text-[13px]">
                     {lawyer.name}

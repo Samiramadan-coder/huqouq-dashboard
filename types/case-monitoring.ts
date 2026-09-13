@@ -81,6 +81,23 @@ type AttentionFlag = {
   value: string;
 };
 
+export type TimeLine = {
+  at: string;
+  key:
+    | "posted"
+    | "approved"
+    | "offers"
+    | "hired"
+    | "pending_fees"
+    | "in_progress"
+    | "pending_closure"
+    | "closed"
+    | "reviewed";
+  label: string;
+  note: string | null;
+  state: "done" | "current" | "upcoming";
+};
+
 export type CaseMonitoring = {
   budget_disclosed: boolean;
   budget_max: number;
@@ -127,20 +144,5 @@ export type CaseMonitoring = {
   request_declined_at: null | string;
   requested_lawyer: null | HiredLawyer;
   review: null;
-  timeline: {
-    at: string;
-    key:
-      | "posted"
-      | "approved"
-      | "offers"
-      | "hired"
-      | "pending_fees"
-      | "in_progress"
-      | "pending_closure"
-      | "closed"
-      | "reviewed";
-    label: string;
-    note: string | null;
-    state: "done" | "current" | "upcoming";
-  }[];
+  timeline: TimeLine[];
 };

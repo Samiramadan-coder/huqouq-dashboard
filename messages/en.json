@@ -250,6 +250,10 @@
         "specializationValue": "Labour Law",
         "rating": "Rating"
       }
+    },
+    "Timeline": {
+      "tab": "Status Timeline",
+      "current": "Current"
     }
   }
 }

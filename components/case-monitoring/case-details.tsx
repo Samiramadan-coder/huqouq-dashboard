@@ -17,6 +17,7 @@ import { CaseMonitoring } from "@/types/case-monitoring";
 import CaseStatusLabel from "../reusable/case-status-label";
 import { FileText, ArrowRight, TriangleAlert } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { StatusTimeline } from "./status-timeline";
 
 export default async function CaseDetails({
   caseItem,
@@ -78,6 +79,14 @@ export default async function CaseDetails({
                 <FileText className="size-3 text-primary" />
                 {t("Participants.tab")}
               </TabsTrigger>
+
+              <TabsTrigger
+                value="timeline"
+                className="h-10 text-xs text-primary data-[state=active]:after:bg-secondary"
+              >
+                <FileText className="size-3 text-primary" />
+                {t("Timeline.tab")}
+              </TabsTrigger>
             </TabsList>
 
             <Separator className="bg-border" />
@@ -88,6 +97,10 @@ export default async function CaseDetails({
 
             <TabsContent value="participants" className="p-4">
               <PartiesContent caseItem={caseItem} />
+            </TabsContent>
+
+            <TabsContent value="timeline" className="p-4">
+              <StatusTimeline items={caseItem.timeline} />
             </TabsContent>
           </Tabs>
         </div>

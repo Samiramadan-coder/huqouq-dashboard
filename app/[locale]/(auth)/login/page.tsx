@@ -31,8 +31,6 @@ export default function LoginPage() {
         token: string;
       }>("/api/admin/login", data);
 
-      console.log("Login response:", loginResponse.token);
-
       saveToken(loginResponse.token);
       toast.success(t("LoginSuccess"));
       router.push("/");

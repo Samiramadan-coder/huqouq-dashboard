@@ -25,6 +25,8 @@ async function ListOfCases({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch data");
   }
 
+  console.log("Fetched data:", data);
+
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <FilterControl counts={data.counts} />

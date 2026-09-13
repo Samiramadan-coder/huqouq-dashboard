@@ -35,15 +35,25 @@ type Offer = {
 };
 
 type Client = {
+  cases_count: number;
+  contact_visible: boolean;
+  email: string;
   first_name: string;
   id: number;
+  joined_at: string;
   name: string;
+  phone: string;
   photo_url: string | null;
 };
 
 type HiredLawyer = {
   id: number;
   name: string;
+  photo_url: string | null;
+  rating: number | null;
+  reviews_count: number;
+  specialization: string;
+  verified: boolean;
 };
 
 type Payment = {
@@ -64,6 +74,11 @@ type Payment = {
 type Specialization = {
   id: number;
   name: string;
+};
+
+type AttentionFlag = {
+  label: string;
+  value: string;
 };
 
 export type CaseMonitoring = {
@@ -100,4 +115,32 @@ export type CaseMonitoring = {
   hired_lawyer: HiredLawyer;
   payment: Payment;
   specialization: Specialization;
+  attention_flags: AttentionFlag[];
+  agreed_price: number;
+  closure_requested_by: null | string;
+  currency: string;
+  is_hire_request: boolean;
+  last_activity_at: string;
+  messages_count: number;
+  needs_attention: boolean;
+  request_decline_reason: null | string;
+  request_declined_at: null | string;
+  requested_lawyer: null | HiredLawyer;
+  review: null;
+  timeline: {
+    at: string;
+    key:
+      | "posted"
+      | "approved"
+      | "offers"
+      | "hired"
+      | "pending_fees"
+      | "in_progress"
+      | "pending_closure"
+      | "closed"
+      | "reviewed";
+    label: string;
+    note: string | null;
+    state: "done" | "current" | "upcoming";
+  }[];
 };

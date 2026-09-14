@@ -1,44 +1,45 @@
 import { Card } from "../ui/card";
 import { getTranslations } from "next-intl/server";
 import { Clock3, ShieldAlert, TrendingUp, UsersRound } from "lucide-react";
+import { Counts } from "@/types/clients";
 
-const stats = [
-  {
-    value: 10,
-    key: "totalClients",
-    icon: UsersRound,
-    cardClassName: "bg-primary/6",
-    titleClassName: "text-primary",
-    iconClassName: "text-slate-700",
-  },
-  {
-    value: 7,
-    key: "active",
-    icon: TrendingUp,
-    cardClassName: "bg-green-50",
-    titleClassName: "text-green-600",
-    iconClassName: "text-green-600",
-  },
-  {
-    value: 1,
-    key: "suspended",
-    icon: ShieldAlert,
-    cardClassName: "bg-red-50",
-    titleClassName: "text-red-500",
-    iconClassName: "text-red-500",
-  },
-  {
-    value: 1,
-    key: "flagged",
-    icon: Clock3,
-    cardClassName: "bg-amber-50",
-    titleClassName: "text-amber-500",
-    iconClassName: "text-amber-500",
-  },
-] as const;
-
-export default async function Stats() {
+export default async function Stats({ counts }: { counts: Counts }) {
   const t = await getTranslations("Clients.stats");
+
+  const stats = [
+    {
+      value: counts.total,
+      key: "totalClients",
+      icon: UsersRound,
+      cardClassName: "bg-primary/6",
+      titleClassName: "text-primary",
+      iconClassName: "text-slate-700",
+    },
+    {
+      value: counts.active,
+      key: "active",
+      icon: TrendingUp,
+      cardClassName: "bg-green-50",
+      titleClassName: "text-green-600",
+      iconClassName: "text-green-600",
+    },
+    {
+      value: counts.suspended,
+      key: "suspended",
+      icon: ShieldAlert,
+      cardClassName: "bg-red-50",
+      titleClassName: "text-red-500",
+      iconClassName: "text-red-500",
+    },
+    {
+      value: counts.flagged,
+      key: "flagged",
+      icon: Clock3,
+      cardClassName: "bg-amber-50",
+      titleClassName: "text-amber-500",
+      iconClassName: "text-amber-500",
+    },
+  ] as const;
 
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">

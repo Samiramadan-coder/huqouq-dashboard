@@ -283,7 +283,9 @@
       "rating": "Rating",
       "cases": "Cases",
       "joined": "Joined",
-      "noReviews": "No reviews"
+      "noReviews": "No reviews",
+      "noDataAvailable": "No data available",
+      "lawyers": "Lawyers"
     }
   },
   "Clients": {
@@ -308,7 +310,9 @@
       "cases": "Cases",
       "consults": "Consults",
       "sos": "SOS",
-      "joined": "Joined"
+      "joined": "Joined",
+      "noDataAvailable": "No data available",
+      "clients": "Clients"
     },
     "flaggedCount": "{count} Flagged",
     "clientsCount": "{count, plural, =0 {No clients} =1 {1 client} other {# clients}}",

@@ -9,7 +9,7 @@ export default function Page() {
 
       <Filters />
 
-      <DataPreview />
+      <DataPreview clients={[]} />
     </div>
   );
 }

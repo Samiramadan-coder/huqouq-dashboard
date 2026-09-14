@@ -277,7 +277,9 @@
       "rating": "التقييم",
       "cases": "القضايا",
       "joined": "انضم",
-      "noReviews": "لا توجد مراجعات"
+      "noReviews": "لا توجد مراجعات",
+      "noDataAvailable": "لا تتوفر بيانات",
+      "lawyers": "المحامين"
     }
   },
   "Clients": {

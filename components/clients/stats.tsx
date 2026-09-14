@@ -2,16 +2,7 @@ import { Card } from "../ui/card";
 import { getTranslations } from "next-intl/server";
 import { Clock3, ShieldAlert, TrendingUp, UsersRound } from "lucide-react";
 
-type StatItem = {
-  value: number | string;
-  key: string;
-  icon: React.ElementType;
-  cardClassName: string;
-  titleClassName: string;
-  iconClassName: string;
-};
-
-const stats: StatItem[] = [
+const stats = [
   {
     value: 10,
     key: "totalClients",
@@ -44,7 +35,7 @@ const stats: StatItem[] = [
     titleClassName: "text-amber-500",
     iconClassName: "text-amber-500",
   },
-];
+] as const;
 
 export default async function Stats() {
   const t = await getTranslations("Clients.stats");

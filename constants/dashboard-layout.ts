@@ -4,6 +4,7 @@ import {
   LayoutGrid,
   MonitorCheck,
   UserRoundCheck,
+  Users,
 } from "lucide-react";
 import type { DashboardNavigationItem } from "@/types/dashboard-layout";
 
@@ -45,6 +46,21 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/case-monitoring",
     type: "link",
     icon: createElement(MonitorCheck, { className: "h-4 w-4" }),
-    // count: 3,
+  },
+  {
+    label: "sidebar.navigation.users",
+    type: "label",
+  },
+  {
+    label: "sidebar.navigation.lawyers",
+    href: "/lawyers",
+    type: "link",
+    icon: createElement(UserRoundCheck, { className: "h-4 w-4" }),
+  },
+  {
+    label: "sidebar.navigation.client",
+    href: "/clients",
+    type: "link",
+    icon: createElement(Users, { className: "h-4 w-4" }),
   },
 ];

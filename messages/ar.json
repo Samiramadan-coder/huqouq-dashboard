@@ -72,7 +72,10 @@
         "lawyerApprovals": "موافقات المحامي",
         "caseApprovals": "موافقات القضايا",
         "operations": "العمليات",
-        "caseMonitoring": "مراقبة القضايا"
+        "caseMonitoring": "مراقبة القضايا",
+        "users": "المستخدمون",
+        "lawyers": "المحامون",
+        "client": "العملاء"
       }
     }
   },
@@ -249,5 +252,60 @@
       "tab": "الجدول الزمني للحالة",
       "current": "الحالي"
     }
+  },
+  "Lawyers": {
+    "stats": {
+      "totalLawyers": "إجمالي المحامين",
+      "approved": "معتمد",
+      "pendingReview": "قيد المراجعة",
+      "suspended": "معلق"
+    },
+    "filters": {
+      "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني أو التخصص...",
+      "allStatus": "جميع الحالات",
+      "allSpecializations": "جميع التخصصات"
+    },
+    "actions": {
+      "export": "تصدير",
+      "view": "عرض"
+    },
+    "table": {
+      "lawyer": "المحامي",
+      "emailPhone": "البريد الإلكتروني / الهاتف",
+      "status": "الحالة",
+      "specializations": "التخصصات",
+      "rating": "التقييم",
+      "cases": "القضايا",
+      "joined": "انضم",
+      "noReviews": "لا توجد مراجعات"
+    }
+  },
+  "Clients": {
+    "stats": {
+      "totalClients": "إجمالي العملاء",
+      "active": "نشط",
+      "suspended": "معلق",
+      "flagged": "مميز"
+    },
+    "filters": {
+      "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني أو الموقع...",
+      "allClients": "جميع العملاء"
+    },
+    "actions": {
+      "export": "تصدير",
+      "view": "عرض"
+    },
+    "table": {
+      "client": "العميل",
+      "emailPhone": "البريد الإلكتروني / الهاتف",
+      "status": "الحالة",
+      "cases": "القضايا",
+      "consults": "الاستشارات",
+      "sos": "SOS",
+      "joined": "انضم"
+    },
+    "flaggedCount": "{count} مميز",
+    "clientsCount": "{count, plural, =0 {لا يوجد عملاء} =1 {عميل واحد} other {# عملاء}}",
+    "rejectedCount": "{count} مرفوض"
   }
 }

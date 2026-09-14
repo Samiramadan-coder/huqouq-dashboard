@@ -72,7 +72,10 @@
         "lawyerApprovals": "Lawyer Approvals",
         "caseApprovals": "Case Approvals",
         "operations": "Operations",
-        "caseMonitoring": "Case Monitoring"
+        "caseMonitoring": "Case Monitoring",
+        "users": "Users",
+        "lawyers": "Lawyers",
+        "client": "Clients"
       }
     }
   },
@@ -255,5 +258,60 @@
       "tab": "Status Timeline",
       "current": "Current"
     }
+  },
+  "Lawyers": {
+    "stats": {
+      "totalLawyers": "Total Lawyers",
+      "approved": "Approved",
+      "pendingReview": "Pending Review",
+      "suspended": "Suspended"
+    },
+    "filters": {
+      "searchPlaceholder": "Search by name, email or specialization...",
+      "allStatus": "All Status",
+      "allSpecializations": "All Specializations"
+    },
+    "actions": {
+      "export": "Export",
+      "view": "View"
+    },
+    "table": {
+      "lawyer": "Lawyer",
+      "emailPhone": "Email / Phone",
+      "status": "Status",
+      "specializations": "Specializations",
+      "rating": "Rating",
+      "cases": "Cases",
+      "joined": "Joined",
+      "noReviews": "No reviews"
+    }
+  },
+  "Clients": {
+    "stats": {
+      "totalClients": "Total Clients",
+      "active": "Active",
+      "suspended": "Suspended",
+      "flagged": "Flagged"
+    },
+    "filters": {
+      "searchPlaceholder": "Search by name, email or location...",
+      "allClients": "All Clients"
+    },
+    "actions": {
+      "export": "Export",
+      "view": "View"
+    },
+    "table": {
+      "client": "Client",
+      "emailPhone": "Email / Phone",
+      "status": "Status",
+      "cases": "Cases",
+      "consults": "Consults",
+      "sos": "SOS",
+      "joined": "Joined"
+    },
+    "flaggedCount": "{count} Flagged",
+    "clientsCount": "{count, plural, =0 {No clients} =1 {1 client} other {# clients}}",
+    "rejectedCount": "{count} rej."
   }
 }

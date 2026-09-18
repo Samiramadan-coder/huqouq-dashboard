@@ -257,6 +257,10 @@
     "Timeline": {
       "tab": "Status Timeline",
       "current": "Current"
+    },
+    "Chat": {
+      "tab": "Chat",
+      "noMessages": "No messages yet"
     }
   },
   "Lawyers": {

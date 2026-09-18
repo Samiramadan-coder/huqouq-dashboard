@@ -18,6 +18,7 @@ import CaseStatusLabel from "../reusable/case-status-label";
 import { FileText, ArrowRight, TriangleAlert } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { StatusTimeline } from "./status-timeline";
+import ChatContent from "./chat-content";
 
 export default async function CaseDetails({
   caseItem,
@@ -61,7 +62,7 @@ export default async function CaseDetails({
           </SheetTitle>
         </SheetHeader>
 
-        <div className="">
+        <div className="flex-1 overflow-auto">
           <Tabs defaultValue="details" className="gap-0">
             <TabsList variant="line" className="h-auto! border-b border-border">
               <TabsTrigger
@@ -87,6 +88,14 @@ export default async function CaseDetails({
                 <FileText className="size-3 text-primary" />
                 {t("Timeline.tab")}
               </TabsTrigger>
+
+              <TabsTrigger
+                value="chat"
+                className="h-10 text-xs text-primary data-[state=active]:after:bg-secondary"
+              >
+                <FileText className="size-3 text-primary" />
+                {t("Chat.tab")}
+              </TabsTrigger>
             </TabsList>
 
             <Separator className="bg-border" />
@@ -102,15 +111,14 @@ export default async function CaseDetails({
             <TabsContent value="timeline" className="p-4">
               <StatusTimeline items={caseItem.timeline} />
             </TabsContent>
+
+            <TabsContent value="chat" className="p-4">
+              <ChatContent caseItem={caseItem} />
+            </TabsContent>
           </Tabs>
         </div>
 
-        <SheetFooter>
-          {/* <Button type="submit">Save changes</Button>
-          <SheetClose asChild>
-            <Button variant="outline">Close</Button>
-          </SheetClose> */}
-        </SheetFooter>
+        <SheetFooter></SheetFooter>
       </SheetContent>
     </Sheet>
   );

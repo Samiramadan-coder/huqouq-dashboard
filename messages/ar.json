@@ -84,6 +84,7 @@
     "approved": "تمت الموافقة",
     "rejected": "مرفوض",
     "flagged": "تم الإبلاغ",
+    "toReview": "قيد المراجعة",
     "searchPlaceholder": "ابحث بالاسم أو التخصص...",
     "applicationsAwaitingReview": "الطلبات في انتظار المراجعة",
     "applicationsApproved1": "المحامون المقبولون",

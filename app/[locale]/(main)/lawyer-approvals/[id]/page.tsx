@@ -1,16 +1,12 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
-import { Link } from "@/i18n/navigation";
 import { Lawyer } from "@/types/lawyer-approvals";
-import { getTranslations } from "next-intl/server";
-import { ChevronLeft, LoaderPinwheel } from "lucide-react";
+import { LoaderPinwheel } from "lucide-react";
 import LawyerDetails from "@/components/lawyer-approvals/lawyer-details";
 
 type Params = { id: string };
 
 async function LawyerProfile({ params }: { params: Params }) {
-  const t = await getTranslations("LawyerApprovals");
-
   const { data, ok } = await http.get<{
     user: Lawyer;
   }>(`/api/admin/lawyer-approvals/${params.id}`, {
@@ -25,13 +21,6 @@ async function LawyerProfile({ params }: { params: Params }) {
 
   return (
     <div>
-      <div className="p-4 sm:p-6 bg-white border-b border-gray-200">
-        <Link href="/lawyer-approvals" className="flex items-center gap-3">
-          <ChevronLeft className="rtl:rotate-180 size-4" />
-          <p className="text-[13px] text-gray-500">{t("backToPending")}</p>
-        </Link>
-      </div>
-
       <LawyerDetails lawyer={data.user} />
     </div>
   );

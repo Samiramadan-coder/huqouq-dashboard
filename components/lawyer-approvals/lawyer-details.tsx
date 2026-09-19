@@ -12,6 +12,9 @@ import {
   CheckCircle,
   Lock,
   CircleX,
+  ChevronLeft,
+  Clock,
+  CircleCheck,
 } from "lucide-react";
 
 import {
@@ -32,12 +35,13 @@ import {
 
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useMemo, useState } from "react";
 import Education from "./education";
 import { Badge } from "../ui/badge";
 import Experience from "./experience";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { Link } from "@/i18n/navigation";
+import { useMemo, useState } from "react";
 import LanguagesBio from "./languages-bio";
 import { useTranslations } from "next-intl";
 import BarCertificates from "./bar-certificates";
@@ -46,6 +50,7 @@ import ProfessionalInfo from "./professional-info";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SpecializationServices from "./specialization-services";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("LawyerApprovals");
@@ -94,13 +99,57 @@ export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
 
   return (
     <>
+      <div className="p-4 sm:p-6 bg-white border-b border-gray-200 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/case-approvals" className="flex items-center gap-3">
+            <ChevronLeft className="rtl:rotate-180 size-4" />
+            <p className="text-[13px] text-gray-500">{t("backToPending")}</p>
+          </Link>
+          <span className="text-gray-200 text-lg">/</span>
+          <div className="flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src={lawyer.photo_url || ""} alt={lawyer.name} />
+              <AvatarFallback>{lawyer.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-[13px] font-semibold text-gray-800 line-clamp-1">
+                {lawyer.name}
+              </p>
+              <p className="text-[11px] text-gray-400 line-clamp-1">
+                {lawyer.lawyer_profile.specializations
+                  .map((spec) => spec.name)
+                  .join(", ")}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1 text-green-700 text-[12px]">
+            <CircleCheck className="size-3.5" />
+            {countApprovedSections} {t("approved")}
+          </span>
+
+          <span className="flex items-center gap-1 text-red-600 text-[12px]">
+            <CircleX className="size-3.5" />
+            {countRejectedSections} {t("rejected")}
+          </span>
+
+          <span className="flex items-center gap-1 text-gray-400 text-[12px]">
+            <Clock className="size-3.5" />
+            {6 - (countApprovedSections + countRejectedSections)}{" "}
+            {t("toReview")}
+          </span>
+        </div>
+      </div>
+
       <div className="space-y-6 p-4 sm:p-6 mb-20">
         {lawyer.lawyer_profile.review_items.map((item, index) => (
           <SingleSection key={index} item={item} lawyer={lawyer} />
         ))}
       </div>
 
-      <div className="p-4 sm:p-6 bg-white flex justify-end border-t border-gray-200l space-x-4 fixed bottom-0 inset-s-0 w-full">
+      <div className="p-4 sm:p-6 bg-white flex justify-end border-t border-gray-200l space-x-4">
         <Button
           onClick={reject}
           disabled={
@@ -311,6 +360,8 @@ function SingleSection({ item, lawyer }: { item: ReviewItem; lawyer: Lawyer }) {
             name="reason"
             label={t("reasonLabel")}
             placeholder={t("reasonPlaceholder")}
+            textareaClassName="placeholder:text-red-300 placeholder:text-[11.5px] border-red-200"
+            labelClassName="text-[11.5px] text-red-600"
             errors={errors}
           />
 

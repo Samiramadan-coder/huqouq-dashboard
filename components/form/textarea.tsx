@@ -33,6 +33,7 @@ type NormalFormTextareaProps<T extends FieldValues> = {
   description?: ReactNode;
   rows?: number;
   maxLength?: number;
+  labelClassName?: string;
 };
 
 export default function NormalFormTextarea<T extends FieldValues>({
@@ -48,6 +49,7 @@ export default function NormalFormTextarea<T extends FieldValues>({
   description,
   rows = 4,
   maxLength,
+  labelClassName,
 }: NormalFormTextareaProps<T>) {
   const error = get(errors, name);
 
@@ -59,6 +61,7 @@ export default function NormalFormTextarea<T extends FieldValues>({
           className={cn(
             "text-sm font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
+            labelClassName,
           )}
         >
           {label}

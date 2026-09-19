@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/case-approvals";
 import { ChevronLeft, LoaderPinwheel } from "lucide-react";
 import CaseDetailsPreview from "@/components/case-approvals/case-details-preview";
+import UrgencyBadge from "@/components/reusable/urgency-label";
 
 type Params = {
   id: string;
@@ -27,11 +28,22 @@ async function CaseDetailsInfo({ params }: { params: Params }) {
 
   return (
     <div>
-      <div className="p-4 sm:p-6 bg-white border-b border-gray-200">
-        <Link href="/case-approvals" className="flex items-center gap-3">
-          <ChevronLeft className="rtl:rotate-180 size-4" />
-          <p className="text-[13px] text-gray-500">{t("backToPending")}</p>
-        </Link>
+      <div className="p-4 sm:p-6 bg-white border-b border-gray-200 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/case-approvals" className="flex items-center gap-3">
+            <ChevronLeft className="rtl:rotate-180 size-4" />
+            <p className="text-[13px] text-gray-500">{t("backToPending")}</p>
+          </Link>
+          <span className="text-gray-200 text-lg">/</span>
+          <p className="text-[13px] font-semibold text-gray-800 line-clamp-1">
+            {data.data.title}
+          </p>
+        </div>
+
+        <UrgencyBadge
+          urgency={data.data.urgency}
+          urgency_label={data.data.urgency_label}
+        />
       </div>
 
       <div className="px-4 pt-4 sm:px-6 sm:pt-6 min-h-[calc(100vh-124px)] flex flex-col justify-between">

@@ -8,14 +8,20 @@ import {
 } from "../ui/sheet";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
 import DetailsContent from "./details-content";
 import PartiesContent from "./parties-content";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../reusable/urgency-label";
 import { CaseMonitoring } from "@/types/case-monitoring";
 import CaseStatusLabel from "../reusable/case-status-label";
-import { FileText, ArrowRight, TriangleAlert } from "lucide-react";
+import {
+  FileText,
+  ArrowRight,
+  TriangleAlert,
+  User,
+  Activity,
+  MessageSquare,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { StatusTimeline } from "./status-timeline";
 import ChatContent from "./chat-content";
@@ -64,10 +70,13 @@ export default async function CaseDetails({
 
         <div className="flex-1 overflow-auto">
           <Tabs defaultValue="details" className="gap-0">
-            <TabsList variant="line" className="h-auto! border-b border-border">
+            <TabsList
+              variant="line"
+              className="h-auto! border-b border-border bg-gray-50/50 w-full"
+            >
               <TabsTrigger
                 value="details"
-                className="h-10 text-xs text-primary data-[state=active]:after:bg-secondary"
+                className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
               >
                 <FileText className="size-3 text-primary" />
                 {t("Details.tab")}
@@ -75,30 +84,28 @@ export default async function CaseDetails({
 
               <TabsTrigger
                 value="participants"
-                className="h-10 text-xs text-primary data-[state=active]:after:bg-secondary"
+                className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
               >
-                <FileText className="size-3 text-primary" />
+                <User className="size-3 text-primary" />
                 {t("Participants.tab")}
               </TabsTrigger>
 
               <TabsTrigger
                 value="timeline"
-                className="h-10 text-xs text-primary data-[state=active]:after:bg-secondary"
+                className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
               >
-                <FileText className="size-3 text-primary" />
+                <Activity className="size-3 text-primary" />
                 {t("Timeline.tab")}
               </TabsTrigger>
 
               <TabsTrigger
                 value="chat"
-                className="h-10 text-xs text-primary data-[state=active]:after:bg-secondary"
+                className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
               >
-                <FileText className="size-3 text-primary" />
+                <MessageSquare className="size-3 text-primary" />
                 {t("Chat.tab")}
               </TabsTrigger>
             </TabsList>
-
-            <Separator className="bg-border" />
 
             <TabsContent value="details" className="p-4 space-y-6">
               <DetailsContent caseItem={caseItem} />

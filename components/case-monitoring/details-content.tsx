@@ -74,7 +74,7 @@ export default async function DetailsContent({
         <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">
           {t("Details.description")}
         </p>
-        <p className="p-3 rounded-lg bg-gray-50 text-[13px] text-gray-700 leading-relaxed whitespace-pre-line">
+        <p className="p-4 rounded-lg bg-gray-50 text-[13px] text-gray-700 leading-relaxed whitespace-pre-line">
           {caseItem.description}
         </p>
       </div>
@@ -114,7 +114,7 @@ function DetailItem({
       <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
         {label}
       </p>
-      <div className="flex items-center gap-1.5 text-[13.5px] font-medium text-gray-800">
+      <div className="flex items-center gap-1.5 text-[13px] font-medium text-gray-700">
         {icon}
         {value}
       </div>

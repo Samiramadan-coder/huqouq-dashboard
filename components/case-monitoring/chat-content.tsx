@@ -29,6 +29,7 @@ import { useDirection } from "@/components/ui/direction";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Spinner } from "../ui/spinner";
 import { useTranslations } from "next-intl";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function ChatContent({
   caseItem,
@@ -108,93 +109,119 @@ export default function ChatContent({
         const isDocument = message.type === "file" && !isImage && !isAudio;
 
         return (
-          <div key={message.id} className="flex flex-col">
-            {message.sentByUser ? (
-              <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-end">
-                {caseItem.client.name}
-              </div>
-            ) : (
-              <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-start">
-                {caseItem.hired_lawyer.name}
-              </div>
+          <div key={message.id} className="flex items-start gap-2">
+            {!message.sentByUser && (
+              <Avatar>
+                <AvatarImage
+                  src={caseItem.hired_lawyer.photo_url || ""}
+                  alt="User avatar"
+                />
+                <AvatarFallback>
+                  {caseItem.hired_lawyer.name?.[0] || "U"}
+                </AvatarFallback>
+              </Avatar>
             )}
 
-            <div
-              className={
-                message.sentByUser ? "flex justify-end" : "flex justify-start"
-              }
-            >
+            <div className="flex flex-col flex-1">
+              {message.sentByUser ? (
+                <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-end">
+                  {caseItem.client.name}
+                </div>
+              ) : (
+                <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-start">
+                  {caseItem.hired_lawyer.name}
+                </div>
+              )}
+
               <div
-                className={cn(
-                  "max-w-[70%]",
-                  isText &&
-                    cn(
-                      "rounded-xl px-3.5 py-2.5 text-[13px] leading-relaxed",
-                      message.sentByUser
-                        ? "rounded-tr-sm bg-primary text-white"
-                        : "rounded-tl-sm border border-blue-100 bg-blue-50 text-blue-900",
-                    ),
-                )}
+                className={
+                  message.sentByUser ? "flex justify-end" : "flex justify-start"
+                }
               >
-                {isText && message.text && (
-                  <p className="whitespace-pre-wrap wrap-break-word">
-                    {message.text}
-                  </p>
-                )}
+                <div
+                  className={cn(
+                    "max-w-[70%]",
+                    isText &&
+                      cn(
+                        "rounded-xl px-3.5 py-2.5 text-[13px] leading-relaxed",
+                        message.sentByUser
+                          ? "rounded-tr-sm bg-primary text-white"
+                          : "rounded-tl-sm border border-blue-100 bg-blue-50 text-blue-900",
+                      ),
+                  )}
+                >
+                  {isText && message.text && (
+                    <p className="whitespace-pre-wrap wrap-break-word">
+                      {message.text}
+                    </p>
+                  )}
 
-                {isImage && message.fileUrl && (
-                  <ImageAttachment
-                    url={message.fileUrl}
-                    name={message.fileName}
-                    caption={message.text}
-                    sentByUser={message.sentByUser}
-                  />
-                )}
-
-                {isAudio && message.fileUrl && (
-                  <div className="space-y-1.5">
-                    <AudioAttachment
-                      url={message.fileUrl}
-                      messageId={message.id}
-                      sentByUser={message.sentByUser}
-                    />
-
-                    {message.text && (
-                      <Caption sentByUser={message.sentByUser}>
-                        {message.text}
-                      </Caption>
-                    )}
-                  </div>
-                )}
-
-                {isDocument && message.fileUrl && (
-                  <div className="space-y-1.5">
-                    <FileAttachment
+                  {isImage && message.fileUrl && (
+                    <ImageAttachment
                       url={message.fileUrl}
                       name={message.fileName}
-                      fileType={message.fileType}
-                      sizeBytes={message.fileSizeBytes}
+                      caption={message.text}
                       sentByUser={message.sentByUser}
                     />
+                  )}
 
-                    {message.text && (
-                      <Caption sentByUser={message.sentByUser}>
-                        {message.text}
-                      </Caption>
-                    )}
-                  </div>
-                )}
+                  {isAudio && message.fileUrl && (
+                    <div className="space-y-1.5">
+                      <AudioAttachment
+                        url={message.fileUrl}
+                        messageId={message.id}
+                        sentByUser={message.sentByUser}
+                      />
+
+                      {message.text && (
+                        <Caption sentByUser={message.sentByUser}>
+                          {message.text}
+                        </Caption>
+                      )}
+                    </div>
+                  )}
+
+                  {isDocument && message.fileUrl && (
+                    <div className="space-y-1.5">
+                      <FileAttachment
+                        url={message.fileUrl}
+                        name={message.fileName}
+                        fileType={message.fileType}
+                        sizeBytes={message.fileSizeBytes}
+                        sentByUser={message.sentByUser}
+                      />
+
+                      {message.text && (
+                        <Caption sentByUser={message.sentByUser}>
+                          {message.text}
+                        </Caption>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
+
+              {message.sentByUser ? (
+                <div className="text-[10px] text-gray-400 mt-1 text-left flex justify-end">
+                  {formatChatDate(message.createdAt)}
+                </div>
+              ) : (
+                <div className="text-[10px] text-gray-400 mt-1 text-left flex justify-start">
+                  {formatChatDate(message.createdAt)}
+                </div>
+              )}
             </div>
 
-            {message.sentByUser ? (
-              <div className="text-[10px] text-gray-400 mt-1 text-left flex justify-end">
-                {formatChatDate(message.createdAt)}
-              </div>
-            ) : (
-              <div className="text-[10px] text-gray-400 mt-1 text-left flex justify-start">
-                {formatChatDate(message.createdAt)}
-              </div>
+            {message.sentByUser && (
+              <Avatar>
+                <AvatarImage
+                  src={caseItem.client.photo_url || ""}
+                  alt="User avatar"
+                />
+                <AvatarFallback>
+                  {caseItem.client.name?.[0] || "U"}
+                </AvatarFallback>
+              </Avatar>
             )}
           </div>
         );

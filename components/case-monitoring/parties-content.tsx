@@ -1,9 +1,9 @@
-import React from "react";
-import { getTranslations } from "next-intl/server";
-import { Card, CardContent } from "../ui/card";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { formatDate } from "@/lib/utils";
 import { Separator } from "../ui/separator";
-import { BadgeCheck, Star } from "lucide-react";
+import { Shield, Star } from "lucide-react";
+import { Card, CardContent } from "../ui/card";
+import { getTranslations } from "next-intl/server";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { CaseMonitoring } from "@/types/case-monitoring";
 
 export default async function PartiesContent({
@@ -15,7 +15,7 @@ export default async function PartiesContent({
 
   return (
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-      <Card className="rounded-xl border-blue-200 bg-blue-50/30 shadow-none">
+      <Card className="rounded-xl ring-0! border border-blue-100 bg-blue-50/40 shadow-none p-0">
         <CardContent className="p-5">
           <div className="flex items-center gap-3">
             <Avatar className="size-12">
@@ -36,7 +36,7 @@ export default async function PartiesContent({
 
           <Separator className="my-3 bg-blue-200/70" />
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <InfoRow
               label={t("Participants.Client.email")}
               value={caseItem.client.email}
@@ -49,7 +49,7 @@ export default async function PartiesContent({
 
             <InfoRow
               label={t("Participants.Client.joined")}
-              value={caseItem.client.joined_at}
+              value={formatDate(caseItem.client.joined_at)}
             />
 
             <InfoRow
@@ -61,7 +61,7 @@ export default async function PartiesContent({
       </Card>
 
       {/* Lawyer */}
-      <Card className="rounded-xl border-emerald-200 bg-emerald-50/30 shadow-none">
+      <Card className="rounded-xl border-emerald-200 bg-emerald-50/30 shadow-none p-0">
         <CardContent className="p-5">
           <div className="flex items-center gap-3">
             <Avatar className="size-12">
@@ -75,7 +75,7 @@ export default async function PartiesContent({
                 <h3 className="text-[16px] font-semibold text-primary">
                   {caseItem.hired_lawyer.name}
                 </h3>
-                <BadgeCheck className="size-4 fill-emerald-500 text-white" />
+                <Shield className="size-4 text-emerald-500" />
               </div>
 
               <p className="mt-0.5 text-[11px] font-medium uppercase text-emerald-700">
@@ -86,7 +86,7 @@ export default async function PartiesContent({
 
           <Separator className="my-3 bg-emerald-200/70" />
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <InfoRow
               label={t("Participants.Lawyer.specialization")}
               value={caseItem.hired_lawyer.specialization}

@@ -90,17 +90,19 @@ export default function CaseDetailsPreview({
               </div>
             </div>
 
-            <div className="px-5 py-4">
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
-                {t("budget")}
-              </p>
-              <div className="flex items-center gap-2">
-                <Banknote className="size-4 text-gray-400" />
-                <span className="text-[13px] font-semibold text-gray-800">
-                  {caseDetails.budget_min} - {caseDetails.budget_max}
-                </span>
+            {caseDetails.budget_max && caseDetails.budget_min && (
+              <div className="px-5 py-4">
+                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
+                  {t("budget")}
+                </p>
+                <div className="flex items-center gap-2">
+                  <Banknote className="size-4 text-gray-400" />
+                  <span className="text-[13px] font-semibold text-gray-800">
+                    {caseDetails.budget_min} - {caseDetails.budget_max}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
 

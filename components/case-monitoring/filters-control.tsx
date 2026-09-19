@@ -11,7 +11,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
-import { Search, Triangle, TriangleAlert } from "lucide-react";
+import { Search, TriangleAlert } from "lucide-react";
 
 const statuses: (keyof Counts)[] = [
   "all_active",

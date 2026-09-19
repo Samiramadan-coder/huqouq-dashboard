@@ -6,39 +6,104 @@ import {
   Banknote,
   Paperclip,
   CalendarDays,
+  X,
+  TriangleAlert,
 } from "lucide-react";
-import { useState } from "react";
+import z from "zod";
+import { toast } from "sonner";
+import { T } from "@/types/shared";
 import { Badge } from "../ui/badge";
-import RejectBtn from "./reject-btn";
+import { Button } from "../ui/button";
 import ApproveBtn from "./approve-btn";
+import { Spinner } from "../ui/spinner";
+import { useRef, useState } from "react";
 import { formatDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Separator } from "../ui/separator";
+import { useRouter } from "@/i18n/navigation";
+import NormalFormTextarea from "../form/textarea";
+import { rejectCase } from "@/lib/cases-approvals";
 import { CaseDetails } from "@/types/case-approvals";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 type CaseDocument = CaseDetails["documents"][number];
 
+const rejectSchema = (t: T) =>
+  z.object({
+    reason: z.string().min(1, t("reason_required")),
+  });
+
+type RejectFormData = z.infer<ReturnType<typeof rejectSchema>>;
+
 export default function CaseDetailsPreview({
   caseDetails,
 }: {
   caseDetails: CaseDetails;
 }) {
+  const router = useRouter();
   const t = useTranslations("CaseApprovals.Details");
+  const form = useRef<HTMLFormElement>(null);
+  const [showRejectForm, setShowRejectForm] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<CaseDocument | null>(
     null,
   );
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RejectFormData>({
+    defaultValues: { reason: "" },
+    resolver: zodResolver(rejectSchema(t)),
+  });
+
+  const handleReject: SubmitHandler<RejectFormData> = async (data) => {
+    const result = await rejectCase(caseDetails.id, data.reason);
+
+    if (result.success) {
+      toast.success(t("reject_success"));
+      router.back();
+    } else {
+      toast.error(t("reject_failure"));
+    }
+  };
+
   return (
     <>
       <div className="px-6 py-3 bg-white flex justify-end border-t border-gray-200l space-x-4 fixed bottom-0 inset-s-0 w-full">
-        <RejectBtn caseId={caseDetails.id} />
+        {showRejectForm && (
+          <Button
+            variant="outline"
+            className="bg-transparent h-11"
+            onClick={() => {
+              setShowRejectForm(false);
+            }}
+          >
+            {t("cancel")}
+          </Button>
+        )}
+
+        <Button
+          variant="outline"
+          className="bg-transparent text-red-700 border-red-200 h-11"
+          onClick={() => {
+            if (!showRejectForm) {
+              return setShowRejectForm(true);
+            }
+            form.current?.requestSubmit();
+          }}
+        >
+          {isSubmitting ? <Spinner /> : <X className="size-3" />}
+          {showRejectForm ? t("confirmRejection") : t("reject")}
+        </Button>
         <ApproveBtn caseId={caseDetails.id} />
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 pb-30">
         <Card className="py-0 gap-0 ring-0! border border-primary/15">
           <CardHeader className="gap-2 px-5 py-4">
             <CardTitle className="text-base font-bold">
@@ -123,15 +188,20 @@ export default function CaseDetailsPreview({
 
         <Card className="py-0 gap-0 ring-0! border border-primary/15">
           <CardHeader className="gap-2 px-5 py-4">
-            <CardTitle className="text-[13.5px] font-semibold flex items-center gap-2">
-              <Paperclip className="size-4 text-secondary" />
-              {t("attachedDocuments")}
+            <CardTitle className="text-[13.5px] font-semibold flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <Paperclip className="size-4 text-secondary" />
+                {t("attachedDocuments")}
+              </div>
+              <span className="text-[11px] text-gray-400">
+                {caseDetails.documents.length} {t("files")}
+              </span>
             </CardTitle>
           </CardHeader>
           <Separator className="bg-primary/15" />
           <CardContent className="p-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-              {caseDetails.documents?.map((doc) => (
+              {caseDetails.documents.map((doc) => (
                 <div
                   key={doc.id}
                   onClick={() => setSelectedDocument(doc)}
@@ -154,6 +224,35 @@ export default function CaseDetailsPreview({
             </div>
           </CardContent>
         </Card>
+
+        {showRejectForm && (
+          <Card className="gap-0 ring-0! border border-red-200 bg-red-50">
+            <div className="flex items-center gap-2 mb-3 px-4">
+              <TriangleAlert className="text-red-500 shrink-0 size-4" />
+              <h3 className="text-[13.5px] font-semibold text-red-800">
+                {t("rejectionReason")}
+              </h3>
+              <span className="text-[11px] text-red-500 ml-auto">
+                {t("sentToClient")}
+              </span>
+            </div>
+
+            <form
+              ref={form}
+              className="px-4"
+              onSubmit={handleSubmit(handleReject)}
+            >
+              <NormalFormTextarea
+                register={register}
+                name="reason"
+                textareaClassName="border-red-200 bg-white placeholder:text-red-300 placeholder:text-xs"
+                required
+                errors={errors}
+                placeholder={t("placeholderRejectionReason")}
+              />
+            </form>
+          </Card>
+        )}
       </div>
 
       <Dialog

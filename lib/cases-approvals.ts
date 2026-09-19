@@ -4,14 +4,20 @@ import { updateTag } from "next/cache";
 import { http } from "./http";
 
 // Reject Profile
+type RejectCaseResult = { success: true; message: string } | { success: false };
+
 export async function rejectCase(
   caseId: number,
   reason: string,
-): Promise<{ success: boolean }> {
+): Promise<RejectCaseResult> {
   try {
-    await http.post(`/api/admin/case-approvals/${caseId}/reject`, { reason });
+    const { data } = await http.post<{ message: string }>(
+      `/api/admin/case-approvals/${caseId}/reject`,
+      { reason },
+    );
+
     updateTag(`case-approval-${caseId}`);
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error rejecting case:", error);
     return { success: false };

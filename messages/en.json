@@ -205,7 +205,13 @@
       "rejectDescription": "Are you sure you want to reject this case?",
       "cancel": "Cancel",
       "reason_required": "Reason is required",
-      "backToPending": "Back to Pending"
+      "backToPending": "Back to Pending",
+      "files": "files",
+      "rejectionReason": "Rejection Reason",
+      "sentToClient": "Required — sent to client",
+      "confirmRejection": "Confirm Rejection",
+
+      "placeholderRejectionReason": "Explain clearly why this case is being rejected and what the client should correct before resubmitting (min 10 characters)…"
     }
   },
   "CaseMonitoring": {

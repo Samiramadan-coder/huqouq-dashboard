@@ -34,7 +34,7 @@ async function CaseDetailsInfo({ params }: { params: Params }) {
         </Link>
       </div>
 
-      <div className="p-4 sm:p-6">
+      <div className="px-4 pt-4 sm:px-6 sm:pt-6 min-h-[calc(100vh-124px)] flex flex-col justify-between">
         <CaseDetailsPreview caseDetails={data.data} />
       </div>
     </div>

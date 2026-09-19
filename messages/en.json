@@ -210,7 +210,12 @@
       "rejectionReason": "Rejection Reason",
       "sentToClient": "Required — sent to client",
       "confirmRejection": "Confirm Rejection",
-
+      "ReviewChecklist": "Review Checklist",
+      "Confirmed": "Confirmed",
+      "Condition1": "Appropriate content — no offensive, illegal, or irrelevant material",
+      "Condition2": "Sufficient detail — description gives lawyers enough context to assess",
+      "Condition3": "No premature contact info — no phone/email/WhatsApp in title or description",
+      "Condition4": "No spam or scam patterns — genuine legal need, not solicitation",
       "placeholderRejectionReason": "Explain clearly why this case is being rejected and what the client should correct before resubmitting (min 10 characters)…"
     }
   },

@@ -19,7 +19,13 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { approveCase } from "@/lib/cases-approvals";
 
-export default function ApproveBtn({ caseId }: { caseId: number }) {
+export default function ApproveBtn({
+  caseId,
+  disabled,
+}: {
+  caseId: number;
+  disabled: boolean;
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const t = useTranslations("CaseApprovals.Details");
@@ -47,6 +53,7 @@ export default function ApproveBtn({ caseId }: { caseId: number }) {
         <Button
           variant="outline"
           className="bg-transparent text-emerald-700 border-emerald-200 h-11"
+          disabled={disabled}
         >
           {loading ? <Spinner /> : <Check className="size-3" />}
           {t("approve")}

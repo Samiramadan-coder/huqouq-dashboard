@@ -8,19 +8,23 @@ import {
   CalendarDays,
   X,
   TriangleAlert,
+  ShieldAlert,
 } from "lucide-react";
 import z from "zod";
 import { toast } from "sonner";
 import { T } from "@/types/shared";
 import { Badge } from "../ui/badge";
+import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import ApproveBtn from "./approve-btn";
 import { Spinner } from "../ui/spinner";
 import { useRef, useState } from "react";
-import { formatDate } from "@/lib/utils";
+import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
 import { Separator } from "../ui/separator";
+import { cn, formatDate } from "@/lib/utils";
 import { useRouter } from "@/i18n/navigation";
+import { Field, FieldGroup } from "../ui/field";
 import NormalFormTextarea from "../form/textarea";
 import { rejectCase } from "@/lib/cases-approvals";
 import { CaseDetails } from "@/types/case-approvals";
@@ -48,6 +52,7 @@ export default function CaseDetailsPreview({
   const t = useTranslations("CaseApprovals.Details");
   const form = useRef<HTMLFormElement>(null);
   const [showRejectForm, setShowRejectForm] = useState(false);
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<CaseDocument | null>(
     null,
   );
@@ -72,38 +77,60 @@ export default function CaseDetailsPreview({
     }
   };
 
+  const conditions = ["Condition1", "Condition2", "Condition3", "Condition4"];
+
   return (
     <>
-      <div className="px-6 py-3 bg-white flex justify-end border-t border-gray-200l space-x-4 fixed bottom-0 inset-s-0 w-full">
-        {showRejectForm && (
-          <Button
-            variant="outline"
-            className="bg-transparent h-11"
-            onClick={() => {
-              setShowRejectForm(false);
-            }}
-          >
-            {t("cancel")}
-          </Button>
-        )}
+      <div className="space-y-4 pb-20">
+        <Card className="bg-amber-50 ring-0! border border-amber-200 rounded-xl px-5 py-4 gap-0">
+          <div className="flex items-center gap-2 mb-3">
+            <ShieldAlert
+              className="text-amber-600 size-4 shrink-0"
+              aria-hidden="true"
+            />
+            <h3 className="text-[13px] font-semibold text-amber-800">
+              {t("ReviewChecklist")}
+            </h3>
+            <span className="text-[11px] text-amber-600 ml-auto">
+              {selectedConditions.length} / 4 {t("Confirmed")}
+            </span>
+          </div>
 
-        <Button
-          variant="outline"
-          className="bg-transparent text-red-700 border-red-200 h-11"
-          onClick={() => {
-            if (!showRejectForm) {
-              return setShowRejectForm(true);
-            }
-            form.current?.requestSubmit();
-          }}
-        >
-          {isSubmitting ? <Spinner /> : <X className="size-3" />}
-          {showRejectForm ? t("confirmRejection") : t("reject")}
-        </Button>
-        <ApproveBtn caseId={caseDetails.id} />
-      </div>
+          <FieldGroup className="gap-2">
+            {conditions.map((condition) => (
+              <Field orientation="horizontal" key={condition}>
+                <Checkbox
+                  id={condition}
+                  name={condition}
+                  checked={selectedConditions.includes(condition)}
+                  onCheckedChange={() =>
+                    setSelectedConditions((prev) =>
+                      prev.includes(condition)
+                        ? prev.filter((c) => c !== condition)
+                        : [...prev, condition],
+                    )
+                  }
+                  className="
+                    border-amber-300
+                    data-[state=checked]:border-amber-500
+                    data-[state=checked]:bg-amber-500
+                    data-[state=checked]:text-white
+                  "
+                />
+                <Label
+                  htmlFor={condition}
+                  className={cn(
+                    "text-[13px] leading-relaxed transition-colors text-amber-800 font-normal",
+                    selectedConditions.includes(condition) && "line-through",
+                  )}
+                >
+                  {t(condition)}
+                </Label>
+              </Field>
+            ))}
+          </FieldGroup>
+        </Card>
 
-      <div className="space-y-4 pb-30">
         <Card className="py-0 gap-0 ring-0! border border-primary/15">
           <CardHeader className="gap-2 px-5 py-4">
             <CardTitle className="text-base font-bold">
@@ -253,6 +280,56 @@ export default function CaseDetailsPreview({
             </form>
           </Card>
         )}
+      </div>
+
+      <div className="px-6 py-3 bg-white flex items-center justify-between border-t border-gray-200 space-x-4 -mx-4 sm:-mx-6">
+        <div className="flex items-center space-x-2">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <span
+              key={index}
+              className={cn(
+                "inline-block w-2 h-2 bg-gray-300 rounded-full",
+                index < selectedConditions.length && "bg-green-500",
+              )}
+            />
+          ))}
+          <span className="text-[12px] text-gray-400 hidden sm:block">
+            {4 - selectedConditions.length} checklist items remaining
+          </span>
+        </div>
+
+        <div className="space-x-4">
+          {showRejectForm && (
+            <Button
+              variant="outline"
+              className="bg-transparent h-11"
+              onClick={() => {
+                setShowRejectForm(false);
+              }}
+            >
+              {t("cancel")}
+            </Button>
+          )}
+
+          <Button
+            variant="outline"
+            className="bg-transparent text-red-700 border-red-200 h-11"
+            onClick={() => {
+              if (!showRejectForm) {
+                return setShowRejectForm(true);
+              }
+              form.current?.requestSubmit();
+            }}
+          >
+            {isSubmitting ? <Spinner /> : <X className="size-3" />}
+            {showRejectForm ? t("confirmRejection") : t("reject")}
+          </Button>
+
+          <ApproveBtn
+            caseId={caseDetails.id}
+            disabled={selectedConditions.length !== 4}
+          />
+        </div>
       </div>
 
       <Dialog

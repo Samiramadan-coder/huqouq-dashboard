@@ -280,7 +280,8 @@
     },
     "Chat": {
       "tab": "Conversation",
-      "noMessages": "No messages yet"
+      "noMessages": "No messages yet",
+      "readOnly": "Read-only conversation transcript — Admin view only. This is the actual message history between both parties."
     }
   },
   "Lawyers": {

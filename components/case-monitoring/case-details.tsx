@@ -72,7 +72,7 @@ export default async function CaseDetails({
           <Tabs defaultValue="details" className="gap-0">
             <TabsList
               variant="line"
-              className="h-auto! border-b border-border bg-gray-50/50 w-full"
+              className="sticky z-50 top-0 h-auto! border-b border-border bg-gray-50/50 w-full"
             >
               <TabsTrigger
                 value="details"

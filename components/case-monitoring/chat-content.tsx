@@ -11,6 +11,7 @@ import {
   Pause,
   Play,
   X,
+  Eye,
 } from "lucide-react";
 
 import {
@@ -84,7 +85,14 @@ export default function ChatContent({
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 relative">
+      <div className="sticky z-50 top-12 -mx-4 px-4 py-3 bg-amber-50/60 border-b border-amber-100 flex items-center gap-2">
+        <Eye className="text-amber-700 size-4" />
+        <p className="text-[12px] text-amber-700 font-medium">
+          {t("Chat.readOnly")}
+        </p>
+      </div>
+
       {messages.map((message) => {
         if (message.type === "system") {
           return (

@@ -37,6 +37,8 @@ export function FilterControl({ counts }: { counts: Counts }) {
       >
         <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200">
           {statuses.map((statusKey) => {
+            const isActive = statusKey === status;
+
             return (
               <TabsTrigger
                 key={statusKey}
@@ -50,6 +52,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
                     statusKey === "pending" && "bg-amber-100 text-amber-700",
                     statusKey === "approved" && "bg-green-200 text-green-700",
                     statusKey === "rejected" && "bg-red-100 text-red-600",
+                    isActive && "bg-white/20 text-white",
                   )}
                 >
                   {counts[statusKey]}

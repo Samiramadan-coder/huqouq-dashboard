@@ -23,16 +23,9 @@ import { parseAsString, useQueryStates } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useReferenceData } from "@/providers/reference-data.provider";
 import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
 
-const statuses: (keyof Counts)[] = [
-  "pending_review",
-  "published",
-  "in_progress",
-  "pending_fees",
-  "closed",
-  "pending_closure",
-  "rejected",
-];
+const statuses: (keyof Counts)[] = ["pending_review", "published", "rejected"];
 
 export function FilterControl({
   counts,
@@ -54,15 +47,17 @@ export function FilterControl({
         history: "push",
         shallow: false,
       }),
-      specialization_id: parseAsString.withDefault("").withOptions({
+      specialization_id: parseAsString.withDefault("all").withOptions({
         history: "push",
         shallow: false,
       }),
-      urgency: parseAsString.withDefault("").withOptions({
+      urgency: parseAsString.withDefault("allUrgency").withOptions({
         history: "push",
         shallow: false,
       }),
     });
+
+  if (!referenceData) return null;
 
   return (
     <div className="space-y-5">
@@ -70,16 +65,27 @@ export function FilterControl({
         value={status}
         onValueChange={(value) => setFilters({ status: value })}
       >
-        <TabsList className="h-auto! bg-white gap-2 p-2 rounded-lg">
+        <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200">
           {statuses.map((statusKey) => {
+            const isActive = statusKey === status;
+
             return (
               <TabsTrigger
                 key={statusKey}
                 value={statusKey}
-                className="px-4 h-9 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
+                className="px-4 h-9 text-[13px] font-medium rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
               >
                 {t(statusKey)}{" "}
-                <span className="size-4.5 text-white text-[11px] grid place-content-center font-bold rounded-full bg-secondary">
+                <span
+                  className={cn(
+                    "size-4.5 text-white text-[11px] grid place-content-center font-bold rounded-full",
+                    statusKey === "pending_closure" &&
+                      "bg-amber-100 text-amber-700",
+                    statusKey === "published" && "bg-green-200 text-green-700",
+                    statusKey === "rejected" && "bg-red-100 text-red-600",
+                    isActive && "bg-white/20 text-white",
+                  )}
+                >
                   {counts[statusKey]}
                 </span>
               </TabsTrigger>
@@ -91,7 +97,7 @@ export function FilterControl({
       <div className="flex items-center gap-4">
         <div className="relative w-full max-w-80">
           <Field>
-            <InputGroup className="bg-white h-10">
+            <InputGroup className="bg-white h-8.5 border border-gray-200">
               <InputGroupInput
                 value={q}
                 onChange={(e) =>
@@ -100,7 +106,7 @@ export function FilterControl({
                   })
                 }
                 placeholder={t("searchPlaceholder")}
-                className="min-w-50"
+                className="min-w-50 placeholder:text-gray-400 placeholder:text-[13px]"
               />
               <InputGroupAddon align="inline-start">
                 <Search />
@@ -113,12 +119,15 @@ export function FilterControl({
           value={specialization_id}
           onValueChange={(value) => setFilters({ specialization_id: value })}
         >
-          <SelectTrigger className="w-full max-w-48 min-h-10 bg-white">
+          <SelectTrigger className="w-full max-w-48 min-h-8.5 bg-white text-[13px]">
             <SelectValue placeholder={t("Filters.allCategories")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {referenceData?.specializations.map((spec) => (
+              {[
+                { id: "all", name: t("Filters.allCategories") },
+                ...referenceData.specializations,
+              ].map((spec) => (
                 <SelectItem key={spec.id} value={String(spec.id)}>
                   {spec.name}
                 </SelectItem>
@@ -131,16 +140,18 @@ export function FilterControl({
           value={urgency}
           onValueChange={(value) => setFilters({ urgency: value })}
         >
-          <SelectTrigger className="w-full max-w-48 min-h-10 bg-white">
+          <SelectTrigger className="w-full max-w-48 min-h-8.5 bg-white text-[13px]">
             <SelectValue placeholder={t("Filters.allUrgency")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {["urgent", "standard", "very_urgent"].map((spec) => (
-                <SelectItem key={spec} value={spec}>
-                  {t(`Filters.${spec}`)}
-                </SelectItem>
-              ))}
+              {["allUrgency", "urgent", "standard", "very_urgent"].map(
+                (spec) => (
+                  <SelectItem key={spec} value={spec}>
+                    {t(`Filters.${spec}`)}
+                  </SelectItem>
+                ),
+              )}
             </SelectGroup>
           </SelectContent>
         </Select>

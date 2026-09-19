@@ -156,7 +156,7 @@
   },
   "CaseApprovals": {
     "pending_review": "Pending Review",
-    "published": "Published",
+    "published": "Approved",
     "rejected": "Rejected",
     "in_progress": "In Progress",
     "pending_closure": "Pending Closure",

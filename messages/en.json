@@ -164,6 +164,8 @@
     "has_offers": "Has Offers",
     "closed": "Closed",
     "searchPlaceholder": "Search by title or category....",
+    "criticalCases": "critical cases",
+    "awaitingUrgentReview": "awaiting urgent review — shown at the top of the list.",
     "Table": {
       "client": "Client",
       "title": "Case Title",
@@ -181,7 +183,8 @@
       "allUrgency": "All Urgency Levels",
       "urgent": "Urgent",
       "standard": "Standard",
-      "very_urgent": "Very Urgent"
+      "very_urgent": "Very Urgent",
+      "critical": "Critical"
     },
     "Details": {
       "client": "Client",

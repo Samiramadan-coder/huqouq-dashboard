@@ -16,7 +16,7 @@ import {
 } from "../ui/select";
 
 import { Field } from "../ui/field";
-import { Search } from "lucide-react";
+import { Search, TriangleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Counts, UrgencyCounts } from "@/types/case-approvals";
 import { parseAsString, useQueryStates } from "nuqs";
@@ -79,7 +79,7 @@ export function FilterControl({
                 <span
                   className={cn(
                     "size-4.5 text-white text-[11px] grid place-content-center font-bold rounded-full",
-                    statusKey === "pending_closure" &&
+                    statusKey === "pending_review" &&
                       "bg-amber-100 text-amber-700",
                     statusKey === "published" && "bg-green-200 text-green-700",
                     statusKey === "rejected" && "bg-red-100 text-red-600",
@@ -159,7 +159,7 @@ export function FilterControl({
         <div className="ms-auto flex items-center gap-2">
           <Badge className="rounded-sm px-3 h-6 bg-destructive/2 text-destructive border-destructive/20">
             <span className="size-1.5 rounded-full bg-destructive"></span>
-            {urgencyCounts.very_urgent} {t("Filters.very_urgent")}
+            {urgencyCounts.critical} {t("Filters.critical")}
           </Badge>
 
           <Badge className="rounded-sm px-3 h-6 bg-amber-50 text-amber-700 border-amber-200">
@@ -167,6 +167,16 @@ export function FilterControl({
             {urgencyCounts.urgent} {t("Filters.urgent")}
           </Badge>
         </div>
+      </div>
+
+      <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 text-[13px] text-red-700">
+        <TriangleAlert className="text-red-500 shrink-0 size-3.5" />
+        <span>
+          <span className="font-semibold">
+            {urgencyCounts.critical} {t("criticalCases")}
+          </span>{" "}
+          {t("awaitingUrgentReview")}
+        </span>
       </div>
     </div>
   );

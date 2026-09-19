@@ -166,6 +166,8 @@
     "has_offers": "لديه عروض",
     "closed": "مغلق",
     "searchPlaceholder": "ابحث عن طريق العنوان أو الفئة....",
+    "criticalCases": "القضايا الحرجة",
+    "awaitingUrgentReview": "بانتظار المراجعة العاجلة — تظهر في أعلى القائمة.",
     "Table": {
       "client": "العميل",
       "title": "عنوان القضية",
@@ -183,7 +185,8 @@
       "allUrgency": "جميع مستويات الأهمية",
       "urgent": "عاجل",
       "standard": "عادي",
-      "very_urgent": "عاجل جدًا"
+      "very_urgent": "عاجل جدًا",
+      "critical": "حرج"
     },
     "Details": {
       "client": "العميل",

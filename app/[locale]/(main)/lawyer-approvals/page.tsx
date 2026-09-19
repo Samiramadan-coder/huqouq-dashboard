@@ -30,6 +30,7 @@ async function LawyersList({ searchParams }: { searchParams: SearchParams }) {
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <FilterControl counts={data.counts} />
+
       <DataPreview
         lawyers={data.data}
         pagination={data.meta}

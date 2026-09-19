@@ -216,6 +216,9 @@
     "closed": "Closed",
     "pending_closure": "Pending Closure",
     "view": "View",
+    "searchPlaceholder": "Search by title, client, lawyer…",
+    "attentionNotice": "cases need your attention.",
+    "attentionNoticeDescription": "These cases have been automatically flagged for inactivity, stalled closure, or unusually long duration. Sorted to the top of the list.",
     "Table": {
       "case": "Case",
       "client": "Client",

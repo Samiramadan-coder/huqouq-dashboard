@@ -5,9 +5,11 @@ import { LoaderPinwheel } from "lucide-react";
 import { CaseMonitoring, Counts } from "@/types/case-monitoring";
 import DataPreview from "@/components/case-monitoring/data-preview";
 import { FilterControl } from "@/components/case-monitoring/filters-control";
+import Stats from "@/components/case-monitoring/stats";
 
 type SearchParams = {
   tab?: string;
+  q?: string;
 };
 
 async function ListOfCases({ searchParams }: { searchParams: SearchParams }) {
@@ -18,6 +20,7 @@ async function ListOfCases({ searchParams }: { searchParams: SearchParams }) {
   }>("/api/admin/case-monitoring", {
     params: {
       tab: searchParams.tab || "",
+      q: searchParams.q || "",
     },
   });
 
@@ -25,10 +28,9 @@ async function ListOfCases({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch data");
   }
 
-  console.log("Fetched data:", data);
-
   return (
     <div className="space-y-6 p-4 sm:p-6">
+      <Stats counts={data.counts} />
       <FilterControl counts={data.counts} />
       <DataPreview cases={data.data} pagination={data.meta} />
     </div>

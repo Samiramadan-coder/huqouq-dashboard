@@ -231,6 +231,12 @@
     "searchPlaceholder": "Search by title, client, lawyer…",
     "attentionNotice": "cases need your attention.",
     "attentionNoticeDescription": "These cases have been automatically flagged for inactivity, stalled closure, or unusually long duration. Sorted to the top of the list.",
+    "sendCheckInMessage": "Send Check-in Message",
+    "flagForDisputeReview": "Flag for Dispute Review",
+    "checkInMessageDescription": "This message will be sent to both parties as a neutral platform message from HUQOUQ Admin.",
+    "messageMinLength": "Message must be at least 10 characters",
+    "messageMaxLength": "Message cannot exceed 400 characters",
+    "cancel": "Cancel",
     "Table": {
       "case": "Case",
       "client": "Client",
@@ -282,6 +288,14 @@
       "tab": "Conversation",
       "noMessages": "No messages yet",
       "readOnly": "Read-only conversation transcript — Admin view only. This is the actual message history between both parties."
+    },
+    "AdminNotes": {
+      "tab": "Admin Notes",
+      "noteDescription": "These notes are private and visible only to admin. Use them to track your observations, planned actions, or context for future reference.",
+      "notePlaceholder": "e.g. Checked in Jun 27 — conversation looks healthy, client is just slow to respond after the MOHRE hearing. Monitoring for another week before taking action.",
+      "saveNote": "Save Notes",
+      "noteMinLength": "Note must be at least 10 characters",
+      "noteMaxLength": "Note cannot exceed 400 characters"
     }
   },
   "Lawyers": {

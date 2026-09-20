@@ -142,7 +142,7 @@ export default async function CaseDetails({
         </div>
 
         <SheetFooter className="border-t border-gray-100 flex-row">
-          <SendCheckInMessage />
+          <SendCheckInMessage caseId={caseItem.id} />
           <Button
             variant="outline"
             className="font-normal text-[13px] h-9 bg-white border border-red-200 text-red-600 hover:bg-red-50 px-4"

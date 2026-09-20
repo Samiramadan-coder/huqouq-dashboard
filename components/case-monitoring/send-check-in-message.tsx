@@ -3,13 +3,14 @@
 import {
   Dialog,
   DialogClose,
+  DialogTitle,
+  DialogHeader,
+  DialogTrigger,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
 import z from "zod";
+import { toast } from "sonner";
 import { T } from "@/types/shared";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
@@ -18,32 +19,54 @@ import NormalFormTextarea from "../form/textarea";
 import { MessageSquare, Send } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { sendCheckInMessage } from "@/lib/case-monitoring";
+import { useRef } from "react";
 
 const messageSchema = (t: T) =>
   z.object({
-    message: z
+    body: z
       .string()
       .min(10, t("messageMinLength"))
       .max(400, t("messageMaxLength")),
   });
 
-type MessageFormValues = z.infer<ReturnType<typeof messageSchema>>;
+export type MessageFormValues = z.infer<ReturnType<typeof messageSchema>>;
 
-export default function SendCheckInMessage() {
+export default function SendCheckInMessage({ caseId }: { caseId: number }) {
   const t = useTranslations("CaseMonitoring");
+  const closeBtn = useRef<HTMLButtonElement>(null);
+
   const {
     register,
-    formState: { errors, isSubmitting },
+    setError,
     handleSubmit,
+    formState: { errors, isSubmitting },
   } = useForm<MessageFormValues>({
     resolver: zodResolver(messageSchema(t)),
-    defaultValues: {
-      message: "",
-    },
+    defaultValues: { body: "" },
   });
 
   const onSubmit: SubmitHandler<MessageFormValues> = async (data) => {
-    console.log("Check-in Message Submitted:", data);
+    const result = await sendCheckInMessage(data, caseId);
+
+    if (result.success) {
+      toast.success(result.message);
+      closeBtn.current?.click();
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        toast.error(message);
+        setError(field as keyof MessageFormValues, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
   };
 
   return (
@@ -67,21 +90,22 @@ export default function SendCheckInMessage() {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={(e) => handleSubmit(onSubmit)(e)} className="space-y-4">
           <NormalFormTextarea<MessageFormValues>
             register={register}
-            name="message"
+            name="body"
             required
             errors={errors}
             textareaClassName="bg-white border-primary/10 placeholder:text-primary/40 placeholder:text-xs"
           />
 
           <div className="flex gap-4">
-            <DialogClose asChild>
+            <DialogClose asChild ref={closeBtn}>
               <Button variant="outline" type="button" className="flex-1 h-10">
                 {t("cancel")}
               </Button>
             </DialogClose>
+
             <Button
               className="flex-1 bg-secondary h-10"
               type="submit"

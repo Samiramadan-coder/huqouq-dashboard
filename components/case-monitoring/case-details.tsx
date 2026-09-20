@@ -6,14 +6,7 @@ import {
   SheetTrigger,
   SheetContent,
 } from "../ui/sheet";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import DetailsContent from "./details-content";
-import PartiesContent from "./parties-content";
-import { getTranslations } from "next-intl/server";
-import UrgencyBadge from "../reusable/urgency-label";
-import { CaseMonitoring } from "@/types/case-monitoring";
-import CaseStatusLabel from "../reusable/case-status-label";
+
 import {
   FileText,
   ArrowRight,
@@ -23,12 +16,21 @@ import {
   MessageSquare,
   Shield,
 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { StatusTimeline } from "./status-timeline";
+
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import ChatContent from "./chat-content";
+import DetailsContent from "./details-content";
+import PartiesContent from "./parties-content";
+import { getTranslations } from "next-intl/server";
+import { StatusTimeline } from "./status-timeline";
+import UrgencyBadge from "../reusable/urgency-label";
 import AdminNotesContent from "./admin-notes-content";
 import SendCheckInMessage from "./send-check-in-message";
+import { CaseMonitoring } from "@/types/case-monitoring";
+import CaseStatusLabel from "../reusable/case-status-label";
 import FlagForDisputeReview from "./flag-for-dispute-review";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 export default async function CaseDetails({
   caseItem,

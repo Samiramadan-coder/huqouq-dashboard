@@ -336,7 +336,7 @@ export default function CaseDetailsPreview({
         open={!!selectedDocument}
         onOpenChange={(open) => !open && setSelectedDocument(null)}
       >
-        <DialogContent className="sm:max-w-3xl">
+        <DialogContent className="sm:max-w-7xl">
           <DialogHeader>
             <DialogTitle>
               {selectedDocument?.name ?? t("documentPreview")}

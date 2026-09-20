@@ -22,13 +22,13 @@ import {
   Activity,
   MessageSquare,
   Shield,
-  Flag,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { StatusTimeline } from "./status-timeline";
 import ChatContent from "./chat-content";
 import AdminNotesContent from "./admin-notes-content";
 import SendCheckInMessage from "./send-check-in-message";
+import FlagForDisputeReview from "./flag-for-dispute-review";
 
 export default async function CaseDetails({
   caseItem,
@@ -143,13 +143,7 @@ export default async function CaseDetails({
 
         <SheetFooter className="border-t border-gray-100 flex-row">
           <SendCheckInMessage caseId={caseItem.id} />
-          <Button
-            variant="outline"
-            className="font-normal text-[13px] h-9 bg-white border border-red-200 text-red-600 hover:bg-red-50 px-4"
-          >
-            <Flag />
-            {t("flagForDisputeReview")}
-          </Button>
+          <FlagForDisputeReview caseId={caseItem.id} />
         </SheetFooter>
       </SheetContent>
     </Sheet>

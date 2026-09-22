@@ -24,6 +24,9 @@ import { getTranslations } from "next-intl/server";
 import { ProfileStatusLabel } from "./data-preview";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import LawyerProfileDetails from "./lawyer-profile-details";
+import ActivitySummary from "./lawyer-activity";
+import LawyerHistory from "./lawyer-history";
 
 export default async function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
   const t = await getTranslations("Lawyers");
@@ -93,11 +96,17 @@ export default async function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="profile" className="p-4"></TabsContent>
+            <TabsContent value="profile" className="p-4">
+              <LawyerProfileDetails lawyer={lawyer} />
+            </TabsContent>
 
-            <TabsContent value="activity" className="p-4"></TabsContent>
+            <TabsContent value="activity" className="p-4">
+              <ActivitySummary />
+            </TabsContent>
 
-            <TabsContent value="history" className="p-4"></TabsContent>
+            <TabsContent value="history" className="p-4">
+              <LawyerHistory />
+            </TabsContent>
           </Tabs>
         </div>
 

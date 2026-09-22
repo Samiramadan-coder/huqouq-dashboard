@@ -331,13 +331,60 @@
       "lawyers": "Lawyers"
     },
     "Profile": {
-      "tab": "Profile"
+      "tab": "Profile",
+      "ProfessionalInfo": "Professional Info",
+      "Headline": "Headline",
+      "Email": "Email",
+      "Phone": "Phone",
+      "Location": "Location",
+      "Experience": "Experience",
+      "ConsultationFee": "Consultation Fee",
+      "Joined": "Joined",
+      "YearsExperience": "{count, plural, one {# year} other {# years}}",
+      "FeePerHour": "AED {amount} / hour",
+      "SpecializationsServices": "Specializations & Services",
+      "PrimarySpecializations": "Primary Specializations",
+      "LanguagesBio": "Languages & Bio",
+      "Education": "Education",
+      "Present": "Present",
+      "YearRange": "{start} – {end}",
+      "BarCertificate": "Bar Certificate",
+      "BarNumber": "Bar Number",
+      "IssuingBody": "Issuing Body",
+      "ExpiryDate": "Expiry Date",
+      "Data": {
+        "Headline": "Corporate & Commercial Law Specialist",
+        "Location": "Dubai, UAE",
+        "MergersAcquisitions": "M&A",
+        "JointVentures": "Joint Ventures",
+        "CompanyIncorporation": "Company Incorporation",
+        "RegulatoryCompliance": "Regulatory Compliance",
+        "MastersDegree": "LLM, Corporate Law",
+        "BachelorsDegree": "LLB",
+        "UniversityOfLondon": "University of London",
+        "UAEUniversity": "UAE University",
+        "SeniorPartner": "Senior Partner",
+        "Associate": "Associate",
+        "AlTamimi": "Al Tamimi & Company",
+        "Hadef": "Hadef & Partners",
+        "IssuingBody": "Dubai Legal Affairs Department"
+      }
     },
     "Activity": {
-      "tab": "Activity"
+      "tab": "Activity",
+      "Title": "Activity Summary",
+      "CasesHandled": "Cases Handled",
+      "OffersSubmitted": "Offers Submitted",
+      "ResponseRate": "Response Rate",
+      "EmergencyAccepted": "Emergency Accepted",
+      "AverageRating": "Avg Rating",
+      "ActiveOffers": "Active Offers",
+      "Reviews": "Reviews",
+      "DisputesInvolved": "Disputes Involved"
     },
     "History": {
-      "tab": "History"
+      "tab": "History",
+      "Title": "Full History"
     }
   },
   "Clients": {

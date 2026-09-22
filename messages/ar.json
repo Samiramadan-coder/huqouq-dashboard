@@ -327,13 +327,60 @@
       "lawyers": "المحامين"
     },
     "Profile": {
-      "tab": "الملف الشخصي"
+      "tab": "الملف الشخصي",
+      "ProfessionalInfo": "المعلومات المهنية",
+      "Headline": "المسمى المهني",
+      "Email": "البريد الإلكتروني",
+      "Phone": "رقم الهاتف",
+      "Location": "الموقع",
+      "Experience": "الخبرة",
+      "ConsultationFee": "رسوم الاستشارة",
+      "Joined": "تاريخ الانضمام",
+      "YearsExperience": "{count, plural, zero {دون خبرة} one {سنة واحدة} two {سنتان} few {# سنوات} many {# سنة} other {# سنة}}",
+      "FeePerHour": "{amount} درهم / ساعة",
+      "SpecializationsServices": "التخصصات والخدمات",
+      "PrimarySpecializations": "التخصصات الرئيسية",
+      "LanguagesBio": "اللغات والنبذة التعريفية",
+      "Education": "المؤهلات العلمية",
+      "Present": "حتى الآن",
+      "YearRange": "{start} – {end}",
+      "BarCertificate": "شهادة القيد المهني",
+      "BarNumber": "رقم القيد",
+      "IssuingBody": "جهة الإصدار",
+      "ExpiryDate": "تاريخ الانتهاء",
+      "Data": {
+        "Headline": "متخصص في قانون الشركات والقانون التجاري",
+        "Location": "دبي، الإمارات العربية المتحدة",
+        "MergersAcquisitions": "الاندماج والاستحواذ",
+        "JointVentures": "المشروعات المشتركة",
+        "CompanyIncorporation": "تأسيس الشركات",
+        "RegulatoryCompliance": "الامتثال التنظيمي",
+        "MastersDegree": "ماجستير القانون، قانون الشركات",
+        "BachelorsDegree": "بكالوريوس القانون",
+        "UniversityOfLondon": "جامعة لندن",
+        "UAEUniversity": "جامعة الإمارات العربية المتحدة",
+        "SeniorPartner": "شريك أول",
+        "Associate": "محامٍ مشارك",
+        "AlTamimi": "التميمي ومشاركوه",
+        "Hadef": "حضرَم وشركاه",
+        "IssuingBody": "دائرة الشؤون القانونية لحكومة دبي"
+      }
     },
     "Activity": {
-      "tab": "النشاط"
+      "tab": "النشاط",
+      "Title": "ملخص النشاط",
+      "CasesHandled": "القضايا التي تم التعامل معها",
+      "OffersSubmitted": "العروض المقدمة",
+      "ResponseRate": "معدل الاستجابة",
+      "EmergencyAccepted": "طلبات الطوارئ المقبولة",
+      "AverageRating": "متوسط التقييم",
+      "ActiveOffers": "العروض النشطة",
+      "Reviews": "المراجعات",
+      "DisputesInvolved": "النزاعات المرتبط بها"
     },
     "History": {
-      "tab": "السجل"
+      "tab": "السجل",
+      "Title": "السجل الكامل"
     }
   },
   "Clients": {

@@ -400,7 +400,11 @@
     },
     "actions": {
       "export": "Export",
-      "view": "View"
+      "view": "View",
+      "suspend": "Suspend Account",
+      "verify": "Verify Manually",
+      "viewHistory": "View Full History",
+      "sendMessage": "Send Message"
     },
     "table": {
       "client": "Client",
@@ -415,6 +419,33 @@
     },
     "flaggedCount": "{count} Flagged",
     "clientsCount": "{count, plural, =0 {No clients} =1 {1 client} other {# clients}}",
-    "rejectedCount": "{count} rej."
+    "rejectedCount": "{count} rej.",
+    "Profile": {
+      "tab": "Profile",
+      "ContactInfo": "Contact & Account Info",
+      "Email": "Email",
+      "Phone": "Phone",
+      "Location": "Location",
+      "Nationality": "Nationality",
+      "Joined": "Joined",
+      "Status": "Status",
+      "LastActivity": "Last Activity"
+    },
+    "Activity": {
+      "tab": "Activity",
+      "Title": "Activity Summary",
+      "CasesHandled": "Cases Handled",
+      "OffersSubmitted": "Offers Submitted",
+      "ResponseRate": "Response Rate",
+      "EmergencyAccepted": "Emergency Accepted",
+      "AverageRating": "Avg Rating",
+      "ActiveOffers": "Active Offers",
+      "Reviews": "Reviews",
+      "DisputesInvolved": "Disputes Involved"
+    },
+    "History": {
+      "tab": "History",
+      "Title": "Full History"
+    }
   }
 }

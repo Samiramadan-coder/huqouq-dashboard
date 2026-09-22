@@ -7,6 +7,7 @@ import { Pagination } from "@/types/shared";
 import { formatDate } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Badge } from "../ui/badge";
+import ClientDetails from "./client-details";
 
 export default async function DataPreview({
   clients,
@@ -87,7 +88,9 @@ export default async function DataPreview({
               </span>
             </TableCell>
 
-            <TableCell className="px-5 py-3">-</TableCell>
+            <TableCell className="px-5 py-3">
+              <ClientDetails client={client} />
+            </TableCell>
           </TableRow>
         ))
       ) : (
@@ -105,7 +108,7 @@ export default async function DataPreview({
 }
 
 // Component to display the status of a client's profile with a badge.
-function ProfileStatusLabel({
+export function ProfileStatusLabel({
   status,
   statusLabel,
 }: {

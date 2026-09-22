@@ -396,7 +396,11 @@
     },
     "actions": {
       "export": "تصدير",
-      "view": "عرض"
+      "view": "عرض",
+      "suspend": "تعليق الحساب",
+      "verify": "التحقق يدويًا",
+      "viewHistory": "عرض السجل الكامل",
+      "sendMessage": "إرسال رسالة"
     },
     "table": {
       "client": "العميل",
@@ -409,6 +413,33 @@
     },
     "flaggedCount": "{count} مميز",
     "clientsCount": "{count, plural, =0 {لا يوجد عملاء} =1 {عميل واحد} other {# عملاء}}",
-    "rejectedCount": "{count} مرفوض"
+    "rejectedCount": "{count} مرفوض",
+    "Profile": {
+      "tab": "الملف الشخصي",
+      "ContactInfo": "معلومات الاتصال والحساب",
+      "Email": "البريد الإلكتروني",
+      "Phone": "الهاتف",
+      "Location": "الموقع",
+      "Nationality": "الجنسية",
+      "Joined": "انضم",
+      "Status": "الحالة",
+      "LastActivity": "آخر نشاط"
+    },
+    "Activity": {
+      "tab": "النشاط",
+      "Title": "ملخص النشاط",
+      "CasesHandled": "القضايا التي تم التعامل معها",
+      "OffersSubmitted": "العروض المقدمة",
+      "ResponseRate": "معدل الاستجابة",
+      "EmergencyAccepted": "طلبات الطوارئ المقبولة",
+      "AverageRating": "متوسط التقييم",
+      "ActiveOffers": "العروض النشطة",
+      "Reviews": "المراجعات",
+      "DisputesInvolved": "النزاعات المرتبط بها"
+    },
+    "History": {
+      "tab": "السجل",
+      "Title": "السجل الكامل"
+    }
   }
 }

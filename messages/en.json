@@ -312,7 +312,11 @@
     },
     "actions": {
       "export": "Export",
-      "view": "View"
+      "view": "View",
+      "suspend": "Suspend Account",
+      "verify": "Verify Manually",
+      "viewHistory": "View Full History",
+      "sendMessage": "Send Message"
     },
     "table": {
       "lawyer": "Lawyer",
@@ -325,6 +329,15 @@
       "noReviews": "No reviews",
       "noDataAvailable": "No data available",
       "lawyers": "Lawyers"
+    },
+    "Profile": {
+      "tab": "Profile"
+    },
+    "Activity": {
+      "tab": "Activity"
+    },
+    "History": {
+      "tab": "History"
     }
   },
   "Clients": {

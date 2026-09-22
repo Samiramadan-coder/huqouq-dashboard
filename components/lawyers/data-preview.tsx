@@ -8,6 +8,7 @@ import { Star } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import LawyerDetails from "./lawyer-details";
 
 export default async function DataPreview({
   lawyers,
@@ -106,7 +107,9 @@ export default async function DataPreview({
               </span>
             </TableCell>
 
-            <TableCell className="px-5 py-3">-</TableCell>
+            <TableCell className="px-5 py-3">
+              <LawyerDetails lawyer={lawyer} />
+            </TableCell>
           </TableRow>
         ))
       ) : (
@@ -123,7 +126,7 @@ export default async function DataPreview({
   );
 }
 
-function ProfileStatusLabel({
+export function ProfileStatusLabel({
   profileStatus,
   profileStatusLabel,
 }: {

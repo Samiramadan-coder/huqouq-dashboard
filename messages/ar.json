@@ -308,7 +308,11 @@
     },
     "actions": {
       "export": "تصدير",
-      "view": "عرض"
+      "view": "عرض",
+      "suspend": "تعليق الحساب",
+      "verify": "التحقق يدويًا",
+      "viewHistory": "عرض السجل الكامل",
+      "sendMessage": "إرسال رسالة"
     },
     "table": {
       "lawyer": "المحامي",
@@ -321,6 +325,15 @@
       "noReviews": "لا توجد مراجعات",
       "noDataAvailable": "لا تتوفر بيانات",
       "lawyers": "المحامين"
+    },
+    "Profile": {
+      "tab": "الملف الشخصي"
+    },
+    "Activity": {
+      "tab": "النشاط"
+    },
+    "History": {
+      "tab": "السجل"
     }
   },
   "Clients": {

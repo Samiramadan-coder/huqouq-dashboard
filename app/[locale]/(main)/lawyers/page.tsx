@@ -32,6 +32,8 @@ async function GetListOfLawyers({
     throw new Error("Failed to fetch lawyers data");
   }
 
+  console.log(data);
+
   return (
     <div className="p-4 sm:p-6 space-y-6">
       <Stats counts={data.counts} />

@@ -28,14 +28,18 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/lawyer-approvals",
     type: "link",
     icon: createElement(UserRoundCheck, { className: "h-4 w-4" }),
-    // count: 7,
   },
   {
     label: "sidebar.navigation.caseApprovals",
     href: "/case-approvals",
     type: "link",
     icon: createElement(Briefcase, { className: "h-4 w-4" }),
-    // count: 3,
+  },
+  {
+    label: "sidebar.navigation.legalServicesApprovals",
+    href: "/legal-services-approvals",
+    type: "link",
+    icon: createElement(Users, { className: "h-4 w-4" }),
   },
   {
     label: "sidebar.navigation.operations",

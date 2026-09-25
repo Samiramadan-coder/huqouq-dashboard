@@ -71,6 +71,7 @@
         "approvals": "Approvals",
         "lawyerApprovals": "Lawyer Approvals",
         "caseApprovals": "Case Approvals",
+        "legalServicesApprovals": "Legal Services Approvals",
         "operations": "Operations",
         "caseMonitoring": "Case Monitoring",
         "users": "Users",
@@ -446,6 +447,20 @@
     "History": {
       "tab": "History",
       "Title": "Full History"
+    }
+  },
+  "LegalServicesApprovals": {
+    "pending_review": "Pending Review",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "legal_services_approvals_stats_alert": " urgent request requires your attention. These have been marked urgent by the client and should be reviewed first.",
+    "Table": {
+      "serviceType": "Service Type",
+      "client": "Client",
+      "submitted": "Submitted",
+      "Description": "Description",
+      "status": "Status",
+      "noServices": "No Services found"
     }
   }
 }

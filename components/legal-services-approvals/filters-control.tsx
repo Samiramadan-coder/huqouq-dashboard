@@ -32,14 +32,16 @@ export function FilterControl({ counts }: { counts: Counts }) {
                 className="px-4 h-9 text-[13px] font-medium rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
               >
                 {t(statusKey)}{" "}
-                <span
-                  className={cn(
-                    "size-4.5 text-[11px] grid place-content-center font-bold rounded-full bg-amber-100 text-amber-700",
-                    isActive && "bg-white/20 text-white",
-                  )}
-                >
-                  {counts[statusKey]}
-                </span>
+                {statusKey === "pending_review" && (
+                  <span
+                    className={cn(
+                      "size-4.5 text-[11px] grid place-content-center font-bold rounded-full bg-amber-100 text-amber-700",
+                      isActive && "bg-white/20 text-white",
+                    )}
+                  >
+                    {counts[statusKey]}
+                  </span>
+                )}
               </TabsTrigger>
             );
           })}

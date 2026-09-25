@@ -473,7 +473,15 @@
       "reject": "Reject",
       "rejectTitle": "Reject Legal Service",
       "reasonMinLength": "Reason must be at least 10 characters",
-      "reasonMaxLength": "Reason cannot exceed 400 characters"
+      "reasonMaxLength": "Reason cannot exceed 400 characters",
+      "joined": "Joined",
+      "submitted": "Submitted",
+      "reviewChecklist": "Review Checklist",
+      "confirmed": "Confirmed",
+      "condition1": "Clear and specific service scope",
+      "condition2": "Appropriate legal content (not spam or abuse)",
+      "condition3": "Relevant documents attached (if required)",
+      "condition4": "No duplicate or fraudulent request"
     }
   }
 }

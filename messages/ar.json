@@ -442,5 +442,40 @@
       "tab": "السجل",
       "Title": "السجل الكامل"
     }
+  },
+  "LegalServicesApprovals": {
+    "pending_review": "قيد المراجعة",
+    "approved": "تمت الموافقة",
+    "rejected": "تم الرفض",
+    "view": "عرض",
+    "legal_services_approvals_stats_alert": " طلب عاجل يتطلب اهتمامك. تم تمييز هذه الطلبات كعاجلة من قبل العميل ويجب مراجعتها أولاً.",
+    "Table": {
+      "serviceType": "نوع الخدمة",
+      "client": "العميل",
+      "Description": "الوصف",
+      "urgency": "الأهمية",
+      "submitted": "تم الإرسال",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "noServices": "لا توجد خدمات"
+    },
+    "Details": {
+      "approve": "الموافقة",
+      "approveTitle": "الموافقة على الخدمة القانونية",
+      "approveDescription": "هل أنت متأكد أنك تريد الموافقة على هذه الخدمة القانونية؟",
+      "approve_failure": "فشل في الموافقة على الخدمة القانونية",
+      "reject": "رفض",
+      "rejectTitle": "رفض الخدمة القانونية",
+      "reasonMinLength": "يجب أن يكون السبب 10 أحرف على الأقل",
+      "reasonMaxLength": "لا يمكن أن يتجاوز السبب 400 حرف",
+      "joined": "انضم",
+      "submitted": "تم الإرسال",
+      "reviewChecklist": "قائمة مراجعة",
+      "confirmed": "تم التأكيد",
+      "condition1": "نطاق الخدمة واضح ومحدد",
+      "condition2": "محتوى قانوني مناسب (ليس سبام أو إساءة)",
+      "condition3": "المستندات ذات الصلة مرفقة (إذا لزم الأمر)",
+      "condition4": "لا يوجد طلب مكرر أو احتيالي"
+    }
   }
 }

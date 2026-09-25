@@ -1,20 +1,22 @@
-import ServiceDetails from "./service-details";
 import { Badge } from "../ui/badge";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
+import ServiceDetails from "./service-details";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../reusable/urgency-label";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { LegalService } from "@/types/legal-services-approvals";
+import { Counts, LegalService } from "@/types/legal-services-approvals";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function DataPreview({
   services,
   pagination,
+  tab,
 }: {
   services: LegalService[];
   pagination: Pagination;
+  tab: keyof Counts;
 }) {
   const t = await getTranslations("LegalServicesApprovals");
 
@@ -24,6 +26,7 @@ export default async function DataPreview({
     { label: t("Table.Description") },
     { label: t("Table.urgency") },
     { label: t("Table.submitted") },
+    ...(tab !== "pending_review" ? [{ label: t("Table.status") }] : []),
     { label: t("Table.actions") },
   ];
 
@@ -75,6 +78,21 @@ export default async function DataPreview({
                   {formatDate(service.submitted_at || "")}
                 </p>
               </TableCell>
+
+              {tab !== "pending_review" && (
+                <TableCell className="px-5 py-3">
+                  <Badge
+                    className={cn(
+                      "text-xs py-3 px-3 font-normal",
+                      service.status === "approved"
+                        ? "bg-green-100 text-green-800 border-green-200"
+                        : "bg-red-100 text-red-800 border-red-200",
+                    )}
+                  >
+                    {service.status_label}
+                  </Badge>
+                </TableCell>
+              )}
 
               <TableCell className="px-5 py-3">
                 <ServiceDetails legalService={service} />

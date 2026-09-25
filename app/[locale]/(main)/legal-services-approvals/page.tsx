@@ -9,7 +9,7 @@ import DataPreview from "@/components/legal-services-approvals/data-preview";
 
 type SearchParams = {
   page?: string;
-  tab?: string;
+  tab?: keyof Counts;
 };
 
 async function ListOfLegalServices({
@@ -38,13 +38,15 @@ async function ListOfLegalServices({
     throw new Error("Failed to fetch data");
   }
 
-  console.log("Legal Services Approvals Data:", data);
-
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <Stats counts={data.counts} urgentCount={data.urgent_count} />
       <FilterControl counts={data.counts} />
-      <DataPreview services={data.data} pagination={data.meta} />
+      <DataPreview
+        services={data.data}
+        pagination={data.meta}
+        tab={tab || "pending_review"}
+      />
     </div>
   );
 }

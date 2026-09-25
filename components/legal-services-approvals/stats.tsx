@@ -59,9 +59,9 @@ export default function Stats({
       </div>
 
       {urgentCount > 0 && (
-        <Alert className="bg-orange-50 border-orange-200 ">
+        <Alert className="bg-orange-50 border-orange-200 py-3">
           <TriangleAlert className="text-orange-800!" />
-          <AlertDescription className="text-orange-800">
+          <AlertDescription className="text-orange-800 text-[13px] font-semibold">
             {urgentCount} {t("legal_services_approvals_stats_alert")}
           </AlertDescription>
         </Alert>

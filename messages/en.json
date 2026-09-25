@@ -453,14 +453,27 @@
     "pending_review": "Pending Review",
     "approved": "Approved",
     "rejected": "Rejected",
+    "view": "View",
     "legal_services_approvals_stats_alert": " urgent request requires your attention. These have been marked urgent by the client and should be reviewed first.",
     "Table": {
       "serviceType": "Service Type",
       "client": "Client",
-      "submitted": "Submitted",
       "Description": "Description",
+      "urgency": "Urgency",
+      "submitted": "Submitted",
       "status": "Status",
+      "actions": "Actions",
       "noServices": "No Services found"
+    },
+    "Details": {
+      "approve": "Approve",
+      "approveTitle": "Approve Legal Service",
+      "approveDescription": "Are you sure you want to approve this legal service?",
+      "approve_failure": "Failed to approve legal service",
+      "reject": "Reject",
+      "rejectTitle": "Reject Legal Service",
+      "reasonMinLength": "Reason must be at least 10 characters",
+      "reasonMaxLength": "Reason cannot exceed 400 characters"
     }
   }
 }

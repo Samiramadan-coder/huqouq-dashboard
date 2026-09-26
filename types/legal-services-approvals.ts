@@ -14,6 +14,7 @@ type Client = {
 };
 
 export type LegalService = {
+  client: Client;
   description: string;
   emirate: string;
   id: number;
@@ -26,5 +27,17 @@ export type LegalService = {
   submitted_at: string;
   urgency: "urgent" | "very_urgent" | "standard";
   urgency_label: string;
-  client: Client;
+};
+
+type Attachment = {
+  download_url: string;
+  id: number;
+  mime_type: string;
+  name: string;
+  size_bytes: number;
+  uploaded_at: string;
+};
+
+export type LegalServiceDetails = LegalService & {
+  attachments: Attachment[];
 };

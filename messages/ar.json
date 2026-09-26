@@ -470,6 +470,8 @@
       "reasonMaxLength": "لا يمكن أن يتجاوز السبب 400 حرف",
       "joined": "انضم",
       "submitted": "تم الإرسال",
+      "client": "العميل",
+      "attachedDocuments": "المستندات المرفقة",
       "reviewChecklist": "قائمة مراجعة",
       "confirmed": "تم التأكيد",
       "condition1": "نطاق الخدمة واضح ومحدد",

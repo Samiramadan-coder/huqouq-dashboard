@@ -95,7 +95,7 @@ export default async function DataPreview({
               )}
 
               <TableCell className="px-5 py-3">
-                <ServiceDetails legalService={service} />
+                <ServiceDetails legalServiceId={service.id} />
               </TableCell>
             </TableRow>
           );

@@ -16,7 +16,6 @@ import { Spinner } from "../ui/spinner";
 import { useRef, useState } from "react";
 import { CircleCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
 import { approveLegalService } from "@/lib/legal-services-approvals";
 
 export default function ApproveLegalService({
@@ -26,22 +25,24 @@ export default function ApproveLegalService({
   serviceId: number;
   disabled: boolean;
 }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const t = useTranslations("LegalServicesApprovals.Details");
   const closeBtn = useRef<HTMLButtonElement | null>(null);
 
   async function handleApprove() {
     setLoading(true);
+
     const result = await approveLegalService(serviceId);
-    if (result.success) {
-      toast.success(t("approve_success"));
-      closeBtn.current?.click();
-      router.back();
-    } else {
-      toast.error(t("approve_failure"));
-    }
+
     setLoading(false);
+
+    if (result.success) {
+      toast.success(result.message);
+      closeBtn.current?.click();
+      return;
+    }
+
+    toast.error(t("approve_failure"));
   }
 
   return (

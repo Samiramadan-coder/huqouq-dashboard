@@ -142,13 +142,6 @@ function ServiceStatus({
         </Badge>
       );
 
-    // case "pending_review":
-    //   return (
-    //     <Badge className="text-xs py-3 px-3 font-normal bg-gray-100 text-gray-800 border-gray-200">
-    //       {status_label}
-    //     </Badge>
-    //   );
-
     default:
       return null;
   }

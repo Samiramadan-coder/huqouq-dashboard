@@ -148,10 +148,6 @@ export default function ServiceDetails({
                       token={token}
                       name={attach.name}
                     />
-
-                    {/* <Button size="icon" variant="ghost">
-                      <ExternalLink />
-                    </Button> */}
                   </div>
                 ))}
               </div>

@@ -9,12 +9,29 @@ import {
   SheetContent,
 } from "../ui/sheet";
 
-import { useEffect, useState } from "react";
+import {
+  LegalService,
+  LegalServiceDetails,
+} from "@/types/legal-services-approvals";
+
+import {
+  ArrowRight,
+  Calendar,
+  FileText,
+  LoaderPinwheel,
+  MapPin,
+  ShieldAlert,
+  User,
+} from "lucide-react";
+
 import { Card } from "../ui/card";
+import { http } from "@/lib/http";
 import { Badge } from "../ui/badge";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import DownloadFile from "./download-file";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn, formatDate } from "@/lib/utils";
 import { Field, FieldGroup } from "../ui/field";
@@ -22,27 +39,13 @@ import UrgencyBadge from "../reusable/urgency-label";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import RejectLegalService from "./reject-legal-service";
 import ApproveLegalService from "./approve-legal-service";
-import {
-  LegalService,
-  LegalServiceDetails,
-} from "@/types/legal-services-approvals";
-import {
-  ArrowRight,
-  Calendar,
-  ExternalLink,
-  FileText,
-  LoaderPinwheel,
-  MapPin,
-  ShieldAlert,
-  User,
-} from "lucide-react";
-import { http } from "@/lib/http";
-import { Link } from "@/i18n/navigation";
 
 export default function ServiceDetails({
   legalServiceId,
+  token,
 }: {
   legalServiceId: number;
+  token: string;
 }) {
   const [open, setOpen] = useState(false);
   const [legalService, setLegalService] = useState<LegalServiceDetails | null>(
@@ -140,11 +143,15 @@ export default function ServiceDetails({
                       </span>
                     </p>
 
-                    <Link href={attach.download_url}>
-                      <Button size="icon" variant="ghost">
-                        <ExternalLink />
-                      </Button>
-                    </Link>
+                    <DownloadFile
+                      id={attach.id}
+                      token={token}
+                      name={attach.name}
+                    />
+
+                    {/* <Button size="icon" variant="ghost">
+                      <ExternalLink />
+                    </Button> */}
                   </div>
                 ))}
               </div>

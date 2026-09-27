@@ -1,5 +1,6 @@
 import { Badge } from "../ui/badge";
-import { cn, formatDate } from "@/lib/utils";
+import { cookies } from "next/headers";
+import { formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
 import ServiceDetails from "./service-details";
 import { TableCell, TableRow } from "../ui/table";
@@ -18,6 +19,7 @@ export default async function DataPreview({
   pagination: Pagination;
   tab: keyof Counts;
 }) {
+  const cookiesStore = await cookies();
   const t = await getTranslations("LegalServicesApprovals");
 
   const columns = (): DataTableColumn[] => [
@@ -81,21 +83,18 @@ export default async function DataPreview({
 
               {tab !== "pending_review" && (
                 <TableCell className="px-5 py-3">
-                  <Badge
-                    className={cn(
-                      "text-xs py-3 px-3 font-normal",
-                      service.status === "approved"
-                        ? "bg-green-100 text-green-800 border-green-200"
-                        : "bg-red-100 text-red-800 border-red-200",
-                    )}
-                  >
-                    {service.status_label}
-                  </Badge>
+                  <ServiceStatus
+                    status={service.status}
+                    status_label={service.status_label}
+                  />
                 </TableCell>
               )}
 
               <TableCell className="px-5 py-3">
-                <ServiceDetails legalServiceId={service.id} />
+                <ServiceDetails
+                  legalServiceId={service.id}
+                  token={cookiesStore.get("token")?.value || ""}
+                />
               </TableCell>
             </TableRow>
           );
@@ -112,4 +111,45 @@ export default async function DataPreview({
       )}
     </DataTable>
   );
+}
+
+function ServiceStatus({
+  status,
+  status_label,
+}: {
+  status: LegalService["status"];
+  status_label: string;
+}) {
+  switch (status) {
+    case "approved":
+      return (
+        <Badge className="text-xs py-3 px-3 font-normal bg-green-100 text-green-800 border-green-200">
+          {status_label}
+        </Badge>
+      );
+
+    case "in_progress":
+      return (
+        <Badge className="text-xs py-3 px-3 font-normal bg-yellow-100 text-yellow-800 border-yellow-200">
+          {status_label}
+        </Badge>
+      );
+
+    case "rejected":
+      return (
+        <Badge className="text-xs py-3 px-3 font-normal bg-red-100 text-red-800 border-red-200">
+          {status_label}
+        </Badge>
+      );
+
+    // case "pending_review":
+    //   return (
+    //     <Badge className="text-xs py-3 px-3 font-normal bg-gray-100 text-gray-800 border-gray-200">
+    //       {status_label}
+    //     </Badge>
+    //   );
+
+    default:
+      return null;
+  }
 }

@@ -22,7 +22,7 @@ export type LegalService = {
   reviewed_at: string | null;
   service_type: string;
   service_type_label: string;
-  status: "pending_review" | "approved" | "rejected";
+  status: "pending_review" | "approved" | "rejected" | "in_progress";
   status_label: string;
   submitted_at: string;
   urgency: "urgent" | "very_urgent" | "standard";

@@ -1,11 +1,18 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import type { HistoryItem } from "@/types/clients";
 
-export default function ClientHistory({ className }: { className?: string }) {
+export default function ClientHistory({
+  history,
+  className,
+}: {
+  history: HistoryItem[];
+  className?: string;
+}) {
   const t = useTranslations("Clients.History");
 
   return (
@@ -15,7 +22,7 @@ export default function ClientHistory({ className }: { className?: string }) {
       </h2>
 
       <div className="space-y-2">
-        {Array.from({ length: 3 }).map((_, index) => (
+        {history.map((item, index) => (
           <Card
             key={index}
             className="gap-0 rounded-2xl ring-0! border border-gray-200 bg-gray-50/80 py-0 shadow-none"
@@ -24,22 +31,19 @@ export default function ClientHistory({ className }: { className?: string }) {
               <Badge
                 variant="outline"
                 className={cn(
-                  "mt-0.5 shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-bold uppercase",
-                  true
-                    ? "border-blue-200 bg-blue-50 text-blue-700"
-                    : "border-secondary/15 bg-secondary/8 text-secondary",
+                  "mt-0.5 shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-bold uppercase border-blue-200 bg-blue-50 text-blue-700",
                 )}
               >
-                test
+                {item.type}
               </Badge>
 
               <div className="min-w-0 flex-1">
                 <h3 className="text-[13px] font-semibold leading-5 text-gray-800">
-                  test
+                  {item.title}
                 </h3>
 
                 <p className="mt-0.5 text-[11px] leading-4 text-gray-500">
-                  test
+                  {item.detail}
                 </p>
               </div>
 
@@ -47,17 +51,19 @@ export default function ClientHistory({ className }: { className?: string }) {
                 <p
                   className={cn(
                     "text-[11px] font-semibold leading-5",
-                    true ? "text-gray-400" : "text-green-600",
+                    item.status === "active"
+                      ? "text-green-600"
+                      : "text-gray-400",
                   )}
                 >
-                  test
+                  {item.status_label}
                 </p>
 
                 <time
-                  dateTime="2026-06-20"
+                  dateTime={item.at}
                   className="block text-[10px] leading-4 text-gray-400"
                 >
-                  test
+                  {formatDate(item.at)}
                 </time>
               </div>
             </CardContent>

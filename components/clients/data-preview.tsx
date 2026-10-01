@@ -1,13 +1,12 @@
-import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
-
+import { Badge } from "../ui/badge";
+import { formatDate } from "@/lib/utils";
 import { Client } from "@/types/clients";
 import { Pagination } from "@/types/shared";
-import { formatDate } from "@/lib/utils";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Badge } from "../ui/badge";
 import ClientDetails from "./client-details";
+import { TableCell, TableRow } from "../ui/table";
+import { getTranslations } from "next-intl/server";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function DataPreview({
   clients,
@@ -89,7 +88,7 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <ClientDetails client={client} />
+              <ClientDetails clientId={client.id} />
             </TableCell>
           </TableRow>
         ))

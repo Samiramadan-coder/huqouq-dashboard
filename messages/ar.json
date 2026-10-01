@@ -397,7 +397,9 @@
     },
     "filters": {
       "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني أو الموقع...",
-      "allClients": "جميع العملاء"
+      "allClients": "جميع العملاء",
+      "activeClients": "العملاء النشطون",
+      "inactiveClients": "العملاء غير النشطين"
     },
     "actions": {
       "export": "تصدير",
@@ -433,14 +435,12 @@
     "Activity": {
       "tab": "النشاط",
       "Title": "ملخص النشاط",
-      "CasesHandled": "القضايا التي تم التعامل معها",
-      "OffersSubmitted": "العروض المقدمة",
-      "ResponseRate": "معدل الاستجابة",
-      "EmergencyAccepted": "طلبات الطوارئ المقبولة",
-      "AverageRating": "متوسط التقييم",
-      "ActiveOffers": "العروض النشطة",
-      "Reviews": "المراجعات",
-      "DisputesInvolved": "النزاعات المرتبط بها"
+      "CasesPosted": "القضايا المنشورة",
+      "CasesHired": "القضايا المستأجرة",
+      "CasesRejected": "القضايا المرفوضة",
+      "DisputedCases": "القضايا المتنازع عليها",
+      "RejectionRate": "معدل الرفض",
+      "ReviewsGiven": "المراجعات المقدمة"
     },
     "History": {
       "tab": "السجل",

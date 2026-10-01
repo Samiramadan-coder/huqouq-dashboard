@@ -25,3 +25,22 @@ export type Client = {
   status: "active" | "inactive";
   status_label: string;
 };
+
+export type Activity = {
+  cases_hired: number;
+  cases_posted: number;
+  cases_rejected: number;
+  disputes_involved: number;
+  rejection_rate: number;
+  reviews_given: number;
+};
+
+export type HistoryItem = {
+  type: string;
+  at: string;
+  detail: string;
+  status: string;
+  status_label: string;
+  title: string;
+  amount: number;
+};

@@ -401,7 +401,9 @@
     },
     "filters": {
       "searchPlaceholder": "Search by name, email or location...",
-      "allClients": "All Clients"
+      "allClients": "All Clients",
+      "activeClients": "Active Clients",
+      "inactiveClients": "Inactive Clients"
     },
     "actions": {
       "export": "Export",
@@ -439,14 +441,12 @@
     "Activity": {
       "tab": "Activity",
       "Title": "Activity Summary",
-      "CasesHandled": "Cases Handled",
-      "OffersSubmitted": "Offers Submitted",
-      "ResponseRate": "Response Rate",
-      "EmergencyAccepted": "Emergency Accepted",
-      "AverageRating": "Avg Rating",
-      "ActiveOffers": "Active Offers",
-      "Reviews": "Reviews",
-      "DisputesInvolved": "Disputes Involved"
+      "CasesPosted": "Cases Posted",
+      "CasesHired": "Cases Hired",
+      "CasesRejected": "Cases Rejected",
+      "DisputedCases": "Disputed Cases",
+      "RejectionRate": "Rejection Rate",
+      "ReviewsGiven": "Reviews Given"
     },
     "History": {
       "tab": "History",

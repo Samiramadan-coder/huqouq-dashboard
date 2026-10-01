@@ -9,6 +9,8 @@ import { LoaderPinwheel } from "lucide-react";
 
 type SearchParams = {
   page?: string;
+  q?: string;
+  status?: string;
 };
 
 async function GetListOfClients({
@@ -16,7 +18,7 @@ async function GetListOfClients({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { page } = await searchParams;
+  const { page, q, status } = await searchParams;
 
   const { data, ok } = await http.get<{
     counts: Counts;
@@ -25,6 +27,8 @@ async function GetListOfClients({
   }>("/api/admin/clients", {
     params: {
       page: page ?? "1",
+      q: q ?? "",
+      status: status ?? "",
     },
   });
 

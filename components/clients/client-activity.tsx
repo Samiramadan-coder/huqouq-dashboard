@@ -1,10 +1,7 @@
 "use client";
 
 import {
-  Zap,
   Star,
-  Clock3,
-  TrendingUp,
   CircleCheck,
   ChevronRight,
   TriangleAlert,
@@ -13,73 +10,57 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Progress } from "@/components/ui/progress";
+// import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
+import type { Activity as ClientActivity } from "@/types/clients";
 
-const activity = {
-  casesHandled: 47,
-  offersSubmitted: 63,
-  responseRate: 94,
-  emergencyAccepted: 8,
-  averageRating: 4.9,
-  activeOffers: 4,
-  reviews: 41,
-  disputesInvolved: 1,
-};
-
-const stats = [
-  {
-    key: "CasesHandled",
-    value: activity.casesHandled,
-    icon: BriefcaseBusiness,
-    color: "text-[#21466A]",
-  },
-  {
-    key: "OffersSubmitted",
-    value: activity.offersSubmitted,
-    icon: ChevronRight,
-    color: "text-[#C9A450]",
-  },
-  {
-    key: "ResponseRate",
-    value: `${activity.responseRate}%`,
-    icon: TrendingUp,
-    color: "text-[#00C653]",
-  },
-  {
-    key: "EmergencyAccepted",
-    value: activity.emergencyAccepted,
-    icon: Zap,
-    color: "text-[#FF4055]",
-  },
-  {
-    key: "AverageRating",
-    value: activity.averageRating,
-    icon: Star,
-    color: "fill-current text-[#C9A450]",
-  },
-  {
-    key: "ActiveOffers",
-    value: activity.activeOffers,
-    icon: Clock3,
-    color: "text-[#387CFF]",
-  },
-  {
-    key: "Reviews",
-    value: activity.reviews,
-    icon: CircleCheck,
-    color: "text-[#B044FF]",
-  },
-  {
-    key: "DisputesInvolved",
-    value: activity.disputesInvolved,
-    icon: TriangleAlert,
-    color: "text-[#FF762B]",
-  },
-] as const;
-
-export default function ActivitySummary({ className }: { className?: string }) {
+export default function ActivitySummary({
+  activity,
+  className,
+}: {
+  activity: ClientActivity;
+  className?: string;
+}) {
   const t = useTranslations("Clients.Activity");
+
+  const stats = [
+    {
+      key: "CasesPosted",
+      value: activity.cases_posted,
+      icon: BriefcaseBusiness,
+      color: "text-[#21466A]",
+    },
+    {
+      key: "CasesHired",
+      value: activity.cases_hired,
+      icon: ChevronRight,
+      color: "text-[#C9A450]",
+    },
+    {
+      key: "CasesRejected",
+      value: activity.cases_rejected,
+      icon: TriangleAlert,
+      color: "text-[#FF4055]",
+    },
+    {
+      key: "DisputedCases",
+      value: activity.disputes_involved,
+      icon: TriangleAlert,
+      color: "text-[#FF4055]",
+    },
+    {
+      key: "RejectionRate",
+      value: activity.rejection_rate,
+      icon: CircleCheck,
+      color: "text-[#FF4055]",
+    },
+    {
+      key: "ReviewsGiven",
+      value: activity.reviews_given,
+      icon: Star,
+      color: "text-[#C9A450]",
+    },
+  ] as const;
 
   return (
     <section className={cn("w-full space-y-3 text-start", className)}>
@@ -112,7 +93,7 @@ export default function ActivitySummary({ className }: { className?: string }) {
         ))}
       </div>
 
-      <Card className="mt-5 gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none">
+      {/* <Card className="mt-5 gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none">
         <CardContent className="space-y-2 px-4 py-3">
           <div className="flex items-center justify-between gap-3 text-xs">
             <span className="font-medium text-gray-600">
@@ -130,7 +111,7 @@ export default function ActivitySummary({ className }: { className?: string }) {
             className="h-2 bg-gray-200 [&>div]:rounded-full [&>div]:bg-green-600"
           />
         </CardContent>
-      </Card>
+      </Card> */}
     </section>
   );
 }

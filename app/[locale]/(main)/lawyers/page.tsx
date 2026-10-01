@@ -9,6 +9,9 @@ import DataPreview from "@/components/lawyers/data-preview";
 
 type SearchParams = {
   page?: string;
+  q?: string;
+  status?: string;
+  specialization?: string;
 };
 
 async function GetListOfLawyers({
@@ -16,7 +19,7 @@ async function GetListOfLawyers({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { page } = await searchParams;
+  const { page, q, status, specialization } = await searchParams;
 
   const { data, ok } = await http.get<{
     counts: Counts;
@@ -25,14 +28,15 @@ async function GetListOfLawyers({
   }>("/api/admin/lawyers", {
     params: {
       page: page ?? "1",
+      q: q ?? "",
+      status: status ?? "",
+      specialization: specialization ?? "",
     },
   });
 
   if (!ok) {
     throw new Error("Failed to fetch lawyers data");
   }
-
-  console.log(data);
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
@@ -56,7 +60,7 @@ export default async function Page({
         </div>
       }
     >
-      <GetListOfLawyers searchParams={searchParams} />;
+      <GetListOfLawyers searchParams={searchParams} />
     </Suspense>
   );
 }

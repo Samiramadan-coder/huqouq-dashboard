@@ -309,7 +309,11 @@
     "filters": {
       "searchPlaceholder": "Search by name, email or specialization...",
       "allStatus": "All Status",
-      "allSpecializations": "All Specializations"
+      "allSpecializations": "All Specializations",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "incomplete": "Incomplete"
     },
     "actions": {
       "export": "Export",

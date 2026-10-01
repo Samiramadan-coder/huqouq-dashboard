@@ -108,7 +108,7 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <LawyerDetails lawyer={lawyer} />
+              <LawyerDetails lawyerId={lawyer.id} />
             </TableCell>
           </TableRow>
         ))

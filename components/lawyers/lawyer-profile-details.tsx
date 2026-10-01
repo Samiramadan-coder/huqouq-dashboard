@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Award,
   BriefcaseBusiness,
   CalendarDays,
   Globe,
@@ -10,12 +9,12 @@ import {
 } from "lucide-react";
 
 import { Lawyer } from "@/types/lawyers";
+import { useTranslations } from "next-intl";
 import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Fragment, type ReactNode } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
-import { useFormatter, useTranslations } from "next-intl";
 
 function ProfileSection({
   title,
@@ -53,7 +52,6 @@ function InfoRow({ label, children }: { label: string; children: ReactNode }) {
 
 export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("Lawyers.Profile");
-  const format = useFormatter();
 
   return (
     <div className={cn("w-full space-y-6 text-start")}>
@@ -87,13 +85,9 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
           </InfoRow>
 
           <InfoRow label={t("Experience")}>
-            {/* {t("YearsExperience", { count: "NotAvailable" })} */}
-            NotAvailable
-          </InfoRow>
-
-          <InfoRow label={t("ConsultationFee")}>
-            {/* {t("FeePerHour", { amount: "NotAvailable" })} */}
-            NotAvailable
+            {t("YearsExperience", {
+              count: lawyer.profile.years_of_experience,
+            })}
           </InfoRow>
 
           <InfoRow label={t("Joined")}>
@@ -132,7 +126,7 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
         </ProfileSection>
       )}
 
-      {/* <ProfileSection title={t("LanguagesBio")}>
+      <ProfileSection title={t("LanguagesBio")}>
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <Globe
@@ -140,7 +134,7 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
               className="size-3.5 shrink-0 text-slate-400"
             />
 
-            {lawyer.languages.map((language) => (
+            {lawyer.profile.languages.map((language) => (
               <Badge
                 key={language}
                 variant="secondary"
@@ -152,13 +146,13 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
           </div>
 
           <p className="text-[13px] leading-relaxed text-slate-600">
-            {lawyer.bio}
+            {lawyer.profile.bio}
           </p>
         </div>
-      </ProfileSection> */}
+      </ProfileSection>
 
-      {/* <ProfileSection title={t("Education")}>
-        {lawyer.education.map((education, index) => (
+      <ProfileSection title={t("Education")}>
+        {lawyer.profile.education.map((education, index) => (
           <Fragment key={education.id}>
             {index > 0 && <Separator className="my-3 bg-slate-100" />}
 
@@ -170,22 +164,20 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
 
               <div className="min-w-0 space-y-0.5">
                 <h3 className="text-[13px] font-semibold text-slate-800">
-                  {t(`Data.${education.degree}`)}
+                  {education.degree}
                 </h3>
 
                 <p className="text-[11px] leading-5 text-slate-500">
-                  {t(`Data.${education.institution}`)}
-                  {" · "}
-                  {education.year}
+                  {education.description}
                 </p>
               </div>
             </div>
           </Fragment>
         ))}
-      </ProfileSection> */}
+      </ProfileSection>
 
-      {/* <ProfileSection title={t("Experience")}>
-        {lawyer.experience.map((experience, index) => (
+      <ProfileSection title={t("Experience")}>
+        {lawyer.profile.experience.map((experience, index) => (
           <Fragment key={experience.id}>
             {index > 0 && <Separator className="my-3 bg-slate-100" />}
 
@@ -197,47 +189,35 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
 
               <div className="min-w-0 space-y-0.5">
                 <h3 className="text-[13px] font-semibold text-slate-800">
-                  {t(`Data.${experience.role}`)}
+                  {experience.title}
                 </h3>
 
                 <p className="text-[11px] leading-5 text-slate-500">
-                  {t(`Data.${experience.company}`)}
+                  {experience.organization}
                   {" · "}
                   {t("YearRange", {
-                    start: String(experience.startYear),
+                    start: String(experience.start_year),
                     end:
-                      experience.endYear === null
+                      experience.end_year === null
                         ? t("Present")
-                        : String(experience.endYear),
+                        : String(experience.end_year),
                   })}
                 </p>
               </div>
             </div>
           </Fragment>
         ))}
-      </ProfileSection> */}
+      </ProfileSection>
 
-      {/* <ProfileSection title={t("BarCertificate")}>
+      <ProfileSection title={t("BarCertificate")}>
         <dl className="divide-y divide-slate-100/60">
           <InfoRow label={t("BarNumber")}>
             <bdi dir="ltr" className="font-mono text-xs">
-              {lawyer.barNumber}
+              {lawyer.profile.bar_number}
             </bdi>
           </InfoRow>
-
-          <InfoRow label={t("IssuingBody")}>{t("Data.IssuingBody")}</InfoRow>
-
-          <InfoRow label={t("ExpiryDate")}>
-            <span className="inline-flex items-center gap-1.5">
-              <Award
-                aria-hidden="true"
-                className="size-3 shrink-0 text-[#C29A44]"
-              />
-              {formatDate(lawyer.certificateExpiry)}
-            </span>
-          </InfoRow>
         </dl>
-      </ProfileSection> */}
+      </ProfileSection>
     </div>
   );
 }

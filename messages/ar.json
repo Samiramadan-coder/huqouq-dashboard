@@ -305,7 +305,11 @@
     "filters": {
       "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني أو التخصص...",
       "allStatus": "جميع الحالات",
-      "allSpecializations": "جميع التخصصات"
+      "allSpecializations": "جميع التخصصات",
+      "approved": "معتمد",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوض",
+      "incomplete": "غير مكتمل"
     },
     "actions": {
       "export": "تصدير",

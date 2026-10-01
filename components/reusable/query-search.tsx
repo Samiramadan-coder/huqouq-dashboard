@@ -8,9 +8,13 @@ import { Search } from "lucide-react";
 export default function QuerySearch({
   placeholder,
   className,
+  value,
+  onChange,
 }: {
   placeholder: string;
   className?: string;
+  value: string;
+  onChange: (value: string) => void;
 }) {
   return (
     <InputGroup
@@ -19,6 +23,8 @@ export default function QuerySearch({
       <InputGroupInput
         placeholder={placeholder}
         className="placeholder:text-gray-400 placeholder:text-[13px]"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
       <InputGroupAddon>
         <Search className="size-4 text-gray-400" />

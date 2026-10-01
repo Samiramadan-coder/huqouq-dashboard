@@ -9,6 +9,7 @@ export type Education = {
   graduation_month: number;
   graduation_year: number;
   university: string;
+  id: number;
 };
 
 export type Experience = {
@@ -22,6 +23,7 @@ export type Experience = {
   start_month: number;
   start_year: number;
   title: string;
+  id: number;
 };
 
 export type ItemKey =

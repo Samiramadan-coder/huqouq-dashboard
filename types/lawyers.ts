@@ -1,3 +1,5 @@
+import { LawyerProfile } from "./lawyer-approvals";
+
 export type Counts = {
   approved: number;
   incomplete: number;
@@ -31,4 +33,25 @@ export type Lawyer = {
   specializations: { id: number; name: string }[];
   status: string;
   status_label: string;
+  profile: LawyerProfile;
+};
+
+export type Activity = {
+  active_cases: number;
+  active_offers: number;
+  cases_handled: number;
+  disputes_involved: number;
+  offers_submitted: number;
+  rating: number;
+  reviews_count: number;
+};
+
+export type HistoryItem = {
+  type: "case" | "offer";
+  at: string;
+  detail: string;
+  status: string;
+  status_label: string;
+  title: string;
+  amount: number;
 };

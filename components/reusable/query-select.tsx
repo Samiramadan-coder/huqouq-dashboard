@@ -11,6 +11,8 @@ export default function QuerySelect({
   placeholder,
   className,
   options,
+  value,
+  onChange,
 }: {
   placeholder: string;
   className?: string;
@@ -18,11 +20,14 @@ export default function QuerySelect({
     value: string;
     label: string;
   }[];
+  value: string;
+  onChange: (value: string) => void;
 }) {
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger
         className={`
+          text-[13px]
           bg-white 
           min-h-9! 
           border-gray-200 

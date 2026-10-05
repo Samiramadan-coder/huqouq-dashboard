@@ -116,3 +116,7 @@ export const formatChatDate = (date: Date | null) => {
     ...(isSameYear && { year: "numeric" }),
   });
 };
+
+export async function getAppUrl(requestUrl: string) {
+  return process.env.APP_URL || new URL(requestUrl).origin;
+}

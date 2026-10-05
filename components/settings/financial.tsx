@@ -1,20 +1,26 @@
 "use client";
 
 import {
+  LegalServicesFee,
   FinancialSettings,
+  FinancialSettingsMeta,
+  legalServicesFeeSchema,
   AgreementConfirmationFee,
   agreementConfirmationFeeSchema,
-  FinancialSettingsMeta,
-  PlatformFee,
-  legalServicesFeeSchema,
 } from "@/types/settings";
 
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Info, Save } from "lucide-react";
+import { useTranslations } from "next-intl";
 import NormalFormInput from "../form/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import {
+  updateAgreementConfirmationFee,
+  updateLegalServicesFee,
+} from "@/lib/settings";
+import { toast } from "sonner";
 
 export default function Financial({
   data,
@@ -26,11 +32,12 @@ export default function Financial({
   return (
     <div className="space-y-4">
       <AgreementConfirmationFeeSettings data={data} meta={meta} />
-      <PlatformFeeSettings data={data} meta={meta} />
+      <LegalServicesFeeSettings data={data} meta={meta} />
     </div>
   );
 }
 
+// AgreementConfirmationFeeSettings component handles the configuration of the agreement confirmation fee settings.
 function AgreementConfirmationFeeSettings({
   data,
   meta,
@@ -45,6 +52,7 @@ function AgreementConfirmationFeeSettings({
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<AgreementConfirmationFee>({
     resolver: zodResolver(agreementConfirmationFeeSchema(meta.max, meta.min)),
@@ -59,8 +67,30 @@ function AgreementConfirmationFeeSettings({
     name: "agreement_confirmation_fee_percentage",
   });
 
-  const onSubmit: SubmitHandler<AgreementConfirmationFee> = (formData) => {
-    console.log(formData);
+  const onSubmit: SubmitHandler<AgreementConfirmationFee> = async (
+    formData,
+  ) => {
+    const result = await updateAgreementConfirmationFee(
+      formData.agreement_confirmation_fee_percentage,
+    );
+
+    if (result.success) {
+      toast.success(result.message);
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        toast.error(message);
+        setError(field as keyof AgreementConfirmationFee, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
   };
 
   return (
@@ -121,16 +151,19 @@ function AgreementConfirmationFeeSettings({
           <FixedButton
             onClick={() => setValue("agreement_confirmation_fee_percentage", 2)}
             percentage={2}
+            isActive={agreementConfirmationFee === 2}
           />
 
           <FixedButton
             onClick={() => setValue("agreement_confirmation_fee_percentage", 3)}
             percentage={3}
+            isActive={agreementConfirmationFee === 3}
           />
 
           <FixedButton
             onClick={() => setValue("agreement_confirmation_fee_percentage", 5)}
             percentage={5}
+            isActive={agreementConfirmationFee === 5}
           />
 
           <FixedButton
@@ -138,6 +171,7 @@ function AgreementConfirmationFeeSettings({
               setValue("agreement_confirmation_fee_percentage", 7.5)
             }
             percentage={7.5}
+            isActive={agreementConfirmationFee === 7.5}
           />
 
           <FixedButton
@@ -145,6 +179,7 @@ function AgreementConfirmationFeeSettings({
               setValue("agreement_confirmation_fee_percentage", 10)
             }
             percentage={10}
+            isActive={agreementConfirmationFee === 10}
           />
 
           <Button
@@ -173,7 +208,8 @@ function AgreementConfirmationFeeSettings({
   );
 }
 
-function PlatformFeeSettings({
+// PlatformFeeSettings component handles the configuration of the platform fee settings.
+function LegalServicesFeeSettings({
   data,
   meta,
 }: {
@@ -187,8 +223,9 @@ function PlatformFeeSettings({
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
-  } = useForm<PlatformFee>({
+  } = useForm<LegalServicesFee>({
     resolver: zodResolver(legalServicesFeeSchema(meta.max, meta.min)),
     defaultValues: {
       legal_services_fee_percentage: data.legal_services_fee_percentage,
@@ -200,8 +237,28 @@ function PlatformFeeSettings({
     name: "legal_services_fee_percentage",
   });
 
-  const onSubmit: SubmitHandler<PlatformFee> = (formData) => {
-    console.log(formData);
+  const onSubmit: SubmitHandler<LegalServicesFee> = async (formData) => {
+    const result = await updateLegalServicesFee(
+      formData.legal_services_fee_percentage,
+    );
+
+    if (result.success) {
+      toast.success(result.message);
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        if (!message) return;
+        toast.error(message);
+        setError(field as keyof LegalServicesFee, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
   };
 
   return (
@@ -260,28 +317,27 @@ function PlatformFeeSettings({
           </Button>
 
           <FixedButton
-            onClick={() => setValue("legal_services_fee_percentage", 0)}
-            percentage={0}
-          />
-
-          <FixedButton
             onClick={() => setValue("legal_services_fee_percentage", 5)}
             percentage={5}
+            isActive={legalServicesFee === 5}
           />
 
           <FixedButton
             onClick={() => setValue("legal_services_fee_percentage", 10)}
             percentage={10}
+            isActive={legalServicesFee === 10}
           />
 
           <FixedButton
             onClick={() => setValue("legal_services_fee_percentage", 15)}
             percentage={15}
+            isActive={legalServicesFee === 15}
           />
 
           <FixedButton
             onClick={() => setValue("legal_services_fee_percentage", 20)}
             percentage={20}
+            isActive={legalServicesFee === 20}
           />
 
           <Button
@@ -294,9 +350,12 @@ function PlatformFeeSettings({
           </Button>
         </form>
 
-        <div className="mt-4 p-3 rounded-lg bg-blue-50/60 border border-blue-100 flex items-center gap-2">
-          <Info className="text-blue-400 shrink-0 size-4" aria-hidden="true" />
-          <p className="text-[12px] text-blue-700">
+        <div className="mt-4 p-3 rounded-lg bg-purple-50/60 border border-purple-100 flex items-center gap-2">
+          <Info
+            className="text-purple-400 shrink-0 size-4"
+            aria-hidden="true"
+          />
+          <p className="text-[12px] text-purple-800">
             {t("exampleLegalServicesFee", {
               legalServicesFee: legalServicesFee || 0,
               platformFee: ((legalServicesFee || 0) * 5000) / 100,
@@ -315,17 +374,23 @@ function PlatformFeeSettings({
   );
 }
 
+// FixedButton component represents a button with a fixed percentage value for the legal services fee.
 function FixedButton({
   onClick,
   percentage,
+  isActive,
 }: {
   onClick?: () => void;
   percentage: number;
+  isActive?: boolean;
 }) {
   return (
     <Button
       type="button"
-      className="w-12 text-xs bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
+      className={cn(
+        "w-12 text-xs bg-transparent text-gray-700 border-gray-200 hover:bg-primary hover:text-white",
+        isActive && "bg-primary text-white",
+      )}
       onClick={onClick}
     >
       {percentage}%

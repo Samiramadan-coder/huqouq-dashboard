@@ -14,7 +14,9 @@ export const legalServicesFeeSchema = (max: number, min: number) =>
     legal_services_fee_percentage: z.number().min(min).max(max),
   });
 
-export type PlatformFee = z.infer<ReturnType<typeof legalServicesFeeSchema>>;
+export type LegalServicesFee = z.infer<
+  ReturnType<typeof legalServicesFeeSchema>
+>;
 
 export type FinancialSettings = {
   agreement_confirmation_fee_percentage: number;

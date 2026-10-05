@@ -34,9 +34,13 @@ type NormalFormInputProps<T extends FieldValues> = {
   prefix?: ReactNode;
   suffix?: ReactNode;
   description?: ReactNode;
+  min?: number;
+  max?: number;
+  step?: number;
 };
 
 export default function NormalFormInput<T extends FieldValues>({
+  step,
   name,
   label,
   placeholder,
@@ -50,7 +54,9 @@ export default function NormalFormInput<T extends FieldValues>({
   prefix,
   suffix,
   description,
-}: NormalFormInputProps<T>) {
+  min,
+  max,
+}: NormalFormInputProps<T> & { min?: number; max?: number; step?: number }) {
   const error = get(errors, name);
 
   const inputRegister =
@@ -100,6 +106,9 @@ export default function NormalFormInput<T extends FieldValues>({
                 placeholder={placeholder}
                 aria-invalid={!!error}
                 disabled={disabled}
+                min={min}
+                max={max}
+                step={step}
                 className={cn(
                   "h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none",
                   "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -121,6 +130,9 @@ export default function NormalFormInput<T extends FieldValues>({
               placeholder={placeholder}
               aria-invalid={!!error}
               disabled={disabled}
+              min={min}
+              max={max}
+              step={step}
               className={cn("h-10 border-border bg-background", inputClassName)}
             />
           )}

@@ -76,7 +76,9 @@
         "caseMonitoring": "Case Monitoring",
         "users": "Users",
         "lawyers": "Lawyers",
-        "client": "Clients"
+        "client": "Clients",
+        "settingsLabel": "Settings",
+        "settings": "Settings"
       }
     }
   },
@@ -489,5 +491,14 @@
       "condition3": "Relevant documents attached (if required)",
       "condition4": "No duplicate or fraudulent request"
     }
+  },
+  "Settings": {
+    "agreementConfirmFee": "Agreement Confirmation Fee",
+    "save": "Save",
+    "exampleAgreementConfirmFee": "Example: {agreementConfirmationFee}% of AED 2,000 = AED {feePercentageOf200AED} platform fee charged to the client.",
+    "agreementHint": "This percentage is charged to the client when they confirm a case agreement. It is calculated from the agreed lawyer fees.",
+    "legalServicesFee": "Legal Services Fee",
+    "exampleLegalServicesFee": "Example: {legalServicesFee}% of AED 5,000 = AED {platformFee} platform fee · Lawyer receives AED {lawyerReceives}. This rate is used in fee calculations shown to the client at payment, in the lawyer's earnings, and in the Platform Revenue breakdown.",
+    "legalServicesFeeHint": "Huqouq deducts this % from each Legal Service payment before transferring the remainder to the lawyer. Example: 10% of AED 5,000 = AED 500 platform fee, AED 4,500 to lawyer."
   }
 }

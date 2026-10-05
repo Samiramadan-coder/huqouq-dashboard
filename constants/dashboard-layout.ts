@@ -3,6 +3,7 @@ import {
   Briefcase,
   LayoutGrid,
   MonitorCheck,
+  Settings,
   UserRoundCheck,
   Users,
 } from "lucide-react";
@@ -66,5 +67,15 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/clients",
     type: "link",
     icon: createElement(Users, { className: "h-4 w-4" }),
+  },
+  {
+    label: "sidebar.navigation.settingsLabel",
+    type: "label",
+  },
+  {
+    label: "sidebar.navigation.settings",
+    href: "/settings",
+    type: "link",
+    icon: createElement(Settings, { className: "h-4 w-4" }),
   },
 ];

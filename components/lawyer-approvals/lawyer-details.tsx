@@ -40,19 +40,20 @@ import { Badge } from "../ui/badge";
 import Experience from "./experience";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
-import { Link } from "@/i18n/navigation";
 import { useMemo, useState } from "react";
 import LanguagesBio from "./languages-bio";
 import { useTranslations } from "next-intl";
 import BarCertificates from "./bar-certificates";
 import NormalFormTextarea from "../form/textarea";
 import ProfessionalInfo from "./professional-info";
+import { Link, useRouter } from "@/i18n/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SpecializationServices from "./specialization-services";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
+  const router = useRouter();
   const t = useTranslations("LawyerApprovals");
   const [loadingReject, setLoadingReject] = useState(false);
   const [loadingApprove, setLoadingApprove] = useState(false);
@@ -65,6 +66,7 @@ export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
     setLoadingReject(false);
     if (result.success) {
       toast.success(t("profileRejected"));
+      router.push("/lawyer-approvals?status=rejected");
       return;
     }
     toast.error(t("profileRejectFailed"));
@@ -78,6 +80,7 @@ export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
     setLoadingApprove(false);
     if (result.success) {
       toast.success(t("profileApproved"));
+      router.push("/lawyer-approvals?status=approved");
       return;
     }
     toast.error(t("profileApproveFailed"));

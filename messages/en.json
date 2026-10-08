@@ -210,6 +210,7 @@
       "cancel": "Cancel",
       "reason_required": "Reason is required",
       "backToPending": "Back to Pending",
+      "checklistItemsRemaining": "Checklist items remaining: {count}",
       "files": "files",
       "rejectionReason": "Rejection Reason",
       "sentToClient": "Required — sent to client",

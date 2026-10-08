@@ -71,7 +71,7 @@ export default function CaseDetailsPreview({
 
     if (result.success) {
       toast.success(t("reject_success"));
-      router.back();
+      router.push("/case-approvals?status=rejected");
     } else {
       toast.error(t("reject_failure"));
     }
@@ -294,7 +294,9 @@ export default function CaseDetailsPreview({
             />
           ))}
           <span className="text-[12px] text-gray-400 hidden sm:block">
-            {4 - selectedConditions.length} checklist items remaining
+            {t("checklistItemsRemaining", {
+              count: 4 - selectedConditions.length,
+            })}
           </span>
         </div>
 

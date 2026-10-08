@@ -137,7 +137,7 @@ export default async function DataPreview({
       ) : (
         <TableRow>
           <TableCell
-            colSpan={5}
+            colSpan={7}
             className="text-center py-4 text-sm text-gray-500"
           >
             {t("Table.noApplications")}

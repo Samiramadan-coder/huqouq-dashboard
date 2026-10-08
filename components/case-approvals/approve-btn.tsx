@@ -39,7 +39,7 @@ export default function ApproveBtn({
     if (result.success) {
       toast.success(t("approve_success"));
       closeBtn.current?.click();
-      router.back();
+      router.push("/case-approvals?status=published");
     } else {
       toast.error(t("approve_failure"));
     }

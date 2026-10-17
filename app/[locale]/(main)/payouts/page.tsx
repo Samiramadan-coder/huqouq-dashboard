@@ -1,48 +1,43 @@
 import { http } from "@/lib/http";
-import { TriangleAlert } from "lucide-react";
-import type { Summary } from "@/types/payouts";
+import type { ByLawyerData, Summary } from "@/types/payouts";
 import Stats from "@/components/payouts/stats";
+import PageTitle from "@/components/payouts/page-title";
+import PayoutTabs from "@/components/payouts/payout-tabs";
+import ByLawyerDataPreview from "@/components/payouts/by-lawyer-data-preview";
+import PayoutDetailsMissing from "@/components/payouts/payout-details-missing";
+import AllTransactionsDataPreview from "@/components/payouts/all-transactions-data-preview";
 
-export default async function Page() {
-  const { data: allTransactions } = await http.get(
-    "/api/admin/payouts/transactions",
-  );
+type SearchParams = {
+  tab: "by-lawyer" | "all-transactions";
+};
 
-  const { data: lawyerTransactions } = await http.get<{
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { tab } = await searchParams;
+
+  const { data } = await http.get<{
     summary: Summary;
     payout_details_missing: boolean;
+    data: ByLawyerData[];
   }>("/api/admin/payouts");
 
-  console.log(lawyerTransactions);
+  console.log(data);
   return (
     <div className="p-4 sm:p-6 space-y-5">
-      <div>
-        <h1 className="text-[22px] font-bold text-primary tracking-tight">
-          Payouts
-        </h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">
-          Track lawyer earnings and process manual payouts for completed
-          consultations and emergency calls.
-        </p>
-      </div>
+      <PageTitle />
 
-      <Stats stats={lawyerTransactions.summary} />
+      <Stats stats={data.summary} />
 
-      {lawyerTransactions.payout_details_missing && (
-        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-5 py-4">
-          <TriangleAlert className="text-amber-600 mt-0.5 shrink-0" />
-          <div>
-            <p className="text-[13px] font-semibold text-amber-800">
-              Payout details missing
-            </p>
-            <p className="text-[12px] text-amber-700 mt-0.5">
-              One or more lawyers have funds ready for payout but have not
-              provided bank details. Contact them or check their profile to
-              resolve.
-            </p>
-          </div>
-        </div>
-      )}
+      <PayoutTabs />
+
+      {(!tab || tab === "by-lawyer") && <ByLawyerDataPreview data={data.data} />}
+
+      {tab === "all-transactions" && <AllTransactionsDataPreview />}
+
+      {data.payout_details_missing && <PayoutDetailsMissing />}
     </div>
   );
 }

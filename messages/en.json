@@ -512,6 +512,26 @@
       "paidThisMonth": "Paid This Month",
       "lawyersWithBalance": "Lawyers with Balance",
       "amount": "AED {value}"
+    },
+    "byLawyer": {
+      "lawyer": "Lawyer",
+      "pending": "Pending",
+      "readyForPayout": "Ready for Payout",
+      "lsPending": "LS Pending",
+      "lsReady": "LS Ready",
+      "totalPaid": "Total Paid",
+      "bankDetails": "Bank Details",
+      "action": "Action",
+      "legalSvc": "Legal Svc",
+      "view": "View",
+      "iban": "IBAN",
+      "accountName": "Account Name",
+      "close": "Close",
+      "processPayout": "Process Payout",
+      "payoutDetailsMissing": "Payout details missing",
+      "lawyers": "lawyers",
+      "noDataAvailable": "No data available",
+      "amount": "AED {value}"
     }
   }
 }

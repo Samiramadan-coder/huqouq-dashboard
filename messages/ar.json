@@ -512,6 +512,26 @@
       "paidThisMonth": "المدفوع هذا الشهر",
       "lawyersWithBalance": "محامون لديهم رصيد",
       "amount": "{value} درهم"
+    },
+    "byLawyer": {
+      "lawyer": "المحامي",
+      "pending": "معلق",
+      "readyForPayout": "جاهز للصرف",
+      "lsPending": "خدمات قانونية معلقة",
+      "lsReady": "خدمات قانونية جاهزة",
+      "totalPaid": "إجمالي المدفوع",
+      "bankDetails": "البيانات البنكية",
+      "action": "الإجراء",
+      "legalSvc": "خدمة قانونية",
+      "view": "عرض",
+      "iban": "الآيبان",
+      "accountName": "اسم الحساب",
+      "close": "إغلاق",
+      "processPayout": "تنفيذ الصرف",
+      "payoutDetailsMissing": "بيانات الصرف غير مكتملة",
+      "lawyers": "محامين",
+      "noDataAvailable": "لا توجد بيانات",
+      "amount": "{value} درهم"
     }
   }
 }

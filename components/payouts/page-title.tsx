@@ -1,13 +1,14 @@
-export default function PageTitle() {
+import { getTranslations } from "next-intl/server";
+
+export default async function PageTitle() {
+  const t = await getTranslations("Payouts");
+
   return (
     <div>
       <h1 className="text-[22px] font-bold text-primary tracking-tight">
-        Payouts
+        {t("title")}
       </h1>
-      <p className="text-[13px] text-gray-500 mt-0.5">
-        Track lawyer earnings and process manual payouts for completed
-        consultations and emergency calls.
-      </p>
+      <p className="text-[13px] text-gray-500 mt-0.5">{t("description")}</p>
     </div>
   );
 }

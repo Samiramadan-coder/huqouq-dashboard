@@ -2,28 +2,10 @@ import { getTranslations } from "next-intl/server";
 import { Download, TriangleAlert } from "lucide-react";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import BankDetails from "./bank-details";
+import LawyerAvatar from "./lawyer-avatar";
 import type { ByLawyerData } from "@/types/payouts";
-
-const avatarColors = [
-  "bg-purple-500",
-  "bg-secondary",
-  "bg-orange-600",
-  "bg-primary",
-  "bg-emerald-700",
-];
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-}
 
 export default async function ByLawyerDataPreview({
   data,
@@ -53,16 +35,7 @@ export default async function ByLawyerDataPreview({
           <TableRow key={row.lawyer.id} className="border-gray-100">
             <TableCell className="px-5 py-3">
               <div className="flex items-center gap-3">
-                <Avatar className="size-8">
-                  {row.lawyer.photo_url && (
-                    <AvatarImage src={row.lawyer.photo_url} />
-                  )}
-                  <AvatarFallback
-                    className={`text-white text-[12px] font-semibold ${avatarColors[row.lawyer.id % avatarColors.length]}`}
-                  >
-                    {getInitials(row.lawyer.name)}
-                  </AvatarFallback>
-                </Avatar>
+                <LawyerAvatar lawyer={row.lawyer} />
                 <span className="text-[13px] text-gray-800">
                   {row.lawyer.name}
                 </span>

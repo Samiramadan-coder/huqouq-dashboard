@@ -506,6 +506,16 @@
     "financialSettings": "Financial Settings"
   },
   "Payouts": {
+    "title": "Payouts",
+    "description": "Track lawyer earnings and process manual payouts for completed consultations and emergency calls.",
+    "tabs": {
+      "byLawyer": "By Lawyer",
+      "allTransactions": "All Transactions"
+    },
+    "payoutDetailsMissing": {
+      "title": "Payout details missing",
+      "description": "One or more lawyers have funds ready for payout but have not provided bank details. Contact them or check their profile to resolve."
+    },
     "stats": {
       "totalPending": "Total Pending",
       "readyForPayout": "Ready for Payout",
@@ -532,6 +542,19 @@
       "lawyers": "lawyers",
       "noDataAvailable": "No data available",
       "amount": "AED {value}"
+    },
+    "allTransactions": {
+      "date": "Date",
+      "lawyer": "Lawyer",
+      "type": "Type",
+      "client": "Client",
+      "amount": "Amount",
+      "status": "Status",
+      "becomesReadyOn": "Becomes Ready On",
+      "paidDate": "Paid Date",
+      "transactions": "transactions",
+      "noDataAvailable": "No data available",
+      "amountValue": "AED {value}"
     }
   }
 }

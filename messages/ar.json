@@ -506,6 +506,16 @@
     "financialSettings": "الإعدادات المالية"
   },
   "Payouts": {
+    "title": "المدفوعات",
+    "description": "تتبع أرباح المحامين وقم بتنفيذ المدفوعات اليدوية للاستشارات والمكالمات الطارئة المكتملة.",
+    "tabs": {
+      "byLawyer": "حسب المحامي",
+      "allTransactions": "جميع المعاملات"
+    },
+    "payoutDetailsMissing": {
+      "title": "بيانات الصرف غير مكتملة",
+      "description": "لدى محامٍ واحد أو أكثر مبالغ جاهزة للصرف لكنهم لم يقدموا بياناتهم البنكية. تواصل معهم أو راجع ملفاتهم الشخصية لحل المشكلة."
+    },
     "stats": {
       "totalPending": "إجمالي المعلق",
       "readyForPayout": "جاهز للصرف",
@@ -532,6 +542,19 @@
       "lawyers": "محامين",
       "noDataAvailable": "لا توجد بيانات",
       "amount": "{value} درهم"
+    },
+    "allTransactions": {
+      "date": "التاريخ",
+      "lawyer": "المحامي",
+      "type": "النوع",
+      "client": "العميل",
+      "amount": "المبلغ",
+      "status": "الحالة",
+      "becomesReadyOn": "يصبح جاهزاً في",
+      "paidDate": "تاريخ الدفع",
+      "transactions": "معاملات",
+      "noDataAvailable": "لا توجد بيانات",
+      "amountValue": "{value} درهم"
     }
   }
 }

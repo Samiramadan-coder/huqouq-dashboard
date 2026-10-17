@@ -78,7 +78,9 @@
         "lawyers": "Lawyers",
         "client": "Clients",
         "settingsLabel": "Settings",
-        "settings": "Settings"
+        "settings": "Settings",
+        "finance": "Finance",
+        "payouts": "Payouts"
       }
     }
   },
@@ -502,5 +504,14 @@
     "exampleLegalServicesFee": "Example: {legalServicesFee}% of AED 5,000 = AED {platformFee} platform fee · Lawyer receives AED {lawyerReceives}. This rate is used in fee calculations shown to the client at payment, in the lawyer's earnings, and in the Platform Revenue breakdown.",
     "legalServicesFeeHint": "Huqouq deducts this % from each Legal Service payment before transferring the remainder to the lawyer. Example: 10% of AED 5,000 = AED 500 platform fee, AED 4,500 to lawyer.",
     "financialSettings": "Financial Settings"
+  },
+  "Payouts": {
+    "stats": {
+      "totalPending": "Total Pending",
+      "readyForPayout": "Ready for Payout",
+      "paidThisMonth": "Paid This Month",
+      "lawyersWithBalance": "Lawyers with Balance",
+      "amount": "AED {value}"
+    }
   }
 }

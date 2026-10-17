@@ -1,5 +1,6 @@
 import { createElement } from "react";
 import {
+  Banknote,
   Briefcase,
   LayoutGrid,
   MonitorCheck,
@@ -67,6 +68,16 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/clients",
     type: "link",
     icon: createElement(Users, { className: "h-4 w-4" }),
+  },
+  {
+    label: "sidebar.navigation.finance",
+    type: "label",
+  },
+  {
+    label: "sidebar.navigation.payouts",
+    href: "/payouts",
+    type: "link",
+    icon: createElement(Banknote, { className: "h-4 w-4" }),
   },
   {
     label: "sidebar.navigation.settingsLabel",

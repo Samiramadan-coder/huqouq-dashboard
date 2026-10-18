@@ -541,7 +541,8 @@
       "payoutDetailsMissing": "بيانات الصرف غير مكتملة",
       "lawyers": "محامين",
       "noDataAvailable": "لا توجد بيانات",
-      "amount": "{value} درهم"
+      "amount": "{value} درهم",
+      "notProvided": "غير متوفر"
     },
     "allTransactions": {
       "date": "التاريخ",
@@ -555,6 +556,18 @@
       "transactions": "معاملات",
       "noDataAvailable": "لا توجد بيانات",
       "amountValue": "{value} درهم"
+    },
+    "confirmPayout": {
+      "title": "تأكيد الصرف",
+      "markAsPaidTo": "تحديد كمدفوع إلى",
+      "amount": "المبلغ",
+      "payoutAccount": "حساب الصرف (الآيبان)",
+      "paymentReference": "مرجع الدفع / ملاحظة",
+      "paymentReferencePlaceholder": "مثال: رقم التحويل البنكي، رقم الشيك...",
+      "notice": "سيؤدي هذا الإجراء إلى نقل جميع معاملات <strong>جاهز للصرف</strong> الخاصة بـ <strong>{name}</strong> إلى <strong>مدفوع</strong> وإشعاره بذلك.",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد الصرف",
+      "payoutFailed": "فشل الصرف"
     }
   }
 }

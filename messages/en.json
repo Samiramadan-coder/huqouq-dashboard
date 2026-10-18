@@ -541,7 +541,8 @@
       "payoutDetailsMissing": "Payout details missing",
       "lawyers": "lawyers",
       "noDataAvailable": "No data available",
-      "amount": "AED {value}"
+      "amount": "AED {value}",
+      "notProvided": "Not Provided"
     },
     "allTransactions": {
       "date": "Date",
@@ -555,6 +556,18 @@
       "transactions": "transactions",
       "noDataAvailable": "No data available",
       "amountValue": "AED {value}"
+    },
+    "confirmPayout": {
+      "title": "Confirm Payout",
+      "markAsPaidTo": "Mark as paid to",
+      "amount": "Amount",
+      "payoutAccount": "Payout account (IBAN)",
+      "paymentReference": "Payment reference / note",
+      "paymentReferencePlaceholder": "e.g. Bank transfer ID, cheque number...",
+      "notice": "This action will move all <strong>Ready for Payout</strong> transactions for <strong>{name}</strong> to <strong>Paid</strong> and notify them.",
+      "cancel": "Cancel",
+      "confirm": "Confirm Payout",
+      "payoutFailed": "Payout failed"
     }
   }
 }

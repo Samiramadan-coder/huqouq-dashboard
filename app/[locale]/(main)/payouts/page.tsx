@@ -1,14 +1,14 @@
 import { http } from "@/lib/http";
-import type { ByLawyerData, Summary } from "@/types/payouts";
 import Stats from "@/components/payouts/stats";
 import PageTitle from "@/components/payouts/page-title";
 import PayoutTabs from "@/components/payouts/payout-tabs";
+import type { ByLawyerData, Summary, TabType } from "@/types/payouts";
 import ByLawyerDataPreview from "@/components/payouts/by-lawyer-data-preview";
 import PayoutDetailsMissing from "@/components/payouts/payout-details-missing";
 import AllTransactionsDataPreview from "@/components/payouts/all-transactions-data-preview";
 
 type SearchParams = {
-  tab: "by-lawyer" | "all-transactions";
+  tab: TabType;
 };
 
 export default async function Page({
@@ -22,7 +22,9 @@ export default async function Page({
     summary: Summary;
     payout_details_missing: boolean;
     data: ByLawyerData[];
-  }>("/api/admin/payouts");
+  }>("/api/admin/payouts", {
+    next: { tags: ["by-lawyer-data"] },
+  });
 
   console.log(data);
   return (
@@ -33,9 +35,11 @@ export default async function Page({
 
       <PayoutTabs />
 
-      {(!tab || tab === "by-lawyer") && <ByLawyerDataPreview data={data.data} />}
-
-      {tab === "all-transactions" && <AllTransactionsDataPreview />}
+      {tab === "all-transactions" ? (
+        <AllTransactionsDataPreview />
+      ) : (
+        <ByLawyerDataPreview data={data.data} />
+      )}
 
       {data.payout_details_missing && <PayoutDetailsMissing />}
     </div>

@@ -1,3 +1,5 @@
+export type TabType = "by-lawyer" | "all-transactions";
+
 export type Summary = {
   currency: string;
   lawyers_with_balance: number;

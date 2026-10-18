@@ -1,11 +1,11 @@
-import { getTranslations } from "next-intl/server";
-import { Download, TriangleAlert } from "lucide-react";
-import { TableCell, TableRow } from "../ui/table";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { Button } from "../ui/button";
 import BankDetails from "./bank-details";
 import LawyerAvatar from "./lawyer-avatar";
+import { TriangleAlert } from "lucide-react";
+import ConfirmPayout from "./confirm-payout";
+import { TableCell, TableRow } from "../ui/table";
+import { getTranslations } from "next-intl/server";
 import type { ByLawyerData } from "@/types/payouts";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function ByLawyerDataPreview({
   data,
@@ -29,7 +29,11 @@ export default async function ByLawyerDataPreview({
   ];
 
   return (
-    <DataTable columns={columns} countUnit={t("lawyers")} rowsCount={data.length}>
+    <DataTable
+      columns={columns}
+      countUnit={t("lawyers")}
+      rowsCount={data.length}
+    >
       {data.length > 0 ? (
         data.map((row) => (
           <TableRow key={row.lawyer.id} className="border-gray-100">
@@ -57,21 +61,21 @@ export default async function ByLawyerDataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <LegalServiceAmount
-                value={row.ls_pending}
-                label={t("legalSvc")}
-                formatted={formatAmount(row.ls_pending)}
-                className="text-orange-600"
-              />
+              <div>
+                <p className="text-[10px] text-gray-400">{t("legalSvc")}</p>
+                <p className="text-[13px] text-orange-600">
+                  {formatAmount(row.ls_pending)}
+                </p>
+              </div>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <LegalServiceAmount
-                value={row.ls_ready}
-                label={t("legalSvc")}
-                formatted={formatAmount(row.ls_ready)}
-                className="font-semibold text-secondary"
-              />
+              <div>
+                <p className="text-[10px] text-gray-400">{t("legalSvc")}</p>
+                <p className="text-[13px] font-semibold text-secondary">
+                  {formatAmount(row.ls_ready)}
+                </p>
+              </div>
             </TableCell>
 
             <TableCell className="px-5 py-3 text-[13px] text-gray-400">
@@ -82,19 +86,14 @@ export default async function ByLawyerDataPreview({
               {row.iban ? (
                 <BankDetails iban={row.iban} accountName={row.account_name} />
               ) : (
-                <span className="text-[13px] text-gray-300">—</span>
+                <span className="text-destructive text-xs font-semibold">
+                  {t("notProvided")}
+                </span>
               )}
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <Button
-                size="sm"
-                disabled={!row.can_process_payout}
-                className="bg-primary text-white text-[12px] font-semibold"
-              >
-                <Download className="size-3.5" />
-                {t("processPayout")}
-              </Button>
+              <ConfirmPayout byLawyerData={row} />
             </TableCell>
           </TableRow>
         ))
@@ -109,26 +108,5 @@ export default async function ByLawyerDataPreview({
         </TableRow>
       )}
     </DataTable>
-  );
-}
-
-function LegalServiceAmount({
-  value,
-  label,
-  formatted,
-  className,
-}: {
-  value: number;
-  label: string;
-  formatted: string;
-  className: string;
-}) {
-  if (!value) return <span className="text-[13px] text-gray-300">—</span>;
-
-  return (
-    <div>
-      <p className="text-[10px] text-gray-400">{label}</p>
-      <p className={`text-[13px] ${className}`}>{formatted}</p>
-    </div>
   );
 }

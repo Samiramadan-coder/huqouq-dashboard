@@ -4,10 +4,8 @@ import {
   Counts,
   UrgencyCounts,
 } from "@/types/case-approvals";
-import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
-import { LoaderPinwheel } from "lucide-react";
 import DataPreview from "@/components/case-approvals/data-preview";
 import { FilterControl } from "@/components/case-approvals/filter-control";
 
@@ -19,10 +17,14 @@ type SearchParams = {
   page?: string;
 };
 
-async function CasesList({ searchParams }: { searchParams: SearchParams }) {
-  const { page, q, specialization_id, status, urgency } = searchParams;
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { page, q, specialization_id, status, urgency } = await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: Case[];
     counts: Counts;
     urgency_counts: UrgencyCounts;
@@ -37,10 +39,6 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
     },
   });
 
-  if (!ok) {
-    throw new Error("Failed to fetch lawyer approvals");
-  }
-
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <FilterControl counts={data.counts} urgencyCounts={data.urgency_counts} />
@@ -51,23 +49,5 @@ async function CasesList({ searchParams }: { searchParams: SearchParams }) {
         tableStatus={status ?? "pending_review"}
       />
     </div>
-  );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  return (
-    <Suspense
-      fallback={
-        <div className="p-4">
-          <LoaderPinwheel className="animate-spin text-secondary" />
-        </div>
-      }
-    >
-      <CasesList searchParams={await searchParams} />
-    </Suspense>
   );
 }

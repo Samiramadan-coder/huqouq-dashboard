@@ -26,7 +26,6 @@ export default async function Page({
     next: { tags: ["by-lawyer-data"] },
   });
 
-  console.log(data);
   return (
     <div className="p-4 sm:p-6 space-y-5">
       <PageTitle />

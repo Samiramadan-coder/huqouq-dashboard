@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-import { LoaderPinwheel } from "lucide-react";
 import { http } from "@/lib/http";
 import { Counts, LegalService } from "@/types/legal-services-approvals";
 import { Pagination } from "@/types/shared";
@@ -12,14 +10,14 @@ type SearchParams = {
   tab?: keyof Counts;
 };
 
-async function ListOfLegalServices({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }) {
   const { page, tab } = await searchParams;
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     counts: Counts;
     meta: Pagination;
     urgent_count: number;
@@ -34,10 +32,6 @@ async function ListOfLegalServices({
     },
   });
 
-  if (!ok) {
-    throw new Error("Failed to fetch data");
-  }
-
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <Stats counts={data.counts} urgentCount={data.urgent_count} />
@@ -48,23 +42,5 @@ async function ListOfLegalServices({
         tab={tab || "pending_review"}
       />
     </div>
-  );
-}
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  return (
-    <Suspense
-      fallback={
-        <div className="p-4">
-          <LoaderPinwheel className="animate-spin text-secondary" />
-        </div>
-      }
-    >
-      <ListOfLegalServices searchParams={searchParams} />
-    </Suspense>
   );
 }

@@ -8,14 +8,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default async function Page() {
   const t = await getTranslations("Settings");
 
-  const { data, ok } = await http.get<{
+  const { data } = await http.get<{
     data: FinancialSettings;
     meta: FinancialSettingsMeta;
   }>("/api/admin/settings/financial");
-
-  if (!ok) {
-    throw new Error("Failed to fetch financial settings");
-  }
 
   return (
     <div className="p-4 sm:p-6">

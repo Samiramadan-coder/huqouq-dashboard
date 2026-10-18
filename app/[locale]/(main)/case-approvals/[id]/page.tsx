@@ -1,30 +1,25 @@
-import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
+import { ChevronLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { CaseDetails } from "@/types/case-approvals";
-import { ChevronLeft, LoaderPinwheel } from "lucide-react";
-import CaseDetailsPreview from "@/components/case-approvals/case-details-preview";
 import UrgencyBadge from "@/components/reusable/urgency-label";
+import CaseDetailsPreview from "@/components/case-approvals/case-details-preview";
 
 type Params = {
   id: string;
 };
 
-async function CaseDetailsInfo({ params }: { params: Params }) {
+export default async function Page({ params }: { params: Promise<Params> }) {
   const t = await getTranslations("CaseApprovals.Details");
-  const { id } = params;
+  const { id } = await params;
 
-  const { data, ok } = await http.get<{ data: CaseDetails }>(
+  const { data } = await http.get<{ data: CaseDetails }>(
     `/api/admin/case-approvals/${id}`,
     {
       next: { tags: [`case-approval-${id}`] },
     },
   );
-
-  if (!ok) {
-    throw new Error("Failed to fetch case approval details");
-  }
 
   return (
     <div>
@@ -50,19 +45,5 @@ async function CaseDetailsInfo({ params }: { params: Params }) {
         <CaseDetailsPreview caseDetails={data.data} />
       </div>
     </div>
-  );
-}
-
-export default async function Page({ params }: { params: Promise<Params> }) {
-  return (
-    <Suspense
-      fallback={
-        <div className="p-4">
-          <LoaderPinwheel className="animate-spin text-secondary" />
-        </div>
-      }
-    >
-      <CaseDetailsInfo params={await params} />
-    </Suspense>
   );
 }

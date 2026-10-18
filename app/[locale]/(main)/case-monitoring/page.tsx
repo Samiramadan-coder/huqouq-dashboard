@@ -1,14 +1,22 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import Stats from "@/components/case-monitoring/stats";
 import { CaseMonitoring, Counts } from "@/types/case-monitoring";
 import DataPreview from "@/components/case-monitoring/data-preview";
 import { FilterControl } from "@/components/case-monitoring/filters-control";
+import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   tab?: string;
   q?: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("caseMonitoring") };
+}
 
 export default async function Page({
   searchParams,

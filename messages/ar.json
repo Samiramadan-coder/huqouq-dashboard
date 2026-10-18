@@ -40,7 +40,8 @@
     "Review": "مراجعة",
     "To": "إلى",
     "From": "من",
-    "Of": "من"
+    "Of": "من",
+    "Loading": "جارٍ التحميل…"
   },
   "Auth": {
     "Login": {
@@ -569,5 +570,28 @@
       "confirm": "تأكيد الصرف",
       "payoutFailed": "فشل الصرف"
     }
+  },
+  "Errors": {
+    "title": "حدث خطأ ما",
+    "description": "تعذّر تحميل هذه الصفحة. يرجى المحاولة مرة أخرى، وإذا استمرت المشكلة فتواصل مع الدعم.",
+    "retry": "إعادة المحاولة",
+    "reference": "مرجع الخطأ: {digest}",
+    "notFoundTitle": "الصفحة غير موجودة",
+    "notFoundDescription": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "backToDashboard": "العودة إلى لوحة التحكم"
+  },
+  "Metadata": {
+    "login": "تسجيل الدخول",
+    "dashboard": "لوحة التحكم",
+    "lawyerApprovals": "موافقات المحامين",
+    "lawyerApprovalDetails": "طلب المحامي",
+    "caseApprovals": "موافقات القضايا",
+    "caseApprovalDetails": "تفاصيل القضية",
+    "legalServicesApprovals": "موافقات الخدمات القانونية",
+    "caseMonitoring": "مراقبة القضايا",
+    "lawyers": "المحامون",
+    "clients": "العملاء",
+    "payouts": "المدفوعات",
+    "settings": "الإعدادات"
   }
 }

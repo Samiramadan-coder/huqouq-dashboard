@@ -40,7 +40,8 @@
     "Review": "Review",
     "To": "To",
     "From": "From",
-    "Of": "Of"
+    "Of": "Of",
+    "Loading": "Loading…"
   },
   "Auth": {
     "Login": {
@@ -569,5 +570,28 @@
       "confirm": "Confirm Payout",
       "payoutFailed": "Payout failed"
     }
+  },
+  "Errors": {
+    "title": "Something went wrong",
+    "description": "We couldn't load this page. Please try again, and if the problem persists, contact support.",
+    "retry": "Try again",
+    "reference": "Error reference: {digest}",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
+    "backToDashboard": "Back to dashboard"
+  },
+  "Metadata": {
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "lawyerApprovals": "Lawyer Approvals",
+    "lawyerApprovalDetails": "Lawyer Application",
+    "caseApprovals": "Case Approvals",
+    "caseApprovalDetails": "Case Details",
+    "legalServicesApprovals": "Legal Services Approvals",
+    "caseMonitoring": "Case Monitoring",
+    "lawyers": "Lawyers",
+    "clients": "Clients",
+    "payouts": "Payouts",
+    "settings": "Settings"
   }
 }

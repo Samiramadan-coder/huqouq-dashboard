@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Case,
   CaseStatus,
@@ -8,6 +9,7 @@ import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import DataPreview from "@/components/case-approvals/data-preview";
 import { FilterControl } from "@/components/case-approvals/filter-control";
+import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   status?: CaseStatus;
@@ -16,6 +18,12 @@ type SearchParams = {
   urgency?: string;
   page?: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("caseApprovals") };
+}
 
 export default async function Page({
   searchParams,

@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Banknote } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Financial from "@/components/settings/financial";
 import { FinancialSettings, FinancialSettingsMeta } from "@/types/settings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("settings") };
+}
 
 export default async function Page() {
   const t = await getTranslations("Settings");

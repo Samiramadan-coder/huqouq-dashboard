@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import Stats from "@/components/payouts/stats";
 import PageTitle from "@/components/payouts/page-title";
@@ -6,10 +7,17 @@ import type { ByLawyerData, Summary, TabType } from "@/types/payouts";
 import ByLawyerDataPreview from "@/components/payouts/by-lawyer-data-preview";
 import PayoutDetailsMissing from "@/components/payouts/payout-details-missing";
 import AllTransactionsDataPreview from "@/components/payouts/all-transactions-data-preview";
+import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   tab: TabType;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("payouts") };
+}
 
 export default async function Page({
   searchParams,

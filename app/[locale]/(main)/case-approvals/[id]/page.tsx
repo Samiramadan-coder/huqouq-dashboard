@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
 import { ChevronLeft } from "lucide-react";
@@ -9,6 +10,12 @@ import CaseDetailsPreview from "@/components/case-approvals/case-details-preview
 type Params = {
   id: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("caseApprovalDetails") };
+}
 
 export default async function Page({ params }: { params: Promise<Params> }) {
   const t = await getTranslations("CaseApprovals.Details");

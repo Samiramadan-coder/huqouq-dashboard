@@ -1,14 +1,22 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Counts, LegalService } from "@/types/legal-services-approvals";
 import { Pagination } from "@/types/shared";
 import Stats from "@/components/legal-services-approvals/stats";
 import { FilterControl } from "@/components/legal-services-approvals/filters-control";
 import DataPreview from "@/components/legal-services-approvals/data-preview";
+import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   page?: string;
   tab?: keyof Counts;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("legalServicesApprovals") };
+}
 
 export default async function Page({
   searchParams,

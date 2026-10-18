@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import Stats from "@/components/lawyers/stats";
 import { Counts, Lawyer } from "@/types/lawyers";
 import Filters from "@/components/lawyers/filters";
 import DataPreview from "@/components/lawyers/data-preview";
+import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   page?: string;
@@ -11,6 +13,12 @@ type SearchParams = {
   status?: string;
   specialization?: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("lawyers") };
+}
 
 export default async function Page({
   searchParams,

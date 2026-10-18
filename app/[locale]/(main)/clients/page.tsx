@@ -1,15 +1,23 @@
+import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import Stats from "@/components/clients/stats";
 import { Counts, Client } from "@/types/clients";
 import Filters from "@/components/clients/filters";
 import DataPreview from "@/components/clients/data-preview";
+import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   page?: string;
   q?: string;
   status?: string;
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("clients") };
+}
 
 export default async function Page({
   searchParams,

@@ -23,6 +23,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     },
   });
 
+  console.log(data);
+
   return (
     <div>
       <LawyerDetails lawyer={data.user} />

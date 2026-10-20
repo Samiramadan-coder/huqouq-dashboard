@@ -133,10 +133,9 @@
     },
     "ProfessionalInfo": {
       "professionalHeadline": "العنوان المهني",
-      "phone": "رقم الهاتف",
-      "email": "البريد الإلكتروني",
-      "location": "الموقع",
-      "emirate": "الإمارة",
+      "academicDegree": "الدرجة الأكاديمية",
+      "barDegree": "درجة المحاماة",
+      "barNumber": "رقم الترخيص",
       "yearsOfExperience": "سنوات الخبرة",
       "consultationFee": "رسوم الاستشارة",
       "submissionDate": "تاريخ التقديم"

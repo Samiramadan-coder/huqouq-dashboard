@@ -24,30 +24,31 @@ export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
         <div>
           <p className="text-[15px] font-bold text-gray-900">{lawyer.name}</p>
           <p className="text-[11px] text-gray-400">
-            {lawyer.lawyer_profile.account_type}
+            {lawyer.lawyer_profile.account_type || "-"}
           </p>
         </div>
       </div>
 
       <div className="space-y-2">
         <div className="flex items-center">
-          <MainTitle className="w-50">{t("phone")}</MainTitle>
-          <p className="text-[13px] text-gray-700">{lawyer.phone}</p>
+          <MainTitle className="w-50">{t("academicDegree")}</MainTitle>
+          <p className="text-[13px] text-gray-700">
+            {lawyer.lawyer_profile.academic_degree_label}
+          </p>
         </div>
 
         <div className="flex items-center">
-          <MainTitle className="w-50">{t("email")}</MainTitle>
-          <p className="text-[13px] text-gray-700">{lawyer.email}</p>
+          <MainTitle className="w-50">{t("barDegree")}</MainTitle>
+          <p className="text-[13px] text-gray-700">
+            {lawyer.lawyer_profile.bar_degree_label}
+          </p>
         </div>
 
         <div className="flex items-center">
-          <MainTitle className="w-50">{t("location")}</MainTitle>
-          <p className="text-[13px] text-gray-700">{lawyer.country}</p>
-        </div>
-
-        <div className="flex items-center">
-          <MainTitle className="w-50">{t("emirate")}</MainTitle>
-          <p className="text-[13px] text-gray-700">{lawyer.city}</p>
+          <MainTitle className="w-50">{t("barNumber")}</MainTitle>
+          <p className="text-[13px] text-gray-700">
+            {lawyer.lawyer_profile.bar_number}
+          </p>
         </div>
 
         <div className="flex items-center">

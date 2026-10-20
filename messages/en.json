@@ -131,10 +131,10 @@
     },
     "ProfessionalInfo": {
       "professionalHeadline": "Professional Headline",
-      "phone": "Phone",
-      "email": "Email",
-      "location": "Location",
-      "emirate": "Emirate",
+      "academicDegree": "Academic Degree",
+      "barDegree": "Bar Degree",
+      "barNumber": "Bar Number",
+
       "yearsOfExperience": "Years of Experience",
       "consultationFee": "Consultation Fee",
       "submissionDate": "Submission Date"

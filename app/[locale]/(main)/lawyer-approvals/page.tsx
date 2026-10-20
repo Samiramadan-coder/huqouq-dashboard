@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
+import { getTranslations } from "next-intl/server";
 import { Counts, Lawyer } from "@/types/lawyer-approvals";
 import DataPreview from "@/components/lawyer-approvals/data-preview";
 import { FilterControl } from "@/components/lawyer-approvals/filter-control";
-import { getTranslations } from "next-intl/server";
 
 type SearchParams = {
   status?: keyof Counts;

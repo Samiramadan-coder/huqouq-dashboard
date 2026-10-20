@@ -41,6 +41,12 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
   const [activity, setActivity] = useState<ClientActivity | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState("profile");
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (isOpen) setTab("profile");
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -53,7 +59,7 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
           history: HistoryItem[];
         }>(`/api/admin/clients/${clientId}`);
 
-        console.log(data);
+        // console.log(data);
 
         setClient(data.data);
         setActivity(data.activity);
@@ -71,7 +77,7 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
   }, [clientId, open]);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>
         <Button variant="default" className=" rounded-sm text-xs">
           {t("actions.view")}
@@ -108,7 +114,7 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
             </SheetHeader>
 
             <div className="flex-1 overflow-auto">
-              <Tabs defaultValue="profile" className="gap-0">
+              <Tabs value={tab} onValueChange={setTab} className="gap-0">
                 <TabsList
                   variant="line"
                   className="sticky z-50 top-0 h-auto! border-b border-border bg-gray-50/50 w-full justify-start"
@@ -176,6 +182,7 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
 
             <Button
               variant="outline"
+              onClick={() => setTab("history")}
               className="bg-transparent text-[13px] h-10 flex-1 text-gray-600 border-gray-200 hover:bg-gray-100 hover:text-gray-600"
             >
               <History />

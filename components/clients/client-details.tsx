@@ -16,7 +16,6 @@ import {
   FileText,
   Activity,
   ArrowRight,
-  ShieldCheck,
   MessageSquare,
 } from "lucide-react";
 
@@ -54,11 +53,13 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
           history: HistoryItem[];
         }>(`/api/admin/clients/${clientId}`);
 
+        console.log(data);
+
         setClient(data.data);
         setActivity(data.activity);
         setHistory(data.history);
 
-        console.log(data);
+        // console.log(data);
         // const data = await response.json();
         // setLawyer(data);
       } catch (error) {
@@ -93,11 +94,13 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
                     <p className="text-gray-800 font-semibold text-[13px]">
                       {client.name}
                     </p>
-                    <p className="text-[11px] text-gray-400 truncate mt-1">
+                    <p className="text-[11px] text-gray-400 truncate mt-1 flex items-center gap-2">
                       <ProfileStatusLabel
                         status={client.status}
                         statusLabel={client.status_label}
                       />
+
+                      <span>{client.city}</span>
                     </p>
                   </div>
                 </div>
@@ -108,11 +111,11 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
               <Tabs defaultValue="profile" className="gap-0">
                 <TabsList
                   variant="line"
-                  className="sticky z-50 top-0 h-auto! border-b border-border bg-gray-50/50 w-full"
+                  className="sticky z-50 top-0 h-auto! border-b border-border bg-gray-50/50 w-full justify-start"
                 >
                   <TabsTrigger
                     value="profile"
-                    className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
+                    className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary flex-none px-4"
                   >
                     <FileText className="size-3 text-primary" />
                     {t("Profile.tab")}
@@ -120,7 +123,7 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
 
                   <TabsTrigger
                     value="activity"
-                    className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
+                    className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary flex-none px-4"
                   >
                     <User className="size-3 text-primary" />
                     {t("Activity.tab")}
@@ -128,7 +131,7 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
 
                   <TabsTrigger
                     value="history"
-                    className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary"
+                    className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary flex-none px-4"
                   >
                     <Activity className="size-3 text-primary" />
                     {t("History.tab")}
@@ -154,18 +157,10 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
         )}
 
         <SheetFooter className="border-t border-gray-100">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex gap-2">
             <Button
               variant="outline"
-              className="bg-transparent text-[13px] h-10"
-            >
-              <MessageSquare />
-              {t("actions.sendMessage")}
-            </Button>
-
-            <Button
-              variant="outline"
-              className="bg-transparent text-[13px] h-10 text-red-600 border-red-200 hover:bg-red-100 hover:text-red-600"
+              className="bg-transparent text-[13px] h-10 flex-1 text-red-600 border-red-200 hover:bg-red-100 hover:text-red-600"
             >
               <Ban />
               {t("actions.suspend")}
@@ -173,15 +168,15 @@ export default function ClientDetails({ clientId }: { clientId: number }) {
 
             <Button
               variant="outline"
-              className="text-[13px] h-10 text-secondary border-secondary/40 bg-secondary/8 hover:bg-secondary/10 hover:text-secondary"
+              className="bg-transparent text-[13px] h-10 flex-1"
             >
-              <ShieldCheck />
-              {t("actions.verify")}
+              <MessageSquare />
+              {t("actions.sendMessage")}
             </Button>
 
             <Button
               variant="outline"
-              className="bg-transparent text-[13px] h-10 text-gray-600 border-gray-200 hover:bg-gray-100 hover:text-gray-600"
+              className="bg-transparent text-[13px] h-10 flex-1 text-gray-600 border-gray-200 hover:bg-gray-100 hover:text-gray-600"
             >
               <History />
               {t("actions.viewHistory")}

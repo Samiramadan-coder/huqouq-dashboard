@@ -77,7 +77,9 @@ export default async function DataPreview({
               </span>
             </TableCell>
 
-            <TableCell className="px-5 py-3">-</TableCell>
+            <TableCell className="px-5 py-3">
+              {client.consultations_count}
+            </TableCell>
 
             <TableCell className="px-5 py-3">-</TableCell>
 

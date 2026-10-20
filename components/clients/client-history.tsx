@@ -3,8 +3,8 @@
 import { cn, formatDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import type { HistoryItem } from "@/types/clients";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function ClientHistory({
   history,
@@ -31,7 +31,11 @@ export default function ClientHistory({
               <Badge
                 variant="outline"
                 className={cn(
-                  "mt-0.5 shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-bold uppercase border-blue-200 bg-blue-50 text-blue-700",
+                  "mt-0.5 shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-bold uppercase",
+                  item.type === "case" &&
+                    "border-blue-200 bg-blue-50 text-blue-700",
+                  item.type === "consultation" &&
+                    "bg-secondary/20 text-secondary border-secondary/30",
                 )}
               >
                 {item.type}

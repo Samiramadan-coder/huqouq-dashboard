@@ -10,7 +10,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-// import { Progress } from "@/components/ui/progress";
+import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Activity as ClientActivity } from "@/types/clients";
 
@@ -47,6 +47,18 @@ export default function ActivitySummary({
       value: activity.disputes_involved,
       icon: TriangleAlert,
       color: "text-[#FF4055]",
+    },
+    {
+      key: "ConsultationsBooked",
+      value: activity.consultations_booked,
+      icon: ChevronRight,
+      color: "text-[#21466A]",
+    },
+    {
+      key: "ConsultationsCompleted",
+      value: activity.consultations_completed,
+      icon: CircleCheck,
+      color: "text-[#C9A450]",
     },
     {
       key: "RejectionRate",
@@ -93,25 +105,25 @@ export default function ActivitySummary({
         ))}
       </div>
 
-      {/* <Card className="mt-5 gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none">
+      <Card className="mt-5 gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none">
         <CardContent className="space-y-2 px-4 py-3">
           <div className="flex items-center justify-between gap-3 text-xs">
             <span className="font-medium text-gray-600">
-              {t("ResponseRate")}
+              {t("RejectionRate")}
             </span>
 
             <span className="font-bold text-green-600">
-              <bdi>{activity.responseRate}%</bdi>
+              <bdi>{activity.rejection_rate}%</bdi>
             </span>
           </div>
 
           <Progress
-            value={activity.responseRate}
-            aria-label={t("ResponseRate")}
+            value={activity.rejection_rate}
+            aria-label={t("RejectionRate")}
             className="h-2 bg-gray-200 [&>div]:rounded-full [&>div]:bg-green-600"
           />
         </CardContent>
-      </Card> */}
+      </Card>
     </section>
   );
 }

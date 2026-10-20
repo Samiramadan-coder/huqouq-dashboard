@@ -24,19 +24,22 @@ export type Client = {
   rejected_cases_count: number;
   status: "active" | "inactive";
   status_label: string;
+  consultations_count: number;
 };
 
 export type Activity = {
   cases_hired: number;
   cases_posted: number;
   cases_rejected: number;
+  consultations_booked: number;
+  consultations_completed: number;
   disputes_involved: number;
   rejection_rate: number;
   reviews_given: number;
 };
 
 export type HistoryItem = {
-  type: string;
+  type: "case" | "consultation";
   at: string;
   detail: string;
   status: string;

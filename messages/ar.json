@@ -452,7 +452,9 @@
       "CasesRejected": "القضايا المرفوضة",
       "DisputedCases": "القضايا المتنازع عليها",
       "RejectionRate": "معدل الرفض",
-      "ReviewsGiven": "المراجعات المقدمة"
+      "ReviewsGiven": "المراجعات المقدمة",
+      "ConsultationsBooked": "الاستشارات المحجوزة",
+      "ConsultationsCompleted": "الاستشارات المكتملة"
     },
     "History": {
       "tab": "السجل",

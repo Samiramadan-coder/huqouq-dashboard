@@ -452,7 +452,9 @@
       "CasesRejected": "Cases Rejected",
       "DisputedCases": "Disputed Cases",
       "RejectionRate": "Rejection Rate",
-      "ReviewsGiven": "Reviews Given"
+      "ReviewsGiven": "Reviews Given",
+      "ConsultationsBooked": "Consultations Booked",
+      "ConsultationsCompleted": "Consultations Completed"
     },
     "History": {
       "tab": "History",

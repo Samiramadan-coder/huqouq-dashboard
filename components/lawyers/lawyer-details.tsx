@@ -42,6 +42,7 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
   const [lawyer, setLawyer] = useState<Lawyer | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [activity, setActivity] = useState<LawyerActivity | null>(null);
+  const [tab, setTab] = useState("profile");
 
   useEffect(() => {
     if (!open) return;
@@ -57,10 +58,6 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
         setLawyer(data.data);
         setActivity(data.activity);
         setHistory(data.history);
-
-        // console.log(data);
-        // const data = await response.json();
-        // setLawyer(data);
       } catch (error) {
         console.error("Failed to fetch lawyer data:", error);
       }
@@ -106,7 +103,7 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
             </SheetHeader>
 
             <div className="flex-1 overflow-auto">
-              <Tabs defaultValue="profile" className="gap-0">
+              <Tabs value={tab} onValueChange={setTab} className="gap-0">
                 <TabsList
                   variant="line"
                   className="sticky z-50 top-0 h-auto! border-b border-border bg-gray-50/50 w-full justify-start"
@@ -114,6 +111,7 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
                   <TabsTrigger
                     value="profile"
                     className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary flex-none px-4"
+                    onClick={() => setTab("profile")}
                   >
                     <FileText className="size-3 text-primary" />
                     {t("Profile.tab")}
@@ -122,6 +120,7 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
                   <TabsTrigger
                     value="activity"
                     className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary flex-none px-4"
+                    onClick={() => setTab("activity")}
                   >
                     <User className="size-3 text-primary" />
                     {t("Activity.tab")}
@@ -130,6 +129,7 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
                   <TabsTrigger
                     value="history"
                     className="h-10 text-xs text-gray-400 data-[state=active]:after:bg-secondary flex-none px-4"
+                    onClick={() => setTab("history")}
                   >
                     <Activity className="size-3 text-primary" />
                     {t("History.tab")}
@@ -170,6 +170,7 @@ export default function LawyerDetails({ lawyerId }: { lawyerId: number }) {
 
                 <Button
                   variant="outline"
+                  onClick={() => setTab("history")}
                   className="bg-transparent text-[13px] h-10 flex-1 text-gray-600 border-gray-200 hover:bg-gray-100 hover:text-gray-600"
                 >
                   <History />

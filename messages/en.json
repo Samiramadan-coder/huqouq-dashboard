@@ -54,7 +54,9 @@
       "LoginFailed": "Login failed. Please check your credentials and try again.",
       "InvalidEmail": "Invalid email",
       "PasswordIsRequired": "Password is required",
-      "passwordMinLength": "Password must be at least 8 characters"
+      "PasswordMinLength": "Password must be at least 8 characters",
+      "Submitting": "Signing in",
+      "UnexpectedError": "Something went wrong. Please try again later."
     }
   },
   "layout": {

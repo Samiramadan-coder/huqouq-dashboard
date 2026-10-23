@@ -485,6 +485,7 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "view": "View",
+    "viewService": "View service: {name}",
     "legal_services_approvals_stats_alert": " urgent request requires your attention. These have been marked urgent by the client and should be reviewed first.",
     "Table": {
       "serviceType": "Service Type",
@@ -514,7 +515,17 @@
       "condition1": "Clear and specific service scope",
       "condition2": "Appropriate legal content (not spam or abuse)",
       "condition3": "Relevant documents attached (if required)",
-      "condition4": "No duplicate or fraudulent request"
+      "condition4": "No duplicate or fraudulent request",
+      "approve_success": "Legal service approved successfully",
+      "reject_success": "Legal service rejected successfully",
+      "reject_failure": "Failed to reject legal service",
+      "actionForbidden": "You don't have permission to perform this action.",
+      "details_failure": "Failed to load the service details.",
+      "retry": "Try again",
+      "loading": "Loading service details…",
+      "reasonLabel": "Reason for rejection",
+      "download": "Download {name}",
+      "noAttachments": "No documents attached"
     }
   },
   "Settings": {

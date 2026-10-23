@@ -2,27 +2,35 @@
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { parseAsString, useQueryStates } from "nuqs";
+import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { Counts } from "@/types/legal-services-approvals";
-
-const statuses: (keyof Counts)[] = ["pending_review", "approved", "rejected"];
+import { Counts, reviewTabs } from "@/types/legal-services-approvals";
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("LegalServicesApprovals");
 
-  const [{ tab }, setFilters] = useQueryStates({
-    tab: parseAsString.withDefault("pending_review").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-  });
+  const [{ tab }, setFilters] = useQueryStates(
+    {
+      tab: parseAsStringLiteral(reviewTabs).withDefault("pending_review"),
+      // Reset to the first page whenever the tab changes.
+      page: parseAsString,
+    },
+    { history: "push", shallow: false },
+  );
 
   return (
     <div className="flex items-center justify-between gap-4">
-      <Tabs value={tab} onValueChange={(value) => setFilters({ tab: value })}>
+      <Tabs
+        value={tab}
+        onValueChange={(value) =>
+          setFilters({
+            tab: reviewTabs.find((s) => s === value) ?? "pending_review",
+            page: null,
+          })
+        }
+      >
         <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200">
-          {statuses.map((statusKey) => {
+          {reviewTabs.map((statusKey) => {
             const isActive = statusKey === tab;
 
             return (

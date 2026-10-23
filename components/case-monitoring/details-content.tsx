@@ -1,8 +1,11 @@
-import { formatDate } from "@/lib/utils";
-import { CaseMonitoring } from "@/types/case-monitoring";
+import {
+  CaseMonitoring,
+  DATE_FORMAT,
+  formatMoney,
+  getLastActivity,
+} from "@/types/case-monitoring";
 import { Banknote, MapPin, Paperclip } from "lucide-react";
-import { timeAgo } from "@/lib/utils";
-import { getTranslations } from "next-intl/server";
+import { getFormatter, getTranslations } from "next-intl/server";
 
 export default async function DetailsContent({
   caseItem,
@@ -10,22 +13,12 @@ export default async function DetailsContent({
   caseItem: CaseMonitoring;
 }) {
   const t = await getTranslations("CaseMonitoring");
-
-  const lastActivity = [
-    caseItem.closed_at,
-    caseItem.fee_paid_at,
-    caseItem.closure_requested_at,
-    caseItem.hired_at,
-    caseItem.reviewed_at,
-    caseItem.payment?.paid_at,
-    caseItem.created_at,
-  ]
-    .filter((date): date is string => Boolean(date))
-    .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
+  const format = await getFormatter();
+  const lastActivity = getLastActivity(caseItem);
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-5">
         <DetailItem
           label={t("Details.caseId")}
           value={`#case-${caseItem.id}`}
@@ -36,11 +29,15 @@ export default async function DetailsContent({
         />
         <DetailItem
           label={t("Details.posted")}
-          value={formatDate(caseItem.created_at)}
+          value={format.dateTime(new Date(caseItem.created_at), DATE_FORMAT)}
         />
         <DetailItem
           label={t("Details.hiredDate")}
-          value={caseItem.hired_at ? formatDate(caseItem.hired_at) : "-"}
+          value={
+            caseItem.hired_at
+              ? format.dateTime(new Date(caseItem.hired_at), DATE_FORMAT)
+              : "-"
+          }
         />
         <DetailItem
           label={t("Details.location")}
@@ -52,7 +49,7 @@ export default async function DetailsContent({
           icon={<Banknote className="size-3.5 text-gray-400" />}
           value={
             caseItem.budget_disclosed
-              ? `${caseItem.currency} ${caseItem.budget_min} - ${caseItem.budget_max}`
+              ? `${formatMoney(format, caseItem.budget_min, caseItem.currency)} - ${formatMoney(format, caseItem.budget_max, caseItem.currency)}`
               : t("Details.notDisclosed")
           }
         />
@@ -60,29 +57,33 @@ export default async function DetailsContent({
           label={t("Table.agreedPrice")}
           value={
             caseItem.payment
-              ? `${caseItem.payment.currency} ${caseItem.payment.agreed_amount}`
+              ? formatMoney(
+                  format,
+                  caseItem.payment.agreed_amount,
+                  caseItem.payment.currency,
+                )
               : "-"
           }
         />
         <DetailItem
           label={t("Table.lastActivity")}
-          value={lastActivity ? timeAgo(lastActivity) : "-"}
+          value={lastActivity ? format.relativeTime(lastActivity) : "-"}
         />
-      </div>
+      </dl>
 
       <div>
-        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">
+        <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">
           {t("Details.description")}
-        </p>
-        <p className="p-4 rounded-lg bg-gray-50 text-[13px] text-gray-700 leading-relaxed whitespace-pre-line">
+        </h3>
+        <p className="p-4 rounded-lg bg-gray-50 text-[13px] text-gray-700 leading-relaxed whitespace-pre-line wrap-break-word">
           {caseItem.description}
         </p>
       </div>
 
       <div>
-        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">
+        <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">
           {t("Details.attachedDocuments")}
-        </p>
+        </h3>
         {caseItem.documents_count > 0 ? (
           <div className="flex items-center gap-2 text-[13px] text-gray-700">
             <Paperclip className="size-3.5 text-gray-400" />
@@ -111,13 +112,13 @@ function DetailItem({
 }) {
   return (
     <div>
-      <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
+      <dt className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
         {label}
-      </p>
-      <div className="flex items-center gap-1.5 text-[13px] font-medium text-gray-700">
+      </dt>
+      <dd className="flex items-center gap-1.5 text-[13px] font-medium text-gray-700">
         {icon}
         {value}
-      </div>
+      </dd>
     </div>
   );
 }

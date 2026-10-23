@@ -263,6 +263,13 @@
     "messageMinLength": "Message must be at least 10 characters",
     "messageMaxLength": "Message cannot exceed 400 characters",
     "cancel": "Cancel",
+    "viewCase": "View case: {title}",
+    "messageLabel": "Message",
+    "actionForbidden": "You don't have permission to perform this action.",
+    "checkInSent": "Check-in message sent",
+    "checkInFailed": "Failed to send the check-in message",
+    "disputeFlagged": "Case flagged for dispute review",
+    "disputeFlagFailed": "Failed to flag the case for dispute review",
     "Table": {
       "case": "Case",
       "client": "Client",
@@ -303,17 +310,30 @@
         "role": "Lawyer",
         "specialization": "Specialization",
         "specializationValue": "Labour Law",
-        "rating": "Rating"
+        "rating": "Rating",
+        "verified": "Verified lawyer"
       }
     },
     "Timeline": {
       "tab": "Status Timeline",
-      "current": "Current"
+      "current": "Current",
+      "done": "completed",
+      "upcoming": "upcoming"
     },
     "Chat": {
       "tab": "Conversation",
       "noMessages": "No messages yet",
-      "readOnly": "Read-only conversation transcript — Admin view only. This is the actual message history between both parties."
+      "readOnly": "Read-only conversation transcript — Admin view only. This is the actual message history between both parties.",
+      "loading": "Loading conversation…",
+      "loadFailed": "Couldn't load the conversation. Close and reopen this tab to try again.",
+      "imageAttachment": "Image attachment",
+      "openImage": "Open image: {name}",
+      "downloadImage": "Download image",
+      "close": "Close",
+      "playVoiceMessage": "Play voice message",
+      "pauseVoiceMessage": "Pause voice message",
+      "seekVoiceMessage": "Voice message position",
+      "file": "File"
     },
     "AdminNotes": {
       "tab": "Admin Notes",
@@ -321,7 +341,9 @@
       "notePlaceholder": "e.g. Checked in Jun 27 — conversation looks healthy, client is just slow to respond after the MOHRE hearing. Monitoring for another week before taking action.",
       "saveNote": "Save Notes",
       "noteMinLength": "Note must be at least 10 characters",
-      "noteMaxLength": "Note cannot exceed 400 characters"
+      "noteMaxLength": "Note cannot exceed 400 characters",
+      "noteLabel": "Admin note",
+      "notSavedYet": "Saving admin notes isn't available yet. Your note was not saved."
     }
   },
   "Lawyers": {

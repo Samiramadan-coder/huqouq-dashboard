@@ -2,8 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Counts } from "@/types/case-monitoring";
-import { parseAsString, useQueryStates } from "nuqs";
+import { Counts, monitoringTabs } from "@/types/case-monitoring";
+import {
+  debounce,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryStates,
+} from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { Field } from "../ui/field";
 import {
@@ -13,32 +18,27 @@ import {
 } from "../ui/input-group";
 import { Search, TriangleAlert } from "lucide-react";
 
-const statuses: (keyof Counts)[] = [
-  "all_active",
-  "needs_attention",
-  "in_progress",
-  "pending_fees",
-  "closed",
-  "pending_closure",
-];
+const SEARCH_DEBOUNCE_MS = 400;
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("CaseMonitoring");
 
-  const [{ tab, q }, setFilters] = useQueryStates({
-    tab: parseAsString.withDefault("all_active").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-    q: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-  });
+  const [{ tab, q }, setFilters] = useQueryStates(
+    {
+      tab: parseAsStringLiteral(monitoringTabs).withDefault("all_active"),
+      q: parseAsString.withDefault(""),
+      // Reset to the first page whenever a filter changes.
+      page: parseAsString,
+    },
+    { history: "push", shallow: false },
+  );
 
   return (
     <>
-      <div className="flex items-start gap-2 p-4 rounded-xl bg-amber-50 border border-amber-200">
+      <div
+        role="status"
+        className="flex items-start gap-2 p-4 rounded-xl bg-amber-50 border border-amber-200"
+      >
         <TriangleAlert className="text-amber-600 shrink-0 size-4" />
         <div className="text-[13px] text-amber-800">
           <span className="font-semibold">
@@ -49,9 +49,17 @@ export function FilterControl({ counts }: { counts: Counts }) {
       </div>
 
       <div className="flex items-center justify-between gap-4">
-        <Tabs value={tab} onValueChange={(value) => setFilters({ tab: value })}>
+        <Tabs
+          value={tab}
+          onValueChange={(value) =>
+            setFilters({
+              tab: monitoringTabs.find((s) => s === value) ?? "all_active",
+              page: null,
+            })
+          }
+        >
           <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200">
-            {statuses.map((statusKey) => {
+            {monitoringTabs.map((statusKey) => {
               const isActive = statusKey === tab;
 
               return (
@@ -81,11 +89,19 @@ export function FilterControl({ counts }: { counts: Counts }) {
           <Field>
             <InputGroup className="bg-white h-8.5 border border-gray-200">
               <InputGroupInput
+                type="search"
                 value={q}
+                aria-label={t("searchPlaceholder")}
                 onChange={(e) =>
-                  setFilters({
-                    q: e.target.value,
-                  })
+                  setFilters(
+                    { q: e.target.value, page: null },
+                    {
+                      history: "replace",
+                      limitUrlUpdates: e.target.value
+                        ? debounce(SEARCH_DEBOUNCE_MS)
+                        : undefined,
+                    },
+                  )
                 }
                 placeholder={t("searchPlaceholder")}
                 className="min-w-50 placeholder:text-gray-400 placeholder:text-[13px]"

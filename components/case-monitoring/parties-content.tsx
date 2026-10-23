@@ -1,10 +1,9 @@
-import { formatDate } from "@/lib/utils";
 import { Separator } from "../ui/separator";
 import { Shield, Star } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
-import { getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { CaseMonitoring } from "@/types/case-monitoring";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { CaseMonitoring, DATE_FORMAT } from "@/types/case-monitoring";
 
 export default async function PartiesContent({
   caseItem,
@@ -12,6 +11,7 @@ export default async function PartiesContent({
   caseItem: CaseMonitoring;
 }) {
   const t = await getTranslations("CaseMonitoring");
+  const format = await getFormatter();
 
   return (
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -49,7 +49,10 @@ export default async function PartiesContent({
 
             <InfoRow
               label={t("Participants.Client.joined")}
-              value={formatDate(caseItem.client.joined_at)}
+              value={format.dateTime(
+                new Date(caseItem.client.joined_at),
+                DATE_FORMAT,
+              )}
             />
 
             <InfoRow
@@ -75,7 +78,14 @@ export default async function PartiesContent({
                 <h3 className="text-[16px] font-semibold text-primary">
                   {caseItem.hired_lawyer.name}
                 </h3>
-                <Shield className="size-4 text-emerald-500" />
+                {caseItem.hired_lawyer.verified && (
+                  <>
+                    <Shield aria-hidden className="size-4 text-emerald-500" />
+                    <span className="sr-only">
+                      {t("Participants.Lawyer.verified")}
+                    </span>
+                  </>
+                )}
               </div>
 
               <p className="mt-0.5 text-[11px] font-medium uppercase text-emerald-700">

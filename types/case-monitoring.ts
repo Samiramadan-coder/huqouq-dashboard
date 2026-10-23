@@ -1,13 +1,21 @@
+import z from "zod";
+import type { useFormatter } from "next-intl";
 import { CaseStatus } from "./case-approvals";
+import { Pagination, T } from "./shared";
 
-export type Counts = {
-  all_active: number;
-  closed: number;
-  in_progress: number;
-  needs_attention: number;
-  pending_closure: number;
-  pending_fees: number;
-};
+// Tabs of the monitoring list, in display order.
+export const monitoringTabs = [
+  "all_active",
+  "needs_attention",
+  "in_progress",
+  "pending_fees",
+  "closed",
+  "pending_closure",
+] as const;
+
+export type MonitoringTab = (typeof monitoringTabs)[number];
+
+export type Counts = Record<MonitoringTab, number>;
 
 type OfferStatus =
   | "pending"
@@ -81,21 +89,26 @@ type AttentionFlag = {
   value: string;
 };
 
+export type TimelineKey =
+  | "posted"
+  | "approved"
+  | "offers"
+  | "hired"
+  | "pending_fees"
+  | "in_progress"
+  | "pending_closure"
+  | "closed"
+  | "reviewed";
+
+export type TimelineState = "done" | "current" | "upcoming";
+
 export type TimeLine = {
-  at: string;
-  key:
-    | "posted"
-    | "approved"
-    | "offers"
-    | "hired"
-    | "pending_fees"
-    | "in_progress"
-    | "pending_closure"
-    | "closed"
-    | "reviewed";
+  // Upcoming steps have no date yet.
+  at: string | null;
+  key: TimelineKey;
   label: string;
   note: string | null;
-  state: "done" | "current" | "upcoming";
+  state: TimelineState;
 };
 
 export type CaseMonitoring = {
@@ -130,7 +143,7 @@ export type CaseMonitoring = {
   accepted_offer: Offer;
   client: Client;
   hired_lawyer: HiredLawyer;
-  payment: Payment;
+  payment: Payment | null;
   specialization: Specialization;
   attention_flags: AttentionFlag[];
   agreed_price: number;
@@ -146,3 +159,72 @@ export type CaseMonitoring = {
   review: null;
   timeline: TimeLine[];
 };
+
+// Response of `GET /api/admin/case-monitoring`.
+export type CaseMonitoringResponse = {
+  counts: Counts;
+  data: CaseMonitoring[];
+  meta: Pagination;
+};
+
+// The only case fields the chat transcript needs on the client.
+export type ChatParticipants = {
+  caseId: number;
+  client: Pick<Client, "id" | "name" | "photo_url">;
+  lawyer: Pick<HiredLawyer, "name" | "photo_url">;
+};
+
+// Date format shared by every date shown in this feature.
+export const DATE_FORMAT = {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+} as const satisfies Intl.DateTimeFormatOptions;
+
+// Formats an amount in the given ISO currency, falling back to a plain number
+// with the code when the API sends an unknown currency.
+export function formatMoney(
+  format: Pick<ReturnType<typeof useFormatter>, "number">,
+  amount: number,
+  currency: string,
+): string {
+  try {
+    return format.number(amount, { style: "currency", currency });
+  } catch {
+    return `${currency} ${format.number(amount)}`.trim();
+  }
+}
+
+// "Last activity" of a case, as computed by the API (includes chat activity).
+// Returns null when the API sends no date or an unparsable one.
+export function getLastActivity(caseItem: CaseMonitoring): Date | null {
+  if (!caseItem.last_activity_at) return null;
+
+  const date = new Date(caseItem.last_activity_at);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+export const MESSAGE_MIN_LENGTH = 10;
+export const MESSAGE_MAX_LENGTH = 400;
+
+// Shared by the check-in message and the dispute flag forms.
+export const caseMessageSchema = (t: T) =>
+  z.object({
+    body: z
+      .string()
+      .trim()
+      .min(MESSAGE_MIN_LENGTH, t("messageMinLength"))
+      .max(MESSAGE_MAX_LENGTH, t("messageMaxLength")),
+  });
+
+export type CaseMessageFormValues = z.infer<
+  ReturnType<typeof caseMessageSchema>
+>;
+
+export type CaseMessageResult =
+  | { success: true; message: string }
+  | {
+      success: false;
+      error: "forbidden" | "failed";
+      errors?: Partial<Record<keyof CaseMessageFormValues, string>>;
+    };

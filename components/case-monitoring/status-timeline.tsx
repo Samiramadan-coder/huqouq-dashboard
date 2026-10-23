@@ -1,18 +1,21 @@
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Check } from "lucide-react";
-import { TimeLine } from "@/types/case-monitoring";
-import { getTranslations } from "next-intl/server";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { DATE_FORMAT, TimeLine } from "@/types/case-monitoring";
 
 type StatusTimelineProps = {
   items: TimeLine[];
 };
 
+// Renders the case lifecycle in the order the API returns it (done → current →
+// upcoming). Upcoming steps have no date, so the list is not re-sorted by date.
 export async function StatusTimeline({ items }: StatusTimelineProps) {
   const t = await getTranslations("CaseMonitoring");
+  const format = await getFormatter();
 
   return (
-    <div className="w-full">
+    <ol className="w-full">
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         const isDone = item.state === "done";
@@ -20,12 +23,13 @@ export async function StatusTimeline({ items }: StatusTimelineProps) {
         const isUpcoming = item.state === "upcoming";
 
         return (
-          <div
+          <li
             key={`${item.key}-${index}`}
+            aria-current={isCurrent ? "step" : undefined}
             className="relative flex min-h-20.5 gap-4"
           >
             {/* Timeline */}
-            <div className="relative flex w-10 shrink-0 justify-center">
+            <div aria-hidden className="relative flex w-10 shrink-0 justify-center">
               {!isLast && (
                 <div
                   className={cn(
@@ -70,6 +74,12 @@ export async function StatusTimeline({ items }: StatusTimelineProps) {
                   )}
                 >
                   {item.label}
+                  {!isCurrent && (
+                    <span className="sr-only">
+                      {" "}
+                      ({t(isDone ? "Timeline.done" : "Timeline.upcoming")})
+                    </span>
+                  )}
                 </p>
 
                 {isCurrent && (
@@ -83,25 +93,28 @@ export async function StatusTimeline({ items }: StatusTimelineProps) {
               </div>
 
               {!isUpcoming && item.at && (
-                <p className="mt-1 text-[10px] text-gray-400">
-                  {formatDate(item.at)}
-                </p>
+                <time
+                  dateTime={item.at}
+                  className="block mt-1 text-[10px] text-gray-400"
+                >
+                  {format.dateTime(new Date(item.at), DATE_FORMAT)}
+                </time>
               )}
 
               {item.note && !isUpcoming && (
                 <div className="mt-2">
                   <Badge
                     variant="secondary"
-                    className="rounded-md border border-gray-100 bg-gray-50 px-2 py-1 text-xs font-normal text-gray-500 shadow-none"
+                    className="rounded-md border border-gray-100 bg-gray-50 px-2 py-1 text-xs font-normal text-gray-500 shadow-none whitespace-normal wrap-break-word"
                   >
                     {item.note}
                   </Badge>
                 </div>
               )}
             </div>
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 }

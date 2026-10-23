@@ -22,44 +22,55 @@ import {
 } from "@/components/ui/dialog";
 
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { ChatMessage } from "@/types/chat";
-import { cn, formatChatDate } from "@/lib/utils";
-import { subscribeToMessages } from "@/features/chat";
-import { CaseMonitoring } from "@/types/case-monitoring";
-import { useDirection } from "@/components/ui/direction";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Spinner } from "../ui/spinner";
-import { useTranslations } from "next-intl";
+import { subscribeToMessages } from "@/features/chat";
+import { ChatParticipants } from "@/types/case-monitoring";
+import { useDirection } from "@/components/ui/direction";
+import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+const SEEK_STEP_SECONDS = 5;
+
+type ChatState = "loading" | "ready" | "error";
+
+// Read-only, real-time transcript of the conversation between client and lawyer.
+// The Firestore listener only lives while this tab is mounted.
 export default function ChatContent({
-  caseItem,
+  participants,
 }: {
-  caseItem: CaseMonitoring;
+  participants: ChatParticipants;
 }) {
   const t = useTranslations("CaseMonitoring");
+  const { caseId, client, lawyer } = participants;
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [state, setState] = useState<ChatState>("loading");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   // Subscribe to chat messages for the given case and client.
   useEffect(() => {
-    if (!caseItem?.id || !caseItem?.client?.id) return;
-
     const unsubscribe = subscribeToMessages(
-      String(caseItem.id),
-      String(caseItem.client.id),
+      String(caseId),
+      String(client.id),
       (messages) => {
         setMessages(messages);
-        setLoading(false);
+        setState("ready");
       },
-      (error) => {
-        console.error("Messages error:", error);
-      },
+      () => setState("error"),
     );
 
     return unsubscribe;
-  }, [caseItem.client.id, caseItem.id]);
+  }, [caseId, client.id]);
 
   // Scroll to the bottom of the chat when new messages are received.
   useEffect(() => {
@@ -68,10 +79,21 @@ export default function ChatContent({
     });
   }, [messages]);
 
-  if (loading) {
+  if (state === "loading") {
     return (
       <div className="flex justify-center items-center">
-        <Spinner />
+        <Spinner aria-label={t("Chat.loading")} />
+      </div>
+    );
+  }
+
+  if (state === "error") {
+    return (
+      <div
+        role="alert"
+        className="flex justify-center items-center text-[13px] text-gray-500"
+      >
+        {t("Chat.loadFailed")}
       </div>
     );
   }
@@ -93,148 +115,153 @@ export default function ChatContent({
         </p>
       </div>
 
-      {messages.map((message) => {
-        if (message.type === "system") {
-          return (
-            <div key={message.id} className="flex justify-center">
-              <div className="rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 text-[11px] text-accent">
-                {message.text}
+      <ol className="flex flex-col gap-5" aria-label={t("Chat.tab")}>
+        {messages.map((message) => (
+          <li key={message.id}>
+            {message.type === "system" ? (
+              <div className="flex justify-center">
+                <div className="rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 text-[11px] text-accent">
+                  {message.text}
+                </div>
               </div>
-            </div>
-          );
-        }
+            ) : (
+              <MessageBubble
+                message={message}
+                sender={message.sentByUser ? client : lawyer}
+              />
+            )}
+          </li>
+        ))}
+      </ol>
+      <div ref={messagesEndRef} />
+    </div>
+  );
+}
 
-        const isText = message.type === "text";
+// One text or file message with its sender's avatar, name and time.
+function MessageBubble({
+  message,
+  sender,
+}: {
+  message: ChatMessage;
+  sender: { name: string; photo_url: string | null };
+}) {
+  const format = useFormatter();
+  const now = useNow();
 
-        const isImage =
-          message.type === "file" &&
-          Boolean(message.fileType?.startsWith("image/"));
+  const isText = message.type === "text";
+  const isImage =
+    message.type === "file" && Boolean(message.fileType?.startsWith("image/"));
+  const isAudio =
+    message.type === "file" && Boolean(message.fileType?.startsWith("audio/"));
+  const isDocument = message.type === "file" && !isImage && !isAudio;
 
-        const isAudio =
-          message.type === "file" &&
-          Boolean(message.fileType?.startsWith("audio/"));
+  const avatar = (
+    <Avatar>
+      <AvatarImage src={sender.photo_url ?? undefined} alt={sender.name} />
+      <AvatarFallback>{sender.name?.[0] || "U"}</AvatarFallback>
+    </Avatar>
+  );
 
-        const isDocument = message.type === "file" && !isImage && !isAudio;
+  // Recent messages show relative time; older ones show the date.
+  function formatSentAt(date: Date) {
+    if (now.getTime() - date.getTime() < DAY_MS) {
+      return format.relativeTime(date, now);
+    }
 
-        return (
-          <div key={message.id} className="flex items-start gap-2">
-            {!message.sentByUser && (
-              <Avatar>
-                <AvatarImage
-                  src={caseItem.hired_lawyer.photo_url || ""}
-                  alt="User avatar"
-                />
-                <AvatarFallback>
-                  {caseItem.hired_lawyer.name?.[0] || "U"}
-                </AvatarFallback>
-              </Avatar>
+    return format.dateTime(date, {
+      month: "short",
+      day: "numeric",
+      ...(date.getFullYear() !== now.getFullYear() && { year: "numeric" }),
+    });
+  }
+
+  const alignment = message.sentByUser ? "justify-end" : "justify-start";
+
+  return (
+    <div className="flex items-start gap-2">
+      {!message.sentByUser && avatar}
+
+      <div className="flex flex-col flex-1">
+        <div className={cn("text-[10px] text-gray-400 mb-1 flex", alignment)}>
+          {sender.name}
+        </div>
+
+        <div className={cn("flex", alignment)}>
+          <div
+            className={cn(
+              "max-w-[70%]",
+              isText &&
+                cn(
+                  "rounded-xl px-3.5 py-2.5 text-[13px] leading-relaxed",
+                  message.sentByUser
+                    ? "rounded-tr-sm bg-primary text-white"
+                    : "rounded-tl-sm border border-blue-100 bg-blue-50 text-blue-900",
+                ),
+            )}
+          >
+            {isText && message.text && (
+              <p className="whitespace-pre-wrap wrap-break-word">
+                {message.text}
+              </p>
             )}
 
-            <div className="flex flex-col flex-1">
-              {message.sentByUser ? (
-                <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-end">
-                  {caseItem.client.name}
-                </div>
-              ) : (
-                <div className="text-[10px] text-gray-400 mb-1 text-left flex justify-start">
-                  {caseItem.hired_lawyer.name}
-                </div>
-              )}
+            {isImage && message.fileUrl && (
+              <ImageAttachment
+                url={message.fileUrl}
+                name={message.fileName}
+                caption={message.text}
+                sentByUser={message.sentByUser}
+              />
+            )}
 
-              <div
-                className={
-                  message.sentByUser ? "flex justify-end" : "flex justify-start"
-                }
-              >
-                <div
-                  className={cn(
-                    "max-w-[70%]",
-                    isText &&
-                      cn(
-                        "rounded-xl px-3.5 py-2.5 text-[13px] leading-relaxed",
-                        message.sentByUser
-                          ? "rounded-tr-sm bg-primary text-white"
-                          : "rounded-tl-sm border border-blue-100 bg-blue-50 text-blue-900",
-                      ),
-                  )}
-                >
-                  {isText && message.text && (
-                    <p className="whitespace-pre-wrap wrap-break-word">
-                      {message.text}
-                    </p>
-                  )}
-
-                  {isImage && message.fileUrl && (
-                    <ImageAttachment
-                      url={message.fileUrl}
-                      name={message.fileName}
-                      caption={message.text}
-                      sentByUser={message.sentByUser}
-                    />
-                  )}
-
-                  {isAudio && message.fileUrl && (
-                    <div className="space-y-1.5">
-                      <AudioAttachment
-                        url={message.fileUrl}
-                        messageId={message.id}
-                        sentByUser={message.sentByUser}
-                      />
-
-                      {message.text && (
-                        <Caption sentByUser={message.sentByUser}>
-                          {message.text}
-                        </Caption>
-                      )}
-                    </div>
-                  )}
-
-                  {isDocument && message.fileUrl && (
-                    <div className="space-y-1.5">
-                      <FileAttachment
-                        url={message.fileUrl}
-                        name={message.fileName}
-                        fileType={message.fileType}
-                        sizeBytes={message.fileSizeBytes}
-                        sentByUser={message.sentByUser}
-                      />
-
-                      {message.text && (
-                        <Caption sentByUser={message.sentByUser}>
-                          {message.text}
-                        </Caption>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {message.sentByUser ? (
-                <div className="text-[10px] text-gray-400 mt-1 text-left flex justify-end">
-                  {formatChatDate(message.createdAt)}
-                </div>
-              ) : (
-                <div className="text-[10px] text-gray-400 mt-1 text-left flex justify-start">
-                  {formatChatDate(message.createdAt)}
-                </div>
-              )}
-            </div>
-
-            {message.sentByUser && (
-              <Avatar>
-                <AvatarImage
-                  src={caseItem.client.photo_url || ""}
-                  alt="User avatar"
+            {isAudio && message.fileUrl && (
+              <div className="space-y-1.5">
+                <AudioAttachment
+                  url={message.fileUrl}
+                  messageId={message.id}
+                  sentByUser={message.sentByUser}
                 />
-                <AvatarFallback>
-                  {caseItem.client.name?.[0] || "U"}
-                </AvatarFallback>
-              </Avatar>
+
+                {message.text && (
+                  <Caption sentByUser={message.sentByUser}>
+                    {message.text}
+                  </Caption>
+                )}
+              </div>
+            )}
+
+            {isDocument && message.fileUrl && (
+              <div className="space-y-1.5">
+                <FileAttachment
+                  url={message.fileUrl}
+                  name={message.fileName}
+                  fileType={message.fileType}
+                  sizeBytes={message.fileSizeBytes}
+                  sentByUser={message.sentByUser}
+                />
+
+                {message.text && (
+                  <Caption sentByUser={message.sentByUser}>
+                    {message.text}
+                  </Caption>
+                )}
+              </div>
             )}
           </div>
-        );
-      })}
-      <div ref={messagesEndRef} />
+        </div>
+
+        {message.createdAt && (
+          <time
+            dateTime={message.createdAt.toISOString()}
+            className={cn("text-[10px] text-gray-400 mt-1 flex", alignment)}
+          >
+            {formatSentAt(message.createdAt)}
+          </time>
+        )}
+      </div>
+
+      {message.sentByUser && avatar}
     </div>
   );
 }
@@ -273,7 +300,9 @@ function ImageAttachment({
   caption: string | null;
   sentByUser: boolean;
 }) {
+  const t = useTranslations("CaseMonitoring.Chat");
   const [open, setOpen] = useState(false);
+  const alt = name || t("imageAttachment");
 
   return (
     <>
@@ -282,11 +311,12 @@ function ImageAttachment({
           <button
             type="button"
             onClick={() => setOpen(true)}
+            aria-label={t("openImage", { name: alt })}
             className="block w-full cursor-zoom-in"
           >
             <Image
               src={url}
-              alt={name || "Image attachment"}
+              alt={alt}
               width={256}
               height={224}
               className="h-56 w-full object-cover"
@@ -303,10 +333,10 @@ function ImageAttachment({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="absolute top-2 inset-e-2 z-10 grid size-7 place-content-center rounded-full bg-black/45 text-white opacity-0 backdrop-blur-sm transition-opacity duration-150 hover:bg-black/70 group-hover:opacity-100"
+            className="absolute top-2 inset-e-2 z-10 grid size-7 place-content-center rounded-full bg-black/45 text-white opacity-0 backdrop-blur-sm transition-opacity duration-150 hover:bg-black/70 group-hover:opacity-100 focus-visible:opacity-100"
           >
             <Download className="size-3.5" />
-            <span className="sr-only">Download image</span>
+            <span className="sr-only">{t("downloadImage")}</span>
           </a>
         </div>
 
@@ -329,13 +359,11 @@ function ImageAttachment({
           showCloseButton={false}
           className="max-w-[min(92vw,42rem)]! border-none bg-transparent p-0 shadow-none ring-0 sm:max-w-[min(92vw,42rem)]!"
         >
-          <DialogTitle className="sr-only">
-            {name || "Image attachment"}
-          </DialogTitle>
+          <DialogTitle className="sr-only">{alt}</DialogTitle>
 
           <Image
             src={url}
-            alt={name || "Image attachment"}
+            alt={alt}
             width={1200}
             height={900}
             className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain"
@@ -348,12 +376,12 @@ function ImageAttachment({
             className="absolute top-2 inset-s-2 grid size-8 place-content-center rounded-full bg-black/50 text-white hover:bg-black/70"
           >
             <Download className="size-4" />
-            <span className="sr-only">Download image</span>
+            <span className="sr-only">{t("downloadImage")}</span>
           </a>
 
           <DialogClose className="absolute top-2 inset-e-2 grid size-8 place-content-center rounded-full bg-black/50 text-white hover:bg-black/70">
             <X className="size-4" />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{t("close")}</span>
           </DialogClose>
         </DialogContent>
       </Dialog>
@@ -372,6 +400,7 @@ function AudioAttachment({
   sentByUser: boolean;
 }) {
   const dir = useDirection();
+  const t = useTranslations("CaseMonitoring.Chat");
   const audioRef = useRef<HTMLAudioElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const bars = useMemo(() => getWaveformBars(messageId), [messageId]);
@@ -417,22 +446,51 @@ function AudioAttachment({
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (audio.paused) audio.play();
+    // play() rejects when the source can't be loaded; the button just stays on "play".
+    if (audio.paused) audio.play().catch(() => setIsPlaying(false));
     else audio.pause();
   };
 
-  const seekToClientX = (clientX: number) => {
+  const seekToFraction = (fraction: number) => {
     const audio = audioRef.current;
+    if (!audio || !audio.duration) return;
+
+    const clamped = Math.min(1, Math.max(0, fraction));
+    audio.currentTime = clamped * audio.duration;
+    setProgress(clamped);
+  };
+
+  const seekToClientX = (clientX: number) => {
     const track = trackRef.current;
-    if (!audio || !track || !audio.duration) return;
+    if (!track) return;
 
     const rect = track.getBoundingClientRect();
-    let fraction = (clientX - rect.left) / rect.width;
-    if (dir === "rtl") fraction = 1 - fraction;
-    fraction = Math.min(1, Math.max(0, fraction));
+    const fraction = (clientX - rect.left) / rect.width;
+    seekToFraction(dir === "rtl" ? 1 - fraction : fraction);
+  };
 
-    audio.currentTime = fraction * audio.duration;
-    setProgress(fraction);
+  // Arrow keys seek by a few seconds; Home / End jump to the start / end.
+  const handleSeekKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const audio = audioRef.current;
+    if (!audio || !audio.duration) return;
+
+    const step = SEEK_STEP_SECONDS / audio.duration;
+    const forward = dir === "rtl" ? "ArrowLeft" : "ArrowRight";
+    const backward = dir === "rtl" ? "ArrowRight" : "ArrowLeft";
+
+    const next: Record<string, number> = {
+      [forward]: progress + step,
+      [backward]: progress - step,
+      ArrowUp: progress + step,
+      ArrowDown: progress - step,
+      Home: 0,
+      End: 1,
+    };
+
+    if (event.key in next) {
+      event.preventDefault();
+      seekToFraction(next[event.key]);
+    }
   };
 
   return (
@@ -460,15 +518,23 @@ function AudioAttachment({
           <Play className="size-3.5 fill-current ms-0.5" />
         )}
         <span className="sr-only">
-          {isPlaying ? "Pause" : "Play"} voice message
+          {t(isPlaying ? "pauseVoiceMessage" : "playVoiceMessage")}
         </span>
       </button>
 
       <div className="min-w-0 flex-1">
         <div
           ref={trackRef}
+          role="slider"
+          tabIndex={0}
+          aria-label={t("seekVoiceMessage")}
+          aria-valuemin={0}
+          aria-valuemax={Math.round(duration)}
+          aria-valuenow={Math.round(currentTime)}
+          aria-valuetext={formatAudioTime(currentTime)}
           onClick={(event) => seekToClientX(event.clientX)}
-          className="flex h-6 cursor-pointer items-center justify-between"
+          onKeyDown={handleSeekKeyDown}
+          className="flex h-6 cursor-pointer items-center justify-between rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current/40"
         >
           {bars.map((height, index) => (
             <span
@@ -506,6 +572,8 @@ function FileAttachment({
   sizeBytes: number | null;
   sentByUser: boolean;
 }) {
+  const format = useFormatter();
+  const t = useTranslations("CaseMonitoring.Chat");
   const { Icon, className } = getFileIconStyle(fileType, name);
 
   return (
@@ -531,17 +599,17 @@ function FileAttachment({
 
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[13px] font-medium">
-          {name || "File"}
+          {name || t("file")}
         </span>
 
-        {sizeBytes ? (
+        {sizeBytes && sizeBytes > 0 ? (
           <span
             className={cn(
               "block text-[11px]",
               sentByUser ? "text-white/70" : "text-blue-900/60",
             )}
           >
-            {formatFileSize(sizeBytes)}
+            {formatFileSize(sizeBytes, format)}
           </span>
         ) : null}
       </span>
@@ -575,18 +643,24 @@ function formatAudioTime(seconds: number) {
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
 
-// Formats a byte count into a human-readable file size (e.g. "1.4 MB").
-function formatFileSize(bytes: number) {
-  if (bytes <= 0) return "";
+const FILE_SIZE_UNITS = ["byte", "kilobyte", "megabyte", "gigabyte"] as const;
 
-  const units = ["B", "KB", "MB", "GB"];
+// Formats a byte count as a localized file size (e.g. "1.4 MB").
+function formatFileSize(
+  bytes: number,
+  format: Pick<ReturnType<typeof useFormatter>, "number">,
+) {
   const exponent = Math.min(
     Math.floor(Math.log(bytes) / Math.log(1024)),
-    units.length - 1,
+    FILE_SIZE_UNITS.length - 1,
   );
-  const value = bytes / 1024 ** exponent;
 
-  return `${exponent === 0 ? value : value.toFixed(1)} ${units[exponent]}`;
+  return format.number(bytes / 1024 ** exponent, {
+    style: "unit",
+    unit: FILE_SIZE_UNITS[exponent],
+    unitDisplay: "short",
+    maximumFractionDigits: exponent === 0 ? 0 : 1,
+  });
 }
 
 // Picks an icon and accent color for a file based on its MIME type or extension.

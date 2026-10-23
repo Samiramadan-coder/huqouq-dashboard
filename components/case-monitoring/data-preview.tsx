@@ -1,13 +1,18 @@
+import { cn } from "@/lib/utils";
 import CaseDetails from "./case-details";
 import { Pagination } from "@/types/shared";
-import { cn, formatDate, timeAgo } from "@/lib/utils";
 import { TriangleAlert } from "lucide-react";
 import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { CaseMonitoring } from "@/types/case-monitoring";
 import CaseStatusLabel from "../reusable/case-status-label";
+import { getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
+import {
+  CaseMonitoring,
+  DATE_FORMAT,
+  formatMoney,
+  getLastActivity,
+} from "@/types/case-monitoring";
 
 export default async function DataPreview({
   cases,
@@ -17,8 +22,9 @@ export default async function DataPreview({
   pagination: Pagination;
 }) {
   const t = await getTranslations("CaseMonitoring");
+  const format = await getFormatter();
 
-  const columns = (): DataTableColumn[] => [
+  const columns: DataTableColumn[] = [
     { label: t("Table.case") },
     { label: t("Table.client") },
     { label: t("Table.lawyer") },
@@ -31,37 +37,34 @@ export default async function DataPreview({
 
   return (
     <DataTable
-      columns={columns()}
+      columns={columns}
       countUnit={t("Table.client")}
       rowsCount={cases.length}
       pagination={pagination}
     >
       {cases.length ? (
         cases.map((caseItem) => {
-          const lastActivity = [
-            caseItem.closed_at,
-            caseItem.fee_paid_at,
-            caseItem.closure_requested_at,
-            caseItem.hired_at,
-            caseItem.reviewed_at,
-            caseItem.payment?.paid_at,
-            caseItem.created_at,
-          ]
-            .filter((date): date is string => Boolean(date))
-            .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
+          const lastActivity = getLastActivity(caseItem);
+          const needsAttention = caseItem.attention_flags.length > 0;
 
           return (
             <TableRow
               key={caseItem.id}
               className={cn(
                 "border-gray-100",
-                caseItem.attention_flags.length > 0 && "bg-amber-50/30",
+                needsAttention && "bg-amber-50/30",
               )}
             >
               <TableCell className="px-5 py-3">
                 <div className="flex items-start gap-4">
-                  {caseItem.attention_flags.length > 0 && (
-                    <TriangleAlert className="text-amber-600 size-3" />
+                  {needsAttention && (
+                    <>
+                      <TriangleAlert
+                        aria-hidden
+                        className="text-amber-600 size-3"
+                      />
+                      <span className="sr-only">{t("needs_attention")}</span>
+                    </>
                   )}
 
                   <div>
@@ -115,19 +118,25 @@ export default async function DataPreview({
 
               <TableCell className="px-5 py-3">
                 <p className="whitespace-nowrap text-gray-500 text-[13px]">
-                  {formatDate(caseItem.hired_at || "")}
+                  {caseItem.hired_at
+                    ? format.dateTime(new Date(caseItem.hired_at), DATE_FORMAT)
+                    : "-"}
                 </p>
               </TableCell>
 
               <TableCell className="px-5 py-3">
                 <p className="whitespace-nowrap text-gray-500 text-[13px]">
-                  {timeAgo(lastActivity)}
+                  {lastActivity ? format.relativeTime(lastActivity) : "-"}
                 </p>
               </TableCell>
 
               <TableCell className="px-5 py-3">
                 <p className="whitespace-nowrap text-gray-700 text-[13px]">
-                  {caseItem.currency} {caseItem.accepted_offer.amount}
+                  {formatMoney(
+                    format,
+                    caseItem.accepted_offer.amount,
+                    caseItem.currency,
+                  )}
                 </p>
               </TableCell>
 
@@ -140,7 +149,7 @@ export default async function DataPreview({
       ) : (
         <TableRow>
           <TableCell
-            colSpan={columns().length}
+            colSpan={columns.length}
             className="text-center py-4 text-sm text-gray-500"
           >
             {t("Table.noCases")}

@@ -10,52 +10,42 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { toast } from "sonner";
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
-import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
-import { approveCase } from "@/lib/cases-approvals";
 
+// Approve button with a confirmation dialog. The dialog stays open, and cannot
+// be dismissed, while the approval is in flight.
 export default function ApproveBtn({
-  caseId,
+  open,
+  onOpenChange,
+  onConfirm,
   disabled,
+  isPending,
 }: {
-  caseId: number;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
   disabled: boolean;
+  isPending: boolean;
 }) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const t = useTranslations("CaseApprovals.Details");
-  const closeBtn = useRef<HTMLButtonElement | null>(null);
-
-  async function handleApprove() {
-    setLoading(true);
-
-    const result = await approveCase(caseId);
-
-    if (result.success) {
-      toast.success(t("approve_success"));
-      closeBtn.current?.click();
-      router.push("/case-approvals?status=published");
-    } else {
-      toast.error(t("approve_failure"));
-    }
-
-    setLoading(false);
-  }
 
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        if (!isPending) onOpenChange(next);
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="outline"
           className="bg-transparent text-emerald-700 border-emerald-200 h-11"
           disabled={disabled}
         >
-          {loading ? <Spinner /> : <Check className="size-3" />}
+          {isPending && open ? <Spinner /> : <Check className="size-3" />}
           {t("approve")}
         </Button>
       </DialogTrigger>
@@ -67,20 +57,25 @@ export default function ApproveBtn({
 
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>
-            <Button type="button" className="bg-secondary h-9" ref={closeBtn}>
+            <Button
+              type="button"
+              className="bg-secondary h-9"
+              disabled={isPending}
+            >
               {t("cancel")}
             </Button>
           </DialogClose>
 
-          <DialogClose asChild>
-            <Button
-              type="button"
-              className="bg-secondary h-9"
-              onClick={handleApprove}
-            >
-              {t("approve")}
-            </Button>
-          </DialogClose>
+          <Button
+            type="button"
+            className="bg-secondary h-9"
+            disabled={isPending}
+            aria-busy={isPending}
+            onClick={onConfirm}
+          >
+            {isPending && <Spinner />}
+            {t("approve")}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

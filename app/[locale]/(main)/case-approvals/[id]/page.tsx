@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { http } from "@/lib/http";
+import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { ChevronLeft } from "lucide-react";
+import { http, HttpError } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
-import { CaseDetails } from "@/types/case-approvals";
+import { CaseApprovalResponse } from "@/types/case-approvals";
 import UrgencyBadge from "@/components/reusable/urgency-label";
 import CaseDetailsPreview from "@/components/case-approvals/case-details-preview";
 
@@ -17,16 +18,30 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("caseApprovalDetails") };
 }
 
+async function getCaseApproval(id: string) {
+  try {
+    const { data } = await http.get<CaseApprovalResponse>(
+      `/api/admin/case-approvals/${id}`,
+      {
+        next: { tags: [`case-approval-${id}`] },
+      },
+    );
+
+    return data.data;
+  } catch (error) {
+    if (error instanceof HttpError && error.status === 404) notFound();
+    throw error;
+  }
+}
+
 export default async function Page({ params }: { params: Promise<Params> }) {
-  const t = await getTranslations("CaseApprovals.Details");
   const { id } = await params;
 
-  const { data } = await http.get<{ data: CaseDetails }>(
-    `/api/admin/case-approvals/${id}`,
-    {
-      next: { tags: [`case-approval-${id}`] },
-    },
-  );
+  // Only numeric ids may reach the admin API URL.
+  if (!/^\d+$/.test(id)) notFound();
+
+  const t = await getTranslations("CaseApprovals.Details");
+  const caseDetails = await getCaseApproval(id);
 
   return (
     <div>
@@ -36,20 +51,22 @@ export default async function Page({ params }: { params: Promise<Params> }) {
             <ChevronLeft className="rtl:rotate-180 size-4" />
             <p className="text-[13px] text-gray-500">{t("backToPending")}</p>
           </Link>
-          <span className="text-gray-200 text-lg">/</span>
-          <p className="text-[13px] font-semibold text-gray-800 line-clamp-1">
-            {data.data.title}
-          </p>
+          <span aria-hidden className="text-gray-200 text-lg">
+            /
+          </span>
+          <h1 className="text-[13px] font-semibold text-gray-800 line-clamp-1">
+            {caseDetails.title}
+          </h1>
         </div>
 
         <UrgencyBadge
-          urgency={data.data.urgency}
-          urgency_label={data.data.urgency_label}
+          urgency={caseDetails.urgency}
+          urgency_label={caseDetails.urgency_label}
         />
       </div>
 
       <div className="px-4 pt-4 sm:px-6 sm:pt-6 min-h-[calc(100vh-124px)] flex flex-col justify-between">
-        <CaseDetailsPreview caseDetails={data.data} />
+        <CaseDetailsPreview caseDetails={caseDetails} />
       </div>
     </div>
   );

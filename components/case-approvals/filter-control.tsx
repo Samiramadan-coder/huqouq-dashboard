@@ -18,14 +18,26 @@ import {
 import { Field } from "../ui/field";
 import { Search, TriangleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Counts, UrgencyCounts } from "@/types/case-approvals";
-import { parseAsString, useQueryStates } from "nuqs";
+import {
+  Counts,
+  reviewStatuses,
+  urgencies,
+  UrgencyCounts,
+} from "@/types/case-approvals";
+import {
+  debounce,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryStates,
+} from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useReferenceData } from "@/providers/reference-data.provider";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 
-const statuses: (keyof Counts)[] = ["pending_review", "published", "rejected"];
+const SEARCH_DEBOUNCE_MS = 400;
+
+const urgencyOptions = ["allUrgency", ...urgencies] as const;
 
 export function FilterControl({
   counts,
@@ -38,35 +50,32 @@ export function FilterControl({
   const t = useTranslations("CaseApprovals");
 
   const [{ status, q, specialization_id, urgency }, setFilters] =
-    useQueryStates({
-      status: parseAsString.withDefault("pending_review").withOptions({
-        history: "push",
-        shallow: false,
-      }),
-      q: parseAsString.withDefault("").withOptions({
-        history: "push",
-        shallow: false,
-      }),
-      specialization_id: parseAsString.withDefault("all").withOptions({
-        history: "push",
-        shallow: false,
-      }),
-      urgency: parseAsString.withDefault("allUrgency").withOptions({
-        history: "push",
-        shallow: false,
-      }),
-    });
-
-  if (!referenceData) return null;
+    useQueryStates(
+      {
+        status:
+          parseAsStringLiteral(reviewStatuses).withDefault("pending_review"),
+        q: parseAsString.withDefault(""),
+        specialization_id: parseAsString.withDefault("all"),
+        urgency: parseAsStringLiteral(urgencyOptions).withDefault("allUrgency"),
+        // Reset to the first page whenever a filter changes.
+        page: parseAsString,
+      },
+      { history: "push", shallow: false },
+    );
 
   return (
     <div className="space-y-5">
       <Tabs
         value={status}
-        onValueChange={(value) => setFilters({ status: value })}
+        onValueChange={(value) =>
+          setFilters({
+            status: reviewStatuses.find((s) => s === value) ?? "pending_review",
+            page: null,
+          })
+        }
       >
         <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200">
-          {statuses.map((statusKey) => {
+          {reviewStatuses.map((statusKey) => {
             const isActive = statusKey === status;
 
             return (
@@ -99,11 +108,19 @@ export function FilterControl({
           <Field>
             <InputGroup className="bg-white h-8.5 border border-gray-200">
               <InputGroupInput
+                type="search"
                 value={q}
+                aria-label={t("searchPlaceholder")}
                 onChange={(e) =>
-                  setFilters({
-                    q: e.target.value,
-                  })
+                  setFilters(
+                    { q: e.target.value, page: null },
+                    {
+                      history: "replace",
+                      limitUrlUpdates: e.target.value
+                        ? debounce(SEARCH_DEBOUNCE_MS)
+                        : undefined,
+                    },
+                  )
                 }
                 placeholder={t("searchPlaceholder")}
                 className="min-w-50 placeholder:text-gray-400 placeholder:text-[13px]"
@@ -115,61 +132,79 @@ export function FilterControl({
           </Field>
         </div>
 
+        {referenceData && (
+          <Select
+            value={specialization_id}
+            onValueChange={(value) =>
+              setFilters({ specialization_id: value, page: null })
+            }
+          >
+            <SelectTrigger
+              aria-label={t("Filters.allCategories")}
+              className="w-full max-w-48 min-h-8.5 bg-white text-[13px]"
+            >
+              <SelectValue placeholder={t("Filters.allCategories")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {[
+                  { id: "all", name: t("Filters.allCategories") },
+                  ...referenceData.specializations,
+                ].map((spec) => (
+                  <SelectItem key={spec.id} value={String(spec.id)}>
+                    {spec.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
+
         <Select
-          value={specialization_id}
-          onValueChange={(value) => setFilters({ specialization_id: value })}
+          value={urgency}
+          onValueChange={(value) =>
+            setFilters({
+              urgency:
+                urgencyOptions.find((option) => option === value) ??
+                "allUrgency",
+              page: null,
+            })
+          }
         >
-          <SelectTrigger className="w-full max-w-48 min-h-8.5 bg-white text-[13px]">
-            <SelectValue placeholder={t("Filters.allCategories")} />
+          <SelectTrigger
+            aria-label={t("Filters.allUrgency")}
+            className="w-full max-w-48 min-h-8.5 bg-white text-[13px]"
+          >
+            <SelectValue placeholder={t("Filters.allUrgency")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {[
-                { id: "all", name: t("Filters.allCategories") },
-                ...referenceData.specializations,
-              ].map((spec) => (
-                <SelectItem key={spec.id} value={String(spec.id)}>
-                  {spec.name}
+              {urgencyOptions.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {t(`Filters.${option}`)}
                 </SelectItem>
               ))}
             </SelectGroup>
           </SelectContent>
         </Select>
 
-        <Select
-          value={urgency}
-          onValueChange={(value) => setFilters({ urgency: value })}
-        >
-          <SelectTrigger className="w-full max-w-48 min-h-8.5 bg-white text-[13px]">
-            <SelectValue placeholder={t("Filters.allUrgency")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {["allUrgency", "urgent", "standard", "very_urgent"].map(
-                (spec) => (
-                  <SelectItem key={spec} value={spec}>
-                    {t(`Filters.${spec}`)}
-                  </SelectItem>
-                ),
-              )}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
         <div className="ms-auto flex items-center gap-2">
           <Badge className="rounded-sm px-3 h-6 bg-destructive/2 text-destructive border-destructive/20">
-            <span className="size-1.5 rounded-full bg-destructive"></span>
+            <span aria-hidden className="size-1.5 rounded-full bg-destructive" />
             {urgencyCounts.critical} {t("Filters.critical")}
           </Badge>
 
           <Badge className="rounded-sm px-3 h-6 bg-amber-50 text-amber-700 border-amber-200">
-            <span className="size-1.5 rounded-full bg-amber-700"></span>
+            <span aria-hidden className="size-1.5 rounded-full bg-amber-700" />
             {urgencyCounts.urgent} {t("Filters.urgent")}
           </Badge>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 text-[13px] text-red-700">
+      <div
+        role="status"
+        className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 text-[13px] text-red-700"
+      >
         <TriangleAlert className="text-red-500 shrink-0 size-3.5" />
         <span>
           <span className="font-semibold">

@@ -1,39 +1,53 @@
 "use server";
 
+import z from "zod";
 import { updateTag } from "next/cache";
-import { http } from "./http";
+import { ForbiddenError, http } from "./http";
+import { CaseReviewResult, rejectSchema } from "@/types/case-approvals";
 
-// Reject Profile
-type RejectCaseResult = { success: true; message: string } | { success: false };
+// Server actions are public endpoints, so every argument is re-validated here.
+const caseIdSchema = z.number().int().positive();
+const serverReasonSchema = rejectSchema((key) => key).shape.reason;
 
-export async function rejectCase(
+// Sends a review decision for a case and refreshes its cached details on success.
+async function review(
   caseId: number,
-  reason: string,
-): Promise<RejectCaseResult> {
+  decision: "approve" | "reject",
+  body?: { reason: string },
+): Promise<CaseReviewResult> {
   try {
-    const { data } = await http.post<{ message: string }>(
-      `/api/admin/case-approvals/${caseId}/reject`,
-      { reason },
-    );
+    await http.post(`/api/admin/case-approvals/${caseId}/${decision}`, body);
 
-    updateTag(`case-approval-${caseId}`);
-    return { success: true, message: data.message };
-  } catch (error) {
-    console.error("Error rejecting case:", error);
-    return { success: false };
-  }
-}
-
-// Approve Profile
-export async function approveCase(
-  caseId: number,
-): Promise<{ success: boolean }> {
-  try {
-    await http.post(`/api/admin/case-approvals/${caseId}/approve`);
     updateTag(`case-approval-${caseId}`);
     return { success: true };
   } catch (error) {
-    console.error("Error approving case:", error);
-    return { success: false };
+    if (error instanceof ForbiddenError) {
+      return { success: false, error: "forbidden" };
+    }
+
+    console.error(`Case approval "${decision}" failed:`, error);
+    return { success: false, error: "failed" };
   }
+}
+
+// Reject Case
+export async function rejectCase(
+  caseId: number,
+  reason: string,
+): Promise<CaseReviewResult> {
+  const id = caseIdSchema.safeParse(caseId);
+  const parsedReason = serverReasonSchema.safeParse(reason);
+  if (!id.success || !parsedReason.success) {
+    return { success: false, error: "failed" };
+  }
+
+  return review(id.data, "reject", { reason: parsedReason.data });
+}
+
+// Approve Case
+export async function approveCase(caseId: number): Promise<CaseReviewResult> {
+  const id = caseIdSchema.safeParse(caseId);
+  if (!id.success) return { success: false, error: "failed" };
+
+  return review(id.data, "approve");
 }

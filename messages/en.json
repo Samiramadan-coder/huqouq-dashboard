@@ -196,7 +196,8 @@
       "noCases": "No Cases found",
       "decisionDate": "Decision Date",
       "ReviewedBy": "Reviewed By",
-      "RejectionReason": "Rejection Reason"
+      "RejectionReason": "Rejection Reason",
+      "reviewCase": "Review case: {title}"
     },
     "Filters": {
       "allCategories": "All Categories",
@@ -237,7 +238,12 @@
       "Condition2": "Sufficient detail — description gives lawyers enough context to assess",
       "Condition3": "No premature contact info — no phone/email/WhatsApp in title or description",
       "Condition4": "No spam or scam patterns — genuine legal need, not solicitation",
-      "placeholderRejectionReason": "Explain clearly why this case is being rejected and what the client should correct before resubmitting (min 10 characters)…"
+      "placeholderRejectionReason": "Explain clearly why this case is being rejected and what the client should correct before resubmitting (min 10 characters)…",
+      "reason_min_length": "Reason must be at least 10 characters",
+      "actionForbidden": "You don't have permission to perform this action.",
+      "alreadyReviewed": "This case has already been reviewed.",
+      "noDocuments": "No documents attached",
+      "previewDocument": "Preview document: {name}"
     }
   },
   "CaseMonitoring": {

@@ -1,3 +1,6 @@
+import z from "zod";
+import { Pagination, T } from "./shared";
+
 export type Counts = {
   closed: number;
   in_progress: number;
@@ -68,15 +71,60 @@ export type Case = {
   status: CaseStatus;
   status_label: string;
   title: string;
-  urgency: "urgent" | "standard" | "very_urgent";
+  urgency: Urgency;
   urgency_label: string;
 };
 
-export type CaseDetails = Case & {
-  documents: {
-    id: number;
-    name: string;
-    url: string;
-    size_bytes: number;
-  }[];
+export type CaseDocument = {
+  id: number;
+  name: string;
+  url: string;
+  size_bytes: number;
 };
+
+export type CaseDetails = Case & {
+  documents: CaseDocument[];
+};
+
+// Tabs of the approvals list, in display order.
+export const reviewStatuses = [
+  "pending_review",
+  "published",
+  "rejected",
+] as const satisfies readonly CaseStatus[];
+
+export type ReviewStatus = (typeof reviewStatuses)[number];
+
+export const urgencies = ["urgent", "standard", "very_urgent"] as const;
+
+export type Urgency = (typeof urgencies)[number];
+
+// Response of `GET /api/admin/case-approvals`.
+export type CaseApprovalsResponse = {
+  data: Case[];
+  counts: Counts;
+  urgency_counts: UrgencyCounts;
+  meta: Pagination;
+};
+
+// Response of `GET /api/admin/case-approvals/:id`.
+export type CaseApprovalResponse = {
+  data: CaseDetails;
+};
+
+export type CaseReviewResult =
+  | { success: true }
+  | { success: false; error: "forbidden" | "failed" };
+
+export const REJECTION_REASON_MIN_LENGTH = 10;
+
+export const rejectSchema = (t: T) =>
+  z.object({
+    reason: z
+      .string()
+      .trim()
+      .min(1, t("reason_required"))
+      .min(REJECTION_REASON_MIN_LENGTH, t("reason_min_length")),
+  });
+
+export type RejectFormData = z.infer<ReturnType<typeof rejectSchema>>;

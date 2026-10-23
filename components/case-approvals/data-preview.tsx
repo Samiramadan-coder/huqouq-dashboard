@@ -7,7 +7,7 @@ import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
 import UrgencyBadge from "../reusable/urgency-label";
-import { Case, CaseStatus } from "@/types/case-approvals";
+import { Case, ReviewStatus } from "@/types/case-approvals";
 import CaseStatusLabel from "../reusable/case-status-label";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 
@@ -18,11 +18,11 @@ export default async function DataPreview({
 }: {
   cases: Case[];
   pagination: Pagination;
-  tableStatus: CaseStatus;
+  tableStatus: ReviewStatus;
 }) {
   const t = await getTranslations("CaseApprovals");
 
-  const columns = (): DataTableColumn[] => [
+  const columns: DataTableColumn[] = [
     { label: t("Table.client") },
     { label: t("Table.title") },
     { label: t("Table.category") },
@@ -44,7 +44,7 @@ export default async function DataPreview({
 
   return (
     <DataTable
-      columns={columns()}
+      columns={columns}
       countUnit={t("Table.client")}
       rowsCount={cases.length}
       pagination={pagination}
@@ -125,7 +125,10 @@ export default async function DataPreview({
 
             <TableCell className="px-5 py-3">
               {tableStatus === "pending_review" ? (
-                <Link href={`/case-approvals/${caseItem.id}`}>
+                <Link
+                  href={`/case-approvals/${caseItem.id}`}
+                  aria-label={t("Table.reviewCase", { title: caseItem.title })}
+                >
                   <ReViewBtn />
                 </Link>
               ) : (
@@ -137,7 +140,7 @@ export default async function DataPreview({
       ) : (
         <TableRow>
           <TableCell
-            colSpan={columns().length}
+            colSpan={columns.length}
             className="text-center py-4 text-sm text-gray-500"
           >
             {t("Table.noCases")}

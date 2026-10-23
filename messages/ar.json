@@ -120,6 +120,17 @@
     "approve": "الموافقة على الملف الشخصي",
     "profileApproved": "تمت الموافقة على الملف الشخصي بنجاح",
     "profileApproveFailed": "فشل في الموافقة على الملف الشخصي. يرجى المحاولة مرة أخرى.",
+    "actionForbidden": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
+    "confirmApproveTitle": "الموافقة على هذا الملف الشخصي؟",
+    "confirmApproveDescription": "ستتم الموافقة على المحامي وسيصبح نشطًا على المنصة.",
+    "confirmRejectTitle": "رفض هذا الملف الشخصي؟",
+    "confirmRejectDescription": "سيتم إعادة الملف الشخصي إلى المحامي مع الأقسام المحددة لتصحيحها.",
+    "downloadCertificate": "تنزيل الشهادة: {name}",
+    "AccountTypes": {
+      "freelance": "مستقل",
+      "company": "شركة",
+      "office": "مكتب محاماة"
+    },
     "Table": {
       "lawyer": "المحامي",
       "accountType": "نوع الحساب",

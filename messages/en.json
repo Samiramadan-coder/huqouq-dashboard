@@ -118,6 +118,17 @@
     "approve": "Approve Profile",
     "profileApproved": "Profile approved successfully",
     "profileApproveFailed": "Failed to approve profile. Please try again.",
+    "actionForbidden": "You don't have permission to perform this action.",
+    "confirmApproveTitle": "Approve this profile?",
+    "confirmApproveDescription": "The lawyer will be approved and become active on the platform.",
+    "confirmRejectTitle": "Reject this profile?",
+    "confirmRejectDescription": "The profile will be sent back to the lawyer with the flagged sections to correct.",
+    "downloadCertificate": "Download certificate: {name}",
+    "AccountTypes": {
+      "freelance": "Freelance",
+      "company": "Company",
+      "office": "Law Office"
+    },
     "Table": {
       "lawyer": "Lawyer",
       "accountType": "Account Type",

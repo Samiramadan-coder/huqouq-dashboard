@@ -8,35 +8,44 @@ import {
 import { Field } from "../ui/field";
 import { CircleCheck, CircleX, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Counts } from "@/types/lawyer-approvals";
-import { parseAsString, useQueryStates } from "nuqs";
+import { approvalStatuses, Counts } from "@/types/lawyer-approvals";
+import {
+  debounce,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryStates,
+} from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { cn } from "@/lib/utils";
 
-const statuses: (keyof Counts)[] = ["pending", "approved", "rejected"];
+const SEARCH_DEBOUNCE_MS = 400;
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("LawyerApprovals");
 
-  const [{ status, q }, setFilters] = useQueryStates({
-    status: parseAsString.withDefault("pending").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-    q: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-  });
+  const [{ status, q }, setFilters] = useQueryStates(
+    {
+      status: parseAsStringLiteral(approvalStatuses).withDefault("pending"),
+      q: parseAsString.withDefault(""),
+      // Reset to the first page whenever a filter changes.
+      page: parseAsString,
+    },
+    { history: "push", shallow: false },
+  );
 
   return (
     <div className="space-y-5">
       <Tabs
         value={status}
-        onValueChange={(value) => setFilters({ status: value })}
+        onValueChange={(value) =>
+          setFilters({
+            status: approvalStatuses.find((s) => s === value) ?? "pending",
+            page: null,
+          })
+        }
       >
         <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200">
-          {statuses.map((statusKey) => {
+          {approvalStatuses.map((statusKey) => {
             const isActive = statusKey === status;
 
             return (
@@ -68,11 +77,19 @@ export function FilterControl({ counts }: { counts: Counts }) {
           <Field>
             <InputGroup className="bg-white h-8.5 border border-gray-200">
               <InputGroupInput
+                type="search"
                 value={q}
+                aria-label={t("searchPlaceholder")}
                 onChange={(e) =>
-                  setFilters({
-                    q: e.target.value,
-                  })
+                  setFilters(
+                    { q: e.target.value, page: null },
+                    {
+                      history: "replace",
+                      limitUrlUpdates: e.target.value
+                        ? debounce(SEARCH_DEBOUNCE_MS)
+                        : undefined,
+                    },
+                  )
                 }
                 placeholder={t("searchPlaceholder")}
                 className="min-w-50 placeholder:text-gray-400 placeholder:text-[13px]"

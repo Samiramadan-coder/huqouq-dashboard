@@ -6,7 +6,7 @@ import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { getTranslations } from "next-intl/server";
 import { CircleCheck, CircleX } from "lucide-react";
-import { Counts, Lawyer } from "@/types/lawyer-approvals";
+import { ApprovalStatus, Lawyer } from "@/types/lawyer-approvals";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
@@ -17,11 +17,11 @@ export default async function DataPreview({
 }: {
   lawyers: Lawyer[];
   pagination: Pagination;
-  tableStatus: keyof Counts;
+  tableStatus: ApprovalStatus;
 }) {
   const t = await getTranslations("LawyerApprovals");
 
-  const columns = (): DataTableColumn[] => [
+  const columns: DataTableColumn[] = [
     { label: t("Table.lawyer") },
     { label: t("Table.accountType") },
     { label: t("Table.specializations") },
@@ -40,7 +40,7 @@ export default async function DataPreview({
 
   return (
     <DataTable
-      columns={columns()}
+      columns={columns}
       countUnit={t("Table.lawyer")}
       rowsCount={lawyers.length}
       pagination={pagination}
@@ -68,7 +68,7 @@ export default async function DataPreview({
 
             <TableCell className="px-5 py-3">
               <Badge className="bg-background text-primary border border-primary/10 text-[11px]">
-                {lawyer.lawyer_profile.account_type}
+                {t(`AccountTypes.${lawyer.lawyer_profile.account_type}`)}
               </Badge>
             </TableCell>
 
@@ -137,7 +137,7 @@ export default async function DataPreview({
       ) : (
         <TableRow>
           <TableCell
-            colSpan={7}
+            colSpan={columns.length}
             className="text-center py-4 text-sm text-gray-500"
           >
             {t("Table.noApplications")}

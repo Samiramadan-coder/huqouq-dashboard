@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "./shared";
+import { Pagination, T } from "./shared";
 
 export type Education = {
   certificate_path: string | null;
@@ -26,13 +26,18 @@ export type Experience = {
   id: number;
 };
 
-export type ItemKey =
-  | "professional_info"
-  | "specializations_services"
-  | "languages_bio"
-  | "education"
-  | "experience"
-  | "bar_certificate";
+export const itemKeys = [
+  "professional_info",
+  "specializations_services",
+  "languages_bio",
+  "education",
+  "experience",
+  "bar_certificate",
+] as const;
+
+export type ItemKey = (typeof itemKeys)[number];
+
+export type ReviewItemStatus = "pending" | "approved" | "flagged";
 
 export type ReviewItem = {
   item: ItemKey;
@@ -40,11 +45,15 @@ export type ReviewItem = {
   reason: null | string;
   reviewed_at: null | string;
   reviewed_by: null | string;
-  status: "pending" | "approved" | "flagged";
+  status: ReviewItemStatus;
 };
 
+export type AccountType = "freelance" | "company" | "office";
+
+export type ProfileStatus = "in_review" | "approved" | "needs_fix";
+
 export type LawyerProfile = {
-  account_type: "freelance" | "company" | "office";
+  account_type: AccountType;
   specializations: { id: number; name: string }[];
   services: { id: number; name: string }[];
   submitted_at: string;
@@ -57,7 +66,7 @@ export type LawyerProfile = {
   bio: string;
   completion_percentage: number;
   office_name: string;
-  profile_status: "in_review" | "approved" | "needs_fix";
+  profile_status: ProfileStatus;
   rejection_reason: string | null;
   website_url: string;
   years_of_experience: number;
@@ -87,15 +96,32 @@ export type Lawyer = {
   lawyer_profile: LawyerProfile;
 };
 
-export type Counts = {
-  approved: number;
-  pending: number;
-  rejected: number;
+// Tabs of the approvals list, in display order.
+export const approvalStatuses = ["pending", "approved", "rejected"] as const;
+
+export type ApprovalStatus = (typeof approvalStatuses)[number];
+
+export type Counts = Record<ApprovalStatus, number>;
+
+// Response of `GET /api/admin/lawyer-approvals`.
+export type LawyerApprovalsResponse = {
+  data: Lawyer[];
+  counts: Counts;
+  meta: Pagination;
 };
+
+// Response of `GET /api/admin/lawyer-approvals/:id`.
+export type LawyerApprovalResponse = {
+  user: Lawyer;
+};
+
+export type ReviewActionResult =
+  | { success: true }
+  | { success: false; error: "forbidden" | "failed" };
 
 export const reasonSchema = (t: T) =>
   z.object({
-    reason: z.string().min(1, t("reasonIsRequired")),
+    reason: z.string().trim().min(1, t("reasonIsRequired")),
   });
 
 export type ReasonFormData = z.infer<ReturnType<typeof reasonSchema>>;

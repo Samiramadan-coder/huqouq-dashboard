@@ -1,4 +1,5 @@
 import { Badge } from "../ui/badge";
+import { useTranslations } from "next-intl";
 import { Download, GraduationCap } from "lucide-react";
 import { LawyerProfile } from "@/types/lawyer-approvals";
 
@@ -7,10 +8,12 @@ export default function Education({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
+  const t = useTranslations("LawyerApprovals");
+
   return (
     <div className="space-y-6">
-      {lawyerProfile.education.map((edu, idx) => (
-        <div key={idx} className="flex items-center gap-4">
+      {lawyerProfile.education.map((edu) => (
+        <div key={edu.id} className="flex items-center gap-4">
           <Badge className="w-10 h-10 bg-primary/10 text-primary rounded-full">
             <GraduationCap className="size-4!" />
           </Badge>
@@ -24,7 +27,11 @@ export default function Education({
               {edu.graduation_month}-{edu.graduation_year}
             </p>
             {edu.certificate_url && (
-              <a href={edu.certificate_url} download>
+              <a
+                href={edu.certificate_url}
+                download
+                aria-label={t("downloadCertificate", { name: edu.degree })}
+              >
                 <Download className="text-primary size-5" />
               </a>
             )}

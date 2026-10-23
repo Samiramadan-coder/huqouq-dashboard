@@ -1,88 +1,101 @@
 "use server";
 
-import { http } from "./http";
+import z from "zod";
 import { updateTag } from "next/cache";
-import { ItemKey } from "@/types/lawyer-approvals";
+import { ForbiddenError, http } from "./http";
+import {
+  ItemKey,
+  itemKeys,
+  reasonSchema,
+  ReviewActionResult,
+} from "@/types/lawyer-approvals";
+
+// Server actions are public endpoints, so every argument is re-validated here.
+const lawyerIdSchema = z.number().int().positive();
+const sectionSchema = z.enum(itemKeys);
+const serverReasonSchema = reasonSchema((key) => key).shape.reason;
+
+// Sends a review request for a lawyer and refreshes their cached details on success.
+async function review(
+  lawyerId: number,
+  path: string,
+  body?: Record<string, string>,
+): Promise<ReviewActionResult> {
+  try {
+    await http.post(`/api/admin/lawyer-approvals/${lawyerId}/${path}`, body);
+
+    updateTag(`lawyer-approval-${lawyerId}`);
+    return { success: true };
+  } catch (error) {
+    if (error instanceof ForbiddenError) {
+      return { success: false, error: "forbidden" };
+    }
+
+    console.error(`Lawyer approval request "${path}" failed:`, error);
+    return { success: false, error: "failed" };
+  }
+}
+
+const invalidInput: ReviewActionResult = { success: false, error: "failed" };
 
 // Approve Section
 export async function approveSection(
   lawyerId: number,
   section: ItemKey,
-): Promise<{ success: boolean }> {
-  try {
-    await http.post(
-      `/api/admin/lawyer-approvals/${lawyerId}/items/${section}/approve`,
-    );
+): Promise<ReviewActionResult> {
+  const id = lawyerIdSchema.safeParse(lawyerId);
+  const item = sectionSchema.safeParse(section);
+  if (!id.success || !item.success) return invalidInput;
 
-    updateTag(`lawyer-approval-${lawyerId}`);
-    return { success: true };
-  } catch (error) {
-    console.error("Error approving section:", error);
-    return { success: false };
-  }
+  return review(id.data, `items/${item.data}/approve`);
 }
 
-// Reject Section
+// Flag (reject) Section
 export async function flagSection(
   lawyerId: number,
   section: ItemKey,
   reason: string,
-): Promise<{ success: boolean }> {
-  try {
-    await http.post(
-      `/api/admin/lawyer-approvals/${lawyerId}/items/${section}/flag`,
-      { reason },
-    );
-
-    updateTag(`lawyer-approval-${lawyerId}`);
-    return { success: true };
-  } catch (error) {
-    console.error("Error flagging section:", error);
-    return { success: false };
+): Promise<ReviewActionResult> {
+  const id = lawyerIdSchema.safeParse(lawyerId);
+  const item = sectionSchema.safeParse(section);
+  const parsedReason = serverReasonSchema.safeParse(reason);
+  if (!id.success || !item.success || !parsedReason.success) {
+    return invalidInput;
   }
+
+  return review(id.data, `items/${item.data}/flag`, {
+    reason: parsedReason.data,
+  });
 }
 
 // Undo Section
 export async function undoSection(
   lawyerId: number,
   section: ItemKey,
-): Promise<{ success: boolean }> {
-  try {
-    await http.post(
-      `/api/admin/lawyer-approvals/${lawyerId}/items/${section}/undo`,
-    );
-    updateTag(`lawyer-approval-${lawyerId}`);
-    return { success: true };
-  } catch (error) {
-    console.error("Error undoing section:", error);
-    return { success: false };
-  }
+): Promise<ReviewActionResult> {
+  const id = lawyerIdSchema.safeParse(lawyerId);
+  const item = sectionSchema.safeParse(section);
+  if (!id.success || !item.success) return invalidInput;
+
+  return review(id.data, `items/${item.data}/undo`);
 }
 
 // Reject Profile
 export async function rejectProfile(
   lawyerId: number,
-): Promise<{ success: boolean }> {
-  try {
-    await http.post(`/api/admin/lawyer-approvals/${lawyerId}/reject`);
-    updateTag(`lawyer-approval-${lawyerId}`);
-    return { success: true };
-  } catch (error) {
-    console.error("Error rejecting profile:", error);
-    return { success: false };
-  }
+): Promise<ReviewActionResult> {
+  const id = lawyerIdSchema.safeParse(lawyerId);
+  if (!id.success) return invalidInput;
+
+  return review(id.data, "reject");
 }
 
 // Approve Profile
 export async function approveProfile(
   lawyerId: number,
-): Promise<{ success: boolean }> {
-  try {
-    await http.post(`/api/admin/lawyer-approvals/${lawyerId}/approve-profile`);
-    updateTag(`lawyer-approval-${lawyerId}`);
-    return { success: true };
-  } catch (error) {
-    console.error("Error approving profile:", error);
-    return { success: false };
-  }
+): Promise<ReviewActionResult> {
+  const id = lawyerIdSchema.safeParse(lawyerId);
+  if (!id.success) return invalidInput;
+
+  return review(id.data, "approve-profile");
 }

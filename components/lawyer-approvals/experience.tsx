@@ -8,12 +8,12 @@ export default function Experience({
 }: {
   lawyerProfile: LawyerProfile;
 }) {
-  const t = useTranslations("LawyerApprovals.Experience");
+  const t = useTranslations("LawyerApprovals");
 
   return (
     <div className="space-y-6">
-      {lawyerProfile.experience.map((exp, idx) => (
-        <div key={idx} className="flex items-center gap-4">
+      {lawyerProfile.experience.map((exp) => (
+        <div key={exp.id} className="flex items-center gap-4">
           <Badge className="w-10 h-10 bg-secondary/10 text-secondary rounded-full">
             <Package2 className="size-4!" />
           </Badge>
@@ -24,10 +24,15 @@ export default function Experience({
             </p>
             <p className="text-[12.5px] text-gray-600">{exp.organization}</p>
             <p className="text-[11.5px] text-gray-400">
-              {exp.start_year} - {exp.is_current ? t("Present") : exp.end_year}
+              {exp.start_year} -{" "}
+              {exp.is_current ? t("Experience.Present") : exp.end_year}
             </p>
             {exp.certificate_url && (
-              <a href={exp.certificate_url} download>
+              <a
+                href={exp.certificate_url}
+                download
+                aria-label={t("downloadCertificate", { name: exp.title })}
+              >
                 <Download className="text-primary size-5" />
               </a>
             )}

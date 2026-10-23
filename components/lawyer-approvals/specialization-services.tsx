@@ -18,7 +18,7 @@ export default function SpecializationServices({
           {lawyerProfile.specializations.map((spec) => (
             <Badge
               className="bg-primary/6 text-primary text-[12px] border border-primary/10 min-w-16 h-6"
-              key={spec.name}
+              key={spec.id}
             >
               {spec.name}
             </Badge>
@@ -32,7 +32,7 @@ export default function SpecializationServices({
           {lawyerProfile.services.map((service) => (
             <Badge
               className="bg-transparent text-primary text-[12px] border border-primary/10 min-w-16 h-6"
-              key={service.name}
+              key={service.id}
             >
               {service.name}
             </Badge>

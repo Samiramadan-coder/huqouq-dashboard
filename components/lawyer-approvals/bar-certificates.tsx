@@ -15,6 +15,7 @@ export default function BarCertificates({
         <MainTitle>{t("title")}</MainTitle>
         <iframe
           src={lawyerProfile.bar_certificate_url}
+          title={t("documentPreview")}
           className="w-full h-250 rounded-lg"
         />
       </div>

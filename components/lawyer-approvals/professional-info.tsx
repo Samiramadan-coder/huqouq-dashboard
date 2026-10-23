@@ -6,14 +6,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("LawyerApprovals.ProfessionalInfo");
+  const tAccountTypes = useTranslations("LawyerApprovals.AccountTypes");
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Avatar className="size-18 border-2 border-white/25">
           <AvatarImage
-            src={lawyer.photo_url || ""}
-            alt={lawyer.name || "User Avatar"}
+            src={lawyer.photo_url ?? undefined}
+            alt={lawyer.name}
             className="object-cover"
           />
           <AvatarFallback className="uppercase bg-primary text-white">
@@ -24,7 +25,9 @@ export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
         <div>
           <p className="text-[15px] font-bold text-gray-900">{lawyer.name}</p>
           <p className="text-[11px] text-gray-400">
-            {lawyer.lawyer_profile.account_type || "-"}
+            {lawyer.lawyer_profile.account_type
+              ? tAccountTypes(lawyer.lawyer_profile.account_type)
+              : "-"}
           </p>
         </div>
       </div>

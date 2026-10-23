@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BriefcaseBusiness,
   CalendarDays,
@@ -8,71 +6,42 @@ import {
   MapPin,
 } from "lucide-react";
 
-import { Lawyer } from "@/types/lawyers";
-import { useTranslations } from "next-intl";
-import { cn, formatDate } from "@/lib/utils";
+import { Fragment } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Fragment, type ReactNode } from "react";
+import { LawyerDetailsView } from "@/types/lawyers";
 import { Separator } from "@/components/ui/separator";
-import { Card, CardContent } from "@/components/ui/card";
+import { useFormatter, useTranslations } from "next-intl";
+import { DATE_FORMAT } from "../people-directory/format";
+import {
+  ContactRows,
+  InfoRow,
+  ProfileSection,
+} from "../people-directory/profile-section";
 
-function ProfileSection({
-  title,
-  children,
+export default function LawyerProfileDetails({
+  lawyer,
 }: {
-  title: string;
-  children: ReactNode;
+  lawyer: LawyerDetailsView;
 }) {
-  return (
-    <section className="space-y-3">
-      <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-        {title}
-      </h2>
-
-      <Card className="gap-0 rounded-2xl border-0 bg-[#FAFBFC] py-0 shadow-none">
-        <CardContent className="p-4">{children}</CardContent>
-      </Card>
-    </section>
-  );
-}
-
-function InfoRow({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="grid grid-cols-1 gap-1 py-2.5 first:pt-0 last:pb-0 sm:grid-cols-[140px_minmax(0,1fr)] sm:items-start sm:gap-3">
-      <dt className="text-[11px] font-bold uppercase leading-5 text-gray-400">
-        {label}
-      </dt>
-
-      <dd className="min-w-0 wrap-break-word text-[13px] leading-5 text-gray-700">
-        {children}
-      </dd>
-    </div>
-  );
-}
-
-export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("Lawyers.Profile");
+  const tCommon = useTranslations("PeopleDirectory");
+  const format = useFormatter();
+  const { profile } = lawyer;
+  const location = [lawyer.city, lawyer.country].filter(Boolean).join(", ");
 
   return (
-    <div className={cn("w-full space-y-6 text-start")}>
+    <div className="w-full space-y-6 text-start">
       <ProfileSection title={t("ProfessionalInfo")}>
         <dl className="divide-y divide-gray-100/60">
-          <InfoRow label={t("Headline")}>{t("Data.Headline")}</InfoRow>
-
-          <InfoRow label={t("Email")}>
-            <a
-              href={`mailto:${lawyer.email}`}
-              className="text-[#173D63] hover:underline"
-            >
-              <bdi dir="ltr">{lawyer.email || "NotAvailable"}</bdi>
-            </a>
-          </InfoRow>
-
-          <InfoRow label={t("Phone")}>
-            <a href={`tel:${lawyer.phone}`} className="hover:underline">
-              <bdi dir="ltr">{lawyer.phone}</bdi>
-            </a>
-          </InfoRow>
+          <ContactRows
+            email={lawyer.email}
+            phone={lawyer.phone}
+            labels={{
+              email: t("Email"),
+              phone: t("Phone"),
+              notAvailable: tCommon("notAvailable"),
+            }}
+          />
 
           <InfoRow label={t("Location")}>
             <span className="inline-flex items-center gap-1.5">
@@ -80,14 +49,12 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
                 aria-hidden="true"
                 className="size-3 shrink-0 text-gray-400"
               />
-              {t("Data.Location")}
+              {location || tCommon("notAvailable")}
             </span>
           </InfoRow>
 
           <InfoRow label={t("Experience")}>
-            {t("YearsExperience", {
-              count: lawyer.profile.years_of_experience,
-            })}
+            {t("YearsExperience", { count: profile.years_of_experience })}
           </InfoRow>
 
           <InfoRow label={t("Joined")}>
@@ -96,7 +63,7 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
                 aria-hidden="true"
                 className="size-3 shrink-0 text-gray-400"
               />
-              {formatDate(lawyer.joined_at)}
+              {format.dateTime(new Date(lawyer.joined_at), DATE_FORMAT)}
             </span>
           </InfoRow>
         </dl>
@@ -104,23 +71,21 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
 
       {lawyer.specializations.length > 0 && (
         <ProfileSection title={t("SpecializationsServices")}>
-          <div className="space-y-3">
-            <div className="space-y-1.5">
-              <h3 className="text-[11px] text-slate-400">
-                {t("PrimarySpecializations")}
-              </h3>
+          <div className="space-y-1.5">
+            <h3 className="text-[11px] text-slate-400">
+              {t("PrimarySpecializations")}
+            </h3>
 
-              <div className="flex flex-wrap gap-1.5">
-                {lawyer.specializations.map((spec) => (
-                  <Badge
-                    key={spec.id}
-                    variant="secondary"
-                    className="rounded-sm border-0 bg-primary/8 px-2 py-0.5 text-[11px] font-medium text-primary"
-                  >
-                    {spec.name}
-                  </Badge>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-1.5">
+              {lawyer.specializations.map((spec) => (
+                <Badge
+                  key={spec.id}
+                  variant="secondary"
+                  className="rounded-sm border-0 bg-primary/8 px-2 py-0.5 text-[11px] font-medium text-primary"
+                >
+                  {spec.name}
+                </Badge>
+              ))}
             </div>
           </div>
         </ProfileSection>
@@ -134,87 +99,107 @@ export default function LawyerProfileDetails({ lawyer }: { lawyer: Lawyer }) {
               className="size-3.5 shrink-0 text-slate-400"
             />
 
-            {lawyer.profile.languages.map((language) => (
-              <Badge
-                key={language}
-                variant="secondary"
-                className="rounded-sm border-0 bg-[#F5F0E6] px-2 py-0.5 text-[11px] font-medium text-secondary hover:bg-[#F5F0E6]"
-              >
-                {language}
-              </Badge>
-            ))}
+            {profile.languages.length
+              ? profile.languages.map((language) => (
+                  <Badge
+                    key={language}
+                    variant="secondary"
+                    className="rounded-sm border-0 bg-[#F5F0E6] px-2 py-0.5 text-[11px] font-medium text-secondary hover:bg-[#F5F0E6]"
+                  >
+                    {language}
+                  </Badge>
+                ))
+              : tCommon("notAvailable")}
           </div>
 
-          <p className="text-[13px] leading-relaxed text-slate-600">
-            {lawyer.profile.bio}
-          </p>
+          {profile.bio && (
+            <p className="text-[13px] leading-relaxed text-slate-600 whitespace-pre-line wrap-break-word">
+              {profile.bio}
+            </p>
+          )}
         </div>
       </ProfileSection>
 
       <ProfileSection title={t("Education")}>
-        {lawyer.profile.education.map((education, index) => (
-          <Fragment key={education.id}>
-            {index > 0 && <Separator className="my-3 bg-slate-100" />}
+        {profile.education.length ? (
+          profile.education.map((education, index) => (
+            <Fragment key={education.id}>
+              {index > 0 && <Separator className="my-3 bg-slate-100" />}
 
-            <div className="flex items-start gap-2">
-              <GraduationCap
-                aria-hidden="true"
-                className="mt-0.5 size-3.5 shrink-0 text-[#173D63]"
-              />
+              <div className="flex items-start gap-2">
+                <GraduationCap
+                  aria-hidden="true"
+                  className="mt-0.5 size-3.5 shrink-0 text-[#173D63]"
+                />
 
-              <div className="min-w-0 space-y-0.5">
-                <h3 className="text-[13px] font-semibold text-slate-800">
-                  {education.degree}
-                </h3>
+                <div className="min-w-0 space-y-0.5">
+                  <h3 className="text-[13px] font-semibold text-slate-800">
+                    {education.degree}
+                  </h3>
 
-                <p className="text-[11px] leading-5 text-slate-500">
-                  {education.description}
-                </p>
+                  <p className="text-[11px] leading-5 text-slate-500">
+                    {education.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          </Fragment>
-        ))}
+            </Fragment>
+          ))
+        ) : (
+          <p className="text-[13px] text-gray-400">
+            {tCommon("notAvailable")}
+          </p>
+        )}
       </ProfileSection>
 
       <ProfileSection title={t("Experience")}>
-        {lawyer.profile.experience.map((experience, index) => (
-          <Fragment key={experience.id}>
-            {index > 0 && <Separator className="my-3 bg-slate-100" />}
+        {profile.experience.length ? (
+          profile.experience.map((experience, index) => (
+            <Fragment key={experience.id}>
+              {index > 0 && <Separator className="my-3 bg-slate-100" />}
 
-            <div className="flex items-start gap-2">
-              <BriefcaseBusiness
-                aria-hidden="true"
-                className="mt-0.5 size-3.5 shrink-0 text-[#173D63]"
-              />
+              <div className="flex items-start gap-2">
+                <BriefcaseBusiness
+                  aria-hidden="true"
+                  className="mt-0.5 size-3.5 shrink-0 text-[#173D63]"
+                />
 
-              <div className="min-w-0 space-y-0.5">
-                <h3 className="text-[13px] font-semibold text-slate-800">
-                  {experience.title}
-                </h3>
+                <div className="min-w-0 space-y-0.5">
+                  <h3 className="text-[13px] font-semibold text-slate-800">
+                    {experience.title}
+                  </h3>
 
-                <p className="text-[11px] leading-5 text-slate-500">
-                  {experience.organization}
-                  {" · "}
-                  {t("YearRange", {
-                    start: String(experience.start_year),
-                    end:
-                      experience.end_year === null
-                        ? t("Present")
-                        : String(experience.end_year),
-                  })}
-                </p>
+                  <p className="text-[11px] leading-5 text-slate-500">
+                    {experience.organization}
+                    {" · "}
+                    {t("YearRange", {
+                      start: String(experience.start_year),
+                      end:
+                        experience.end_year === null
+                          ? t("Present")
+                          : String(experience.end_year),
+                    })}
+                  </p>
+                </div>
               </div>
-            </div>
-          </Fragment>
-        ))}
+            </Fragment>
+          ))
+        ) : (
+          <p className="text-[13px] text-gray-400">
+            {tCommon("notAvailable")}
+          </p>
+        )}
       </ProfileSection>
 
       <ProfileSection title={t("BarCertificate")}>
         <dl className="divide-y divide-slate-100/60">
           <InfoRow label={t("BarNumber")}>
-            <bdi dir="ltr" className="font-mono text-xs">
-              {lawyer.profile.bar_number}
-            </bdi>
+            {profile.bar_number ? (
+              <bdi dir="ltr" className="font-mono text-xs">
+                {profile.bar_number}
+              </bdi>
+            ) : (
+              tCommon("notAvailable")
+            )}
           </InfoRow>
         </dl>
       </ProfileSection>

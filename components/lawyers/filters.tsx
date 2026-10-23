@@ -1,31 +1,33 @@
 "use client";
 
+import {
+  debounce,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryStates,
+} from "nuqs";
 import { useTranslations } from "next-intl";
 import QuerySearch from "../reusable/query-search";
 import QuerySelect from "../reusable/query-select";
-import { parseAsString, useQueryStates } from "nuqs";
+import { lawyerStatusFilters } from "@/types/lawyers";
 import { useReferenceData } from "@/providers/reference-data.provider";
+
+const SEARCH_DEBOUNCE_MS = 400;
 
 export default function Filters() {
   const t = useTranslations("Lawyers.filters");
   const { referenceData } = useReferenceData();
 
-  const [filters, setFilters] = useQueryStates({
-    q: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-
-    status: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-
-    specialization: parseAsString.withDefault("").withOptions({
-      history: "push",
-      shallow: false,
-    }),
-  });
+  const [filters, setFilters] = useQueryStates(
+    {
+      q: parseAsString.withDefault(""),
+      status: parseAsStringLiteral(lawyerStatusFilters),
+      specialization: parseAsString.withDefault(""),
+      // Reset to the first page whenever a filter changes.
+      page: parseAsString,
+    },
+    { history: "push", shallow: false },
+  );
 
   return (
     <div className="flex items-center gap-2">
@@ -33,35 +35,55 @@ export default function Filters() {
         placeholder={t("searchPlaceholder")}
         className="max-w-sm"
         value={filters.q}
-        onChange={(value) => setFilters({ q: value })}
+        onChange={(value) =>
+          setFilters(
+            { q: value, page: null },
+            {
+              history: "replace",
+              limitUrlUpdates: value ? debounce(SEARCH_DEBOUNCE_MS) : undefined,
+            },
+          )
+        }
       />
 
       <QuerySelect
-        value={filters.status}
-        onChange={(value) => setFilters({ status: value })}
+        label={t("allStatus")}
+        value={filters.status ?? ""}
+        onChange={(value) =>
+          setFilters({
+            status: lawyerStatusFilters.find((s) => s === value) ?? null,
+            page: null,
+          })
+        }
         placeholder={t("allStatus")}
         className="max-w-xs"
         options={[
           { label: t("allStatus"), value: "" },
-          { label: t("approved"), value: "approved" },
-          { label: t("pending"), value: "pending" },
-          { label: t("rejected"), value: "rejected" },
-          { label: t("incomplete"), value: "incomplete" },
+          ...lawyerStatusFilters.map((status) => ({
+            label: t(status),
+            value: status,
+          })),
         ]}
       />
 
-      <QuerySelect
-        value={filters.specialization}
-        onChange={(value) => setFilters({ specialization: value })}
-        placeholder={t("allSpecializations")}
-        className="max-w-xs"
-        options={
-          referenceData?.specializations.map((spec) => ({
-            label: spec.name,
-            value: String(spec.id),
-          })) || []
-        }
-      />
+      {referenceData && (
+        <QuerySelect
+          label={t("allSpecializations")}
+          value={filters.specialization}
+          onChange={(value) =>
+            setFilters({ specialization: value || null, page: null })
+          }
+          placeholder={t("allSpecializations")}
+          className="max-w-xs"
+          options={[
+            { label: t("allSpecializations"), value: "" },
+            ...referenceData.specializations.map((spec) => ({
+              label: spec.name,
+              value: String(spec.id),
+            })),
+          ]}
+        />
+      )}
     </div>
   );
 }

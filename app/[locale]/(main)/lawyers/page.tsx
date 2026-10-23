@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { http } from "@/lib/http";
-import { Pagination } from "@/types/shared";
 import Stats from "@/components/lawyers/stats";
-import { Counts, Lawyer } from "@/types/lawyers";
 import Filters from "@/components/lawyers/filters";
-import DataPreview from "@/components/lawyers/data-preview";
 import { getTranslations } from "next-intl/server";
+import DataPreview from "@/components/lawyers/data-preview";
+import { LawyersResponse, lawyerStatusFilters } from "@/types/lawyers";
 
 type SearchParams = {
   page?: string;
@@ -20,6 +19,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("lawyers") };
 }
 
+// Falls back to the first page when the URL holds an invalid page number.
+function parsePage(page?: string): number {
+  const value = Number(page);
+  return Number.isInteger(value) && value > 0 ? value : 1;
+}
+
 export default async function Page({
   searchParams,
 }: {
@@ -27,16 +32,14 @@ export default async function Page({
 }) {
   const { page, q, status, specialization } = await searchParams;
 
-  const { data } = await http.get<{
-    counts: Counts;
-    data: Lawyer[];
-    meta: Pagination;
-  }>("/api/admin/lawyers", {
+  const { data } = await http.get<LawyersResponse>("/api/admin/lawyers", {
     params: {
-      page: page ?? "1",
+      page: parsePage(page),
       q: q ?? "",
-      status: status ?? "",
-      specialization: specialization ?? "",
+      // Unknown values are dropped instead of being forwarded to the API.
+      status: lawyerStatusFilters.find((value) => value === status) ?? "",
+      specialization:
+        specialization && /^\d+$/.test(specialization) ? specialization : "",
     },
   });
 

@@ -1,12 +1,12 @@
-import { Badge } from "../ui/badge";
-import { formatDate } from "@/lib/utils";
 import { Client } from "@/types/clients";
 import { Pagination } from "@/types/shared";
 import ClientDetails from "./client-details";
 import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
+import ClientStatusBadge from "./client-status-badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { DATE_FORMAT, maskPhone } from "../people-directory/format";
 
 export default async function DataPreview({
   clients,
@@ -15,29 +15,30 @@ export default async function DataPreview({
   clients: Client[];
   pagination: Pagination;
 }) {
-  const t = await getTranslations("Clients.table");
+  const t = await getTranslations("Clients");
+  const format = await getFormatter();
 
   const columns: DataTableColumn[] = [
-    { label: t("client") },
-    { label: t("emailPhone") },
-    { label: t("status") },
-    { label: t("cases") },
-    { label: t("consults") },
-    { label: t("sos") },
-    { label: t("joined") },
-    { label: "" },
+    { label: t("table.client") },
+    { label: t("table.emailPhone") },
+    { label: t("table.status") },
+    { label: t("table.cases") },
+    { label: t("table.consults") },
+    { label: t("table.sos") },
+    { label: t("table.joined") },
+    { label: t("table.actions") },
   ];
 
   return (
     <DataTable
       columns={columns}
-      countUnit={t("clients")}
+      countUnit={t("table.clients")}
       rowsCount={pagination.total}
       pagination={pagination}
     >
       {clients.length > 0 ? (
-        clients.map((client, index) => (
-          <TableRow key={index} className="border-gray-100">
+        clients.map((client) => (
+          <TableRow key={client.id} className="border-gray-100">
             <TableCell className="px-5 py-3">
               <div className="flex items-center gap-2">
                 <Avatar className="size-8">
@@ -57,14 +58,19 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <p className="text-gray-600 text-[13px]">{client.email}</p>
-              <p className="text-[11px] text-gray-400 mt-1">{client.phone}</p>
+              <p className="text-gray-600 text-[13px]">
+                <bdi dir="ltr">{client.email || "-"}</bdi>
+              </p>
+              {/* Full number is only shown in the details sheet. */}
+              <p className="text-[11px] text-gray-400 mt-1">
+                <bdi dir="ltr">{maskPhone(client.phone) || "-"}</bdi>
+              </p>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <ProfileStatusLabel
+              <ClientStatusBadge
                 status={client.status}
-                statusLabel={client.status_label}
+                label={client.status_label}
               />
             </TableCell>
 
@@ -72,7 +78,7 @@ export default async function DataPreview({
               <span className="text-gray-600 font-semibold text-[13px]">
                 {client.cases_count}{" "}
                 <span className="text-[11px] text-destructive">
-                  ({client.rejected_cases_count} rej)
+                  ({t("rejectedCount", { count: client.rejected_cases_count })})
                 </span>
               </span>
             </TableCell>
@@ -85,12 +91,12 @@ export default async function DataPreview({
 
             <TableCell className="px-5 py-3">
               <span className="text-gray-400 text-[12px]">
-                {formatDate(client.joined_at)}
+                {format.dateTime(new Date(client.joined_at), DATE_FORMAT)}
               </span>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <ClientDetails clientId={client.id} />
+              <ClientDetails clientId={client.id} name={client.name} />
             </TableCell>
           </TableRow>
         ))
@@ -98,44 +104,12 @@ export default async function DataPreview({
         <TableRow>
           <TableCell
             className="px-5 py-3 text-gray-400 text-[13px]"
-            colSpan={8}
+            colSpan={columns.length}
           >
-            {t("noDataAvailable")}
+            {t("table.noDataAvailable")}
           </TableCell>
         </TableRow>
       )}
     </DataTable>
   );
-}
-
-// Component to display the status of a client's profile with a badge.
-export function ProfileStatusLabel({
-  status,
-  statusLabel,
-}: {
-  status: Client["status"];
-  statusLabel: string;
-}) {
-  switch (status) {
-    case "active":
-      return (
-        <Badge className="text-[11px] font-normal bg-emerald-50 text-emerald-800 border-emerald-100 px-3 py-2.5">
-          {statusLabel}
-        </Badge>
-      );
-
-    case "inactive":
-      return (
-        <Badge className="text-[11px] font-normal bg-amber-50 text-amber-800 border-amber-100 px-3 py-2.5">
-          {statusLabel}
-        </Badge>
-      );
-
-    default:
-      return (
-        <Badge className="text-[11px] font-normal bg-primary/5 text-primary border-primary/20 px-3 py-2.5">
-          {statusLabel}
-        </Badge>
-      );
-  }
 }

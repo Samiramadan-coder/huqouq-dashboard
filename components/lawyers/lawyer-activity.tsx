@@ -1,132 +1,73 @@
-"use client";
-
 import {
-  // Zap,
   Star,
   Clock3,
-  // TrendingUp,
   CircleCheck,
   ChevronRight,
   TriangleAlert,
   BriefcaseBusiness,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
-// import { Progress } from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card";
+import { useFormatter, useTranslations } from "next-intl";
+import ActivityGrid from "../people-directory/activity-grid";
 import type { Activity as LawyerActivity } from "@/types/lawyers";
 
 export default function ActivitySummary({
   activity,
-  className,
 }: {
   activity: LawyerActivity;
-  className?: string;
 }) {
   const t = useTranslations("Lawyers.Activity");
-
-  const stats = [
-    {
-      key: "CasesHandled",
-      value: activity.cases_handled,
-      icon: BriefcaseBusiness,
-      color: "text-[#21466A]",
-    },
-    {
-      key: "OffersSubmitted",
-      value: activity.offers_submitted,
-      icon: ChevronRight,
-      color: "text-[#C9A450]",
-    },
-    // {
-    //   key: "ResponseRate",
-    //   value: `${activity.response_rate}%`,
-    //   icon: TrendingUp,
-    //   color: "text-[#00C653]",
-    // },
-    // {
-    //   key: "EmergencyAccepted",
-    //   value: activity.emergency_accepted,
-    //   icon: Zap,
-    //   color: "text-[#FF4055]",
-    // },
-    {
-      key: "AverageRating",
-      value: activity.rating,
-      icon: Star,
-      color: "fill-current text-[#C9A450]",
-    },
-    {
-      key: "ActiveOffers",
-      value: activity.active_offers,
-      icon: Clock3,
-      color: "text-[#387CFF]",
-    },
-    {
-      key: "Reviews",
-      value: activity.reviews_count,
-      icon: CircleCheck,
-      color: "text-[#B044FF]",
-    },
-    {
-      key: "DisputesInvolved",
-      value: activity.disputes_involved,
-      icon: TriangleAlert,
-      color: "text-[#FF762B]",
-    },
-  ] as const;
+  const format = useFormatter();
 
   return (
-    <section className={cn("w-full space-y-3 text-start", className)}>
-      <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
-        {t("Title")}
-      </h2>
-
-      <div className="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2">
-        {stats.map(({ key, value, icon: Icon, color }) => (
-          <Card
-            key={key}
-            className="gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none"
-          >
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-xl border border-gray-100 bg-white shadow-sm">
-                <Icon className={cn("size-3.5", color)} />
-              </div>
-
-              <div className="min-w-0">
-                <p className="text-lg font-bold leading-5 text-primary">
-                  <bdi>{value}</bdi>
-                </p>
-
-                <p className="mt-1 text-[11px] leading-4 text-gray-400">
-                  {t(key)}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* <Card className="mt-5 gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none">
-        <CardContent className="space-y-2 px-4 py-3">
-          <div className="flex items-center justify-between gap-3 text-xs">
-            <span className="font-medium text-gray-600">
-              {t("ResponseRate")}
-            </span>
-
-            <span className="font-bold text-green-600">
-              <bdi>{activity.responseRate}%</bdi>
-            </span>
-          </div>
-
-          <Progress
-            value={activity.responseRate}
-            aria-label={t("ResponseRate")}
-            className="h-2 bg-gray-200 [&>div]:rounded-full [&>div]:bg-green-600"
-          />
-        </CardContent>
-      </Card> */}
-    </section>
+    <ActivityGrid
+      title={t("Title")}
+      stats={[
+        {
+          key: "CasesHandled",
+          label: t("CasesHandled"),
+          value: activity.cases_handled,
+          icon: BriefcaseBusiness,
+          color: "text-[#21466A]",
+        },
+        {
+          key: "OffersSubmitted",
+          label: t("OffersSubmitted"),
+          value: activity.offers_submitted,
+          icon: ChevronRight,
+          color: "text-[#C9A450]",
+        },
+        {
+          key: "AverageRating",
+          label: t("AverageRating"),
+          value: activity.rating
+            ? format.number(activity.rating, { maximumFractionDigits: 1 })
+            : "-",
+          icon: Star,
+          color: "fill-current text-[#C9A450]",
+        },
+        {
+          key: "ActiveOffers",
+          label: t("ActiveOffers"),
+          value: activity.active_offers,
+          icon: Clock3,
+          color: "text-[#387CFF]",
+        },
+        {
+          key: "Reviews",
+          label: t("Reviews"),
+          value: activity.reviews_count,
+          icon: CircleCheck,
+          color: "text-[#B044FF]",
+        },
+        {
+          key: "DisputesInvolved",
+          label: t("DisputesInvolved"),
+          value: activity.disputes_involved,
+          icon: TriangleAlert,
+          color: "text-[#FF762B]",
+        },
+      ]}
+    />
   );
 }

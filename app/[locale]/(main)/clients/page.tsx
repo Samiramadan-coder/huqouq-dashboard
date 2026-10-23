@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { http } from "@/lib/http";
-import { Pagination } from "@/types/shared";
 import Stats from "@/components/clients/stats";
-import { Counts, Client } from "@/types/clients";
 import Filters from "@/components/clients/filters";
-import DataPreview from "@/components/clients/data-preview";
 import { getTranslations } from "next-intl/server";
+import DataPreview from "@/components/clients/data-preview";
+import { ClientsResponse, clientStatusFilters } from "@/types/clients";
 
 type SearchParams = {
   page?: string;
@@ -19,6 +18,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("clients") };
 }
 
+// Falls back to the first page when the URL holds an invalid page number.
+function parsePage(page?: string): number {
+  const value = Number(page);
+  return Number.isInteger(value) && value > 0 ? value : 1;
+}
+
 export default async function Page({
   searchParams,
 }: {
@@ -26,15 +31,12 @@ export default async function Page({
 }) {
   const { page, q, status } = await searchParams;
 
-  const { data } = await http.get<{
-    counts: Counts;
-    data: Client[];
-    meta: Pagination;
-  }>("/api/admin/clients", {
+  const { data } = await http.get<ClientsResponse>("/api/admin/clients", {
     params: {
-      page: page ?? "1",
+      page: parsePage(page),
       q: q ?? "",
-      status: status ?? "",
+      // Unknown values are dropped instead of being forwarded to the API.
+      status: clientStatusFilters.find((value) => value === status) ?? "",
     },
   });
 

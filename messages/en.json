@@ -380,7 +380,9 @@
       "joined": "Joined",
       "noReviews": "No reviews",
       "noDataAvailable": "No data available",
-      "lawyers": "Lawyers"
+      "lawyers": "Lawyers",
+      "actions": "Actions",
+      "ratingSummary": "Rating {rating} from {count, plural, one {# review} other {# reviews}}"
     },
     "Profile": {
       "tab": "Profile",
@@ -469,7 +471,8 @@
       "sos": "SOS",
       "joined": "Joined",
       "noDataAvailable": "No data available",
-      "clients": "Clients"
+      "clients": "Clients",
+      "actions": "Actions"
     },
     "flaggedCount": "{count} Flagged",
     "clientsCount": "{count, plural, =0 {No clients} =1 {1 client} other {# clients}}",
@@ -633,6 +636,22 @@
     "notFoundTitle": "Page not found",
     "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
     "backToDashboard": "Back to dashboard"
+  },
+  "PeopleDirectory": {
+    "viewDetails": "View details: {name}",
+    "loading": "Loading details…",
+    "loadFailed": "Couldn't load the details.",
+    "notFound": "This record no longer exists.",
+    "forbidden": "You don't have permission to view these details.",
+    "retry": "Try again",
+    "notAvailable": "Not available",
+    "comingSoon": "Not available yet",
+    "noHistory": "No history yet",
+    "historyTypes": {
+      "case": "Case",
+      "offer": "Offer",
+      "consultation": "Consultation"
+    }
   },
   "Metadata": {
     "login": "Login",

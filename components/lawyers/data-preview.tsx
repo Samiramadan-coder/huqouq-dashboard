@@ -1,14 +1,14 @@
-import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
-
+import { Star } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { Lawyer } from "@/types/lawyers";
 import { Pagination } from "@/types/shared";
-import { Star } from "lucide-react";
-import { formatDate } from "@/lib/utils";
-import { Badge } from "../ui/badge";
-import { Avatar, AvatarFallback } from "../ui/avatar";
 import LawyerDetails from "./lawyer-details";
+import { TableCell, TableRow } from "../ui/table";
+import LawyerStatusBadge from "./lawyer-status-badge";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { DATE_FORMAT, maskPhone } from "../people-directory/format";
 
 export default async function DataPreview({
   lawyers,
@@ -18,6 +18,7 @@ export default async function DataPreview({
   pagination: Pagination;
 }) {
   const t = await getTranslations("Lawyers.table");
+  const format = await getFormatter();
 
   const columns: DataTableColumn[] = [
     { label: t("lawyer") },
@@ -27,7 +28,7 @@ export default async function DataPreview({
     { label: t("rating") },
     { label: t("cases") },
     { label: t("joined") },
-    { label: "" },
+    { label: t("actions") },
   ];
 
   return (
@@ -38,8 +39,8 @@ export default async function DataPreview({
       pagination={pagination}
     >
       {lawyers.length > 0 ? (
-        lawyers.map((lawyer, index) => (
-          <TableRow key={index} className="border-gray-100">
+        lawyers.map((lawyer) => (
+          <TableRow key={lawyer.id} className="border-gray-100">
             <TableCell className="px-5 py-3">
               <div className="flex items-center gap-2">
                 <Avatar className="size-8">
@@ -59,22 +60,27 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <p className="text-gray-600 text-[13px]">{lawyer.email}</p>
-              <p className="text-[11px] text-gray-400 mt-1">{lawyer.phone}</p>
+              <p className="text-gray-600 text-[13px]">
+                <bdi dir="ltr">{lawyer.email || "-"}</bdi>
+              </p>
+              {/* Full number is only shown in the details sheet. */}
+              <p className="text-[11px] text-gray-400 mt-1">
+                <bdi dir="ltr">{maskPhone(lawyer.phone) || "-"}</bdi>
+              </p>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <ProfileStatusLabel
+              <LawyerStatusBadge
                 profileStatus={lawyer.profile_status}
-                profileStatusLabel={lawyer.status_label}
+                label={lawyer.status_label}
               />
             </TableCell>
 
             <TableCell className="px-5 py-3">
               <div className="flex items-center gap-1">
-                {lawyer.specializations.map((spec, i) => (
+                {lawyer.specializations.map((spec) => (
                   <Badge
-                    key={i}
+                    key={spec.id}
                     className="bg-primary/6 text-primary text-[10px] font-medium rounded"
                   >
                     {spec.name}
@@ -84,10 +90,23 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <div className="flex items-center gap-1">
-                <Star className="size-3 fill-secondary text-secondary" />
+              <div
+                className="flex items-center gap-1"
+                aria-label={
+                  lawyer.rating
+                    ? t("ratingSummary", {
+                        rating: format.number(lawyer.rating),
+                        count: lawyer.reviews_count,
+                      })
+                    : t("noReviews")
+                }
+              >
+                <Star
+                  aria-hidden
+                  className="size-3 fill-secondary text-secondary"
+                />
                 <span className="text-gray-700 font-semibold text-[13px]">
-                  {lawyer.rating || "-"}
+                  {lawyer.rating ? format.number(lawyer.rating) : "-"}
                 </span>
                 <span className="text-gray-400 text-[11px]">
                   ({lawyer.reviews_count})
@@ -103,12 +122,12 @@ export default async function DataPreview({
 
             <TableCell className="px-5 py-3">
               <span className="text-gray-400 text-[12px]">
-                {formatDate(lawyer.joined_at)}
+                {format.dateTime(new Date(lawyer.joined_at), DATE_FORMAT)}
               </span>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <LawyerDetails lawyerId={lawyer.id} />
+              <LawyerDetails lawyerId={lawyer.id} name={lawyer.name} />
             </TableCell>
           </TableRow>
         ))
@@ -116,7 +135,7 @@ export default async function DataPreview({
         <TableRow>
           <TableCell
             className="px-5 py-3 text-gray-400 text-[13px]"
-            colSpan={8}
+            colSpan={columns.length}
           >
             {t("noDataAvailable")}
           </TableCell>
@@ -124,42 +143,4 @@ export default async function DataPreview({
       )}
     </DataTable>
   );
-}
-
-export function ProfileStatusLabel({
-  profileStatus,
-  profileStatusLabel,
-}: {
-  profileStatus: Lawyer["profile_status"];
-  profileStatusLabel: string;
-}) {
-  switch (profileStatus) {
-    case "approved":
-      return (
-        <Badge className="text-[11px] font-normal bg-emerald-50 text-emerald-800 border-emerald-100 px-3 py-2.5">
-          {profileStatusLabel}
-        </Badge>
-      );
-
-    case "incomplete":
-      return (
-        <Badge className="text-[11px] font-normal bg-amber-50 text-amber-800 border-amber-100 px-3 py-2.5">
-          {profileStatusLabel}
-        </Badge>
-      );
-
-    case "needs_fix":
-      return (
-        <Badge className="text-[11px] font-normal bg-destructive/10 text-amber-800 border-amber-100 px-3 py-2.5">
-          {profileStatusLabel}
-        </Badge>
-      );
-
-    default:
-      return (
-        <Badge className="text-[11px] font-normal bg-primary/5 text-primary border-primary/20 px-3 py-2.5">
-          {profileStatusLabel}
-        </Badge>
-      );
-  }
 }

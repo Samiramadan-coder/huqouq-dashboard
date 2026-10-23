@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Star,
   CircleCheck,
@@ -8,122 +6,106 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import { Progress } from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card";
+import { useFormatter, useTranslations } from "next-intl";
+import ActivityGrid from "../people-directory/activity-grid";
 import type { Activity as ClientActivity } from "@/types/clients";
 
 export default function ActivitySummary({
   activity,
-  className,
 }: {
   activity: ClientActivity;
-  className?: string;
 }) {
   const t = useTranslations("Clients.Activity");
+  const format = useFormatter();
 
-  const stats = [
-    {
-      key: "CasesPosted",
-      value: activity.cases_posted,
-      icon: BriefcaseBusiness,
-      color: "text-[#21466A]",
-    },
-    {
-      key: "CasesHired",
-      value: activity.cases_hired,
-      icon: ChevronRight,
-      color: "text-[#C9A450]",
-    },
-    {
-      key: "CasesRejected",
-      value: activity.cases_rejected,
-      icon: TriangleAlert,
-      color: "text-[#FF4055]",
-    },
-    {
-      key: "DisputedCases",
-      value: activity.disputes_involved,
-      icon: TriangleAlert,
-      color: "text-[#FF4055]",
-    },
-    {
-      key: "ConsultationsBooked",
-      value: activity.consultations_booked,
-      icon: ChevronRight,
-      color: "text-[#21466A]",
-    },
-    {
-      key: "ConsultationsCompleted",
-      value: activity.consultations_completed,
-      icon: CircleCheck,
-      color: "text-[#C9A450]",
-    },
-    {
-      key: "RejectionRate",
-      value: activity.rejection_rate,
-      icon: CircleCheck,
-      color: "text-[#FF4055]",
-    },
-    {
-      key: "ReviewsGiven",
-      value: activity.reviews_given,
-      icon: Star,
-      color: "text-[#C9A450]",
-    },
-  ] as const;
+  // rejection_rate is a 0–100 percentage.
+  const rejectionRate = Math.min(100, Math.max(0, activity.rejection_rate));
+  const formattedRate = format.number(rejectionRate / 100, {
+    style: "percent",
+    maximumFractionDigits: 1,
+  });
 
   return (
-    <section className={cn("w-full space-y-3 text-start", className)}>
-      <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
-        {t("Title")}
-      </h2>
+    <ActivityGrid
+      title={t("Title")}
+      stats={[
+        {
+          key: "CasesPosted",
+          label: t("CasesPosted"),
+          value: activity.cases_posted,
+          icon: BriefcaseBusiness,
+          color: "text-[#21466A]",
+        },
+        {
+          key: "CasesHired",
+          label: t("CasesHired"),
+          value: activity.cases_hired,
+          icon: ChevronRight,
+          color: "text-[#C9A450]",
+        },
+        {
+          key: "CasesRejected",
+          label: t("CasesRejected"),
+          value: activity.cases_rejected,
+          icon: TriangleAlert,
+          color: "text-[#FF4055]",
+        },
+        {
+          key: "DisputedCases",
+          label: t("DisputedCases"),
+          value: activity.disputes_involved,
+          icon: TriangleAlert,
+          color: "text-[#FF4055]",
+        },
+        {
+          key: "ConsultationsBooked",
+          label: t("ConsultationsBooked"),
+          value: activity.consultations_booked,
+          icon: ChevronRight,
+          color: "text-[#21466A]",
+        },
+        {
+          key: "ConsultationsCompleted",
+          label: t("ConsultationsCompleted"),
+          value: activity.consultations_completed,
+          icon: CircleCheck,
+          color: "text-[#C9A450]",
+        },
+        {
+          key: "RejectionRate",
+          label: t("RejectionRate"),
+          value: formattedRate,
+          icon: CircleCheck,
+          color: "text-[#FF4055]",
+        },
+        {
+          key: "ReviewsGiven",
+          label: t("ReviewsGiven"),
+          value: activity.reviews_given,
+          icon: Star,
+          color: "text-[#C9A450]",
+        },
+      ]}
+    >
+      <div className="mt-5 space-y-2 rounded-2xl border border-gray-100 bg-gray-50 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 text-xs">
+          <span className="font-medium text-gray-600">
+            {t("RejectionRate")}
+          </span>
 
-      <div className="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2">
-        {stats.map(({ key, value, icon: Icon, color }) => (
-          <Card
-            key={key}
-            className="gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none"
-          >
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-xl border border-gray-100 bg-white shadow-sm">
-                <Icon className={cn("size-3.5", color)} />
-              </div>
+          <span className="font-bold text-red-600">
+            <bdi>{formattedRate}</bdi>
+          </span>
+        </div>
 
-              <div className="min-w-0">
-                <p className="text-lg font-bold leading-5 text-primary">
-                  <bdi>{value}</bdi>
-                </p>
-
-                <p className="mt-1 text-[11px] leading-4 text-gray-400">
-                  {t(key)}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        <Progress
+          value={rejectionRate}
+          aria-label={t("RejectionRate")}
+          aria-valuetext={formattedRate}
+          className="h-2 bg-gray-200 [&>div]:rounded-full [&>div]:bg-red-500"
+        />
       </div>
-
-      <Card className="mt-5 gap-0 rounded-2xl border border-gray-100 bg-gray-50 py-0 shadow-none">
-        <CardContent className="space-y-2 px-4 py-3">
-          <div className="flex items-center justify-between gap-3 text-xs">
-            <span className="font-medium text-gray-600">
-              {t("RejectionRate")}
-            </span>
-
-            <span className="font-bold text-green-600">
-              <bdi>{activity.rejection_rate}%</bdi>
-            </span>
-          </div>
-
-          <Progress
-            value={activity.rejection_rate}
-            aria-label={t("RejectionRate")}
-            className="h-2 bg-gray-200 [&>div]:rounded-full [&>div]:bg-green-600"
-          />
-        </CardContent>
-      </Card>
-    </section>
+    </ActivityGrid>
   );
 }

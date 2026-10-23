@@ -381,7 +381,9 @@
       "joined": "انضم",
       "noReviews": "لا توجد مراجعات",
       "noDataAvailable": "لا تتوفر بيانات",
-      "lawyers": "المحامين"
+      "lawyers": "المحامين",
+      "actions": "الإجراءات",
+      "ratingSummary": "التقييم {rating} من {count, plural, zero {لا توجد مراجعات} one {مراجعة واحدة} two {مراجعتين} few {# مراجعات} many {# مراجعة} other {# مراجعة}}"
     },
     "Profile": {
       "tab": "الملف الشخصي",
@@ -468,7 +470,8 @@
       "cases": "القضايا",
       "consults": "الاستشارات",
       "sos": "SOS",
-      "joined": "انضم"
+      "joined": "انضم",
+      "actions": "الإجراءات"
     },
     "flaggedCount": "{count} مميز",
     "clientsCount": "{count, plural, =0 {لا يوجد عملاء} =1 {عميل واحد} other {# عملاء}}",
@@ -632,6 +635,22 @@
     "notFoundTitle": "الصفحة غير موجودة",
     "notFoundDescription": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
     "backToDashboard": "العودة إلى لوحة التحكم"
+  },
+  "PeopleDirectory": {
+    "viewDetails": "عرض التفاصيل: {name}",
+    "loading": "جارٍ تحميل التفاصيل…",
+    "loadFailed": "تعذّر تحميل التفاصيل.",
+    "notFound": "هذا السجل لم يعد موجودًا.",
+    "forbidden": "ليس لديك صلاحية لعرض هذه التفاصيل.",
+    "retry": "حاول مرة أخرى",
+    "notAvailable": "غير متوفر",
+    "comingSoon": "غير متاح بعد",
+    "noHistory": "لا يوجد سجل بعد",
+    "historyTypes": {
+      "case": "قضية",
+      "offer": "عرض",
+      "consultation": "استشارة"
+    }
   },
   "Metadata": {
     "login": "تسجيل الدخول",

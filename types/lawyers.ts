@@ -1,4 +1,5 @@
 import { LawyerProfile } from "./lawyer-approvals";
+import { Pagination } from "./shared";
 
 export type Counts = {
   approved: number;
@@ -9,6 +10,20 @@ export type Counts = {
   suspended: number;
   total: number;
 };
+
+// Values accepted by the list's `status` filter.
+export const lawyerStatusFilters = [
+  "approved",
+  "pending",
+  "rejected",
+  "incomplete",
+] as const;
+
+export type LawyerStatusFilter = (typeof lawyerStatusFilters)[number];
+
+export type LawyerStatus = Exclude<keyof Counts, "total">;
+
+export type ProfileStatus = "in_review" | "approved" | "needs_fix" | "incomplete";
 
 export type Lawyer = {
   account_status: "unverified" | "pending_approval" | "active";
@@ -27,11 +42,11 @@ export type Lawyer = {
   office_name: null | string;
   phone: string;
   photo_url: null | string;
-  profile_status: "in_review" | "approved" | "needs_fix" | "incomplete";
+  profile_status: ProfileStatus;
   rating: null | number;
   reviews_count: number;
   specializations: { id: number; name: string }[];
-  status: string;
+  status: LawyerStatus;
   status_label: string;
   profile: LawyerProfile;
 };
@@ -46,8 +61,10 @@ export type Activity = {
   reviews_count: number;
 };
 
+export type HistoryType = "case" | "offer";
+
 export type HistoryItem = {
-  type: "case" | "offer";
+  type: HistoryType;
   at: string;
   detail: string;
   status: string;
@@ -55,3 +72,56 @@ export type HistoryItem = {
   title: string;
   amount: number;
 };
+
+// Response of `GET /api/admin/lawyers`.
+export type LawyersResponse = {
+  counts: Counts;
+  data: Lawyer[];
+  meta: Pagination;
+};
+
+// Response of `GET /api/admin/lawyers/:id`.
+export type LawyerDetailsResponse = {
+  data: Lawyer;
+  activity: Activity;
+  history: HistoryItem[];
+};
+
+// Only the lawyer fields the details sheet displays.
+export type LawyerDetailsView = Pick<
+  Lawyer,
+  | "id"
+  | "name"
+  | "email"
+  | "phone"
+  | "city"
+  | "country"
+  | "joined_at"
+  | "profile_status"
+  | "status_label"
+  | "account_type_label"
+  | "specializations"
+> & {
+  profile: Pick<
+    LawyerProfile,
+    "years_of_experience" | "languages" | "bio" | "bar_number"
+  > & {
+    education: Pick<
+      LawyerProfile["education"][number],
+      "id" | "degree" | "description"
+    >[];
+    experience: Pick<
+      LawyerProfile["experience"][number],
+      "id" | "title" | "organization" | "start_year" | "end_year"
+    >[];
+  };
+};
+
+export type LawyerDetailsResult =
+  | {
+      success: true;
+      lawyer: LawyerDetailsView;
+      activity: Activity;
+      history: HistoryItem[];
+    }
+  | { success: false; error: "not_found" | "forbidden" | "failed" };

@@ -1,6 +1,6 @@
 "use server";
 
-import { getServerLanguage, saveToken } from "@/lib/actions";
+import { getServerLanguage, saveToken } from "@/lib/session";
 import {
   LoginFormData,
   LoginResult,

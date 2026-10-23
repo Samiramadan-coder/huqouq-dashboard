@@ -1,5 +1,7 @@
+import "server-only";
+
 import { redirect } from "next/navigation";
-import { getServerLanguage, getTokenHeaders } from "./actions";
+import { getServerLanguage, getTokenHeaders } from "./session";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -107,20 +109,15 @@ function buildUrl(
 }
 
 function createHttp(baseURL: string) {
-  const defaultHeaders: Record<string, string> = {
+  // Read-only: this client runs on the server and is shared by every request,
+  // so per-user values (like the token) are added per request, never stored here.
+  const defaultHeaders: Readonly<Record<string, string>> = {
     Accept: "application/json",
   };
 
-  async function handleUnauthorized(): Promise<never> {
-    const logoutUrl = "/api/auth/logout?next=/login";
-
-    if (typeof window === "undefined") {
-      redirect(logoutUrl);
-    }
-
-    window.location.replace(logoutUrl);
-
-    return new Promise<never>(() => {});
+  // Clears the session cookie and sends the user back to the login page.
+  function handleUnauthorized(): never {
+    redirect("/api/auth/logout?next=/login");
   }
 
   function isSerializableBody(body: unknown): body is BodyInit {
@@ -201,7 +198,7 @@ function createHttp(baseURL: string) {
 
     if (!response.ok) {
       if (response.status === 401) {
-        await handleUnauthorized();
+        handleUnauthorized();
       }
 
       if (response.status === 403) {
@@ -241,14 +238,6 @@ function createHttp(baseURL: string) {
     },
     delete<T = unknown>(path: string, config?: RequestConfig) {
       return request<T>("DELETE", path, undefined, config);
-    },
-    /** Set or update a default header (e.g. Authorization token) */
-    setHeader(key: string, value: string) {
-      defaultHeaders[key] = value;
-    },
-    /** Remove a default header */
-    removeHeader(key: string) {
-      delete defaultHeaders[key];
     },
   };
 }

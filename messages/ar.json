@@ -577,8 +577,7 @@
       "totalPending": "إجمالي المعلق",
       "readyForPayout": "جاهز للصرف",
       "paidThisMonth": "المدفوع هذا الشهر",
-      "lawyersWithBalance": "محامون لديهم رصيد",
-      "amount": "{value} درهم"
+      "lawyersWithBalance": "محامون لديهم رصيد"
     },
     "byLawyer": {
       "lawyer": "المحامي",
@@ -598,8 +597,14 @@
       "payoutDetailsMissing": "بيانات الصرف غير مكتملة",
       "lawyers": "محامين",
       "noDataAvailable": "لا توجد بيانات",
-      "amount": "{value} درهم",
-      "notProvided": "غير متوفر"
+      "notProvided": "غير متوفر",
+      "viewBankDetails": "عرض التفاصيل البنكية لـ {name}",
+      "showFullIban": "إظهار رقم الآيبان كاملًا",
+      "accountNotFound": "التفاصيل البنكية لم تعد متوفرة.",
+      "accountForbidden": "ليس لديك صلاحية لعرض التفاصيل البنكية.",
+      "accountLoadFailed": "تعذّر تحميل التفاصيل البنكية. يرجى المحاولة مرة أخرى.",
+      "processPayoutUnavailable": "لا يوجد رصيد جاهز للصرف، أو أن التفاصيل البنكية مفقودة.",
+      "processPayoutFor": "صرف المستحقات لـ {name}"
     },
     "allTransactions": {
       "date": "التاريخ",
@@ -611,8 +616,7 @@
       "becomesReadyOn": "يصبح جاهزاً في",
       "paidDate": "تاريخ الدفع",
       "transactions": "معاملات",
-      "noDataAvailable": "لا توجد بيانات",
-      "amountValue": "{value} درهم"
+      "noDataAvailable": "لا توجد بيانات"
     },
     "confirmPayout": {
       "title": "تأكيد الصرف",
@@ -624,7 +628,8 @@
       "notice": "سيؤدي هذا الإجراء إلى نقل جميع معاملات <strong>جاهز للصرف</strong> الخاصة بـ <strong>{name}</strong> إلى <strong>مدفوع</strong> وإشعاره بذلك.",
       "cancel": "إلغاء",
       "confirm": "تأكيد الصرف",
-      "payoutFailed": "فشل الصرف"
+      "payoutFailed": "فشل الصرف",
+      "srDescription": "تسجيل {amount} كمدفوع إلى {name}."
     }
   },
   "Errors": {

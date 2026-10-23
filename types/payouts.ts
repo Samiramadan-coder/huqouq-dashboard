@@ -1,4 +1,6 @@
-export type TabType = "by-lawyer" | "all-transactions";
+export const payoutTabs = ["by-lawyer", "all-transactions"] as const;
+
+export type TabType = (typeof payoutTabs)[number];
 
 export type Summary = {
   currency: string;
@@ -6,6 +8,12 @@ export type Summary = {
   paid_this_month: number;
   ready_for_payout: number;
   total_pending: number;
+};
+
+type PayoutLawyer = {
+  id: number;
+  name: string;
+  photo_url: string | null;
 };
 
 export type ByLawyerData = {
@@ -18,12 +26,16 @@ export type ByLawyerData = {
   pending: number;
   ready: number;
   total_paid: number;
-  lawyer: {
-    id: number;
-    name: string;
-    photo_url: string;
-  };
+  lawyer: PayoutLawyer;
 };
+
+// What the by-lawyer table renders. Bank details are replaced by a masked IBAN;
+// the full IBAN is only fetched on demand (see `getPayoutAccount`).
+export type ByLawyerRow = Omit<ByLawyerData, "iban" | "account_name"> & {
+  masked_iban: string | null;
+};
+
+export type TransactionStatus = "pending" | "ready" | "paid";
 
 export type AllTransactionsData = {
   amount: number;
@@ -42,16 +54,28 @@ export type AllTransactionsData = {
   service_type: string;
   service_type_label: string;
   source_id: number;
-  status: "pending" | "ready" | "paid";
+  status: TransactionStatus;
   status_label: string;
   type: string;
   type_label: string;
   client: {
     first_name: string;
   };
-  lawyer: {
-    id: number;
-    name: string;
-    photo_url: string;
-  };
+  lawyer: PayoutLawyer;
 };
+
+// Response of `GET /api/admin/payouts`.
+export type PayoutsResponse = {
+  summary: Summary;
+  payout_details_missing: boolean;
+  data: ByLawyerData[];
+};
+
+// Response of `GET /api/admin/payouts/transactions`.
+export type TransactionsResponse = {
+  data: AllTransactionsData[];
+};
+
+export type PayoutAccountResult =
+  | { success: true; iban: string; accountName: string | null }
+  | { success: false; error: "not_found" | "forbidden" | "failed" };

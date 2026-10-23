@@ -578,8 +578,7 @@
       "totalPending": "Total Pending",
       "readyForPayout": "Ready for Payout",
       "paidThisMonth": "Paid This Month",
-      "lawyersWithBalance": "Lawyers with Balance",
-      "amount": "AED {value}"
+      "lawyersWithBalance": "Lawyers with Balance"
     },
     "byLawyer": {
       "lawyer": "Lawyer",
@@ -599,8 +598,14 @@
       "payoutDetailsMissing": "Payout details missing",
       "lawyers": "lawyers",
       "noDataAvailable": "No data available",
-      "amount": "AED {value}",
-      "notProvided": "Not Provided"
+      "notProvided": "Not Provided",
+      "viewBankDetails": "View bank details for {name}",
+      "showFullIban": "Show full IBAN",
+      "accountNotFound": "Bank details are no longer available.",
+      "accountForbidden": "You don't have permission to view bank details.",
+      "accountLoadFailed": "Couldn't load bank details. Please try again.",
+      "processPayoutUnavailable": "No balance is ready for payout, or bank details are missing.",
+      "processPayoutFor": "Process payout for {name}"
     },
     "allTransactions": {
       "date": "Date",
@@ -612,8 +617,7 @@
       "becomesReadyOn": "Becomes Ready On",
       "paidDate": "Paid Date",
       "transactions": "transactions",
-      "noDataAvailable": "No data available",
-      "amountValue": "AED {value}"
+      "noDataAvailable": "No data available"
     },
     "confirmPayout": {
       "title": "Confirm Payout",
@@ -625,7 +629,8 @@
       "notice": "This action will move all <strong>Ready for Payout</strong> transactions for <strong>{name}</strong> to <strong>Paid</strong> and notify them.",
       "cancel": "Cancel",
       "confirm": "Confirm Payout",
-      "payoutFailed": "Payout failed"
+      "payoutFailed": "Payout failed",
+      "srDescription": "Mark {amount} as paid to {name}."
     }
   },
   "Errors": {

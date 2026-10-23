@@ -1,26 +1,30 @@
-import { http } from "@/lib/http";
-import { getTranslations } from "next-intl/server";
-import { TableCell, TableRow } from "../ui/table";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import LawyerAvatar from "./lawyer-avatar";
-import type { AllTransactionsData } from "@/types/payouts";
-
-const formatDate = (date: string) =>
-  new Date(date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+import { TableCell, TableRow } from "../ui/table";
+import { DATE_FORMAT, formatMoney } from "./format";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
+import type { AllTransactionsData, TransactionStatus } from "@/types/payouts";
 
 const empty = <span className="text-[13px] text-gray-300">—</span>;
 
-export default async function AllTransactionsDataPreview() {
-  const { data } = await http.get<{ data: AllTransactionsData[] }>(
-    "/api/admin/payouts/transactions",
-  );
+const statusClassNames: Record<TransactionStatus, string> = {
+  pending: "bg-amber-100 text-amber-800",
+  ready: "bg-secondary/20 text-[#8a6d1f]",
+  paid: "bg-green-100 text-green-700",
+};
 
+export default async function AllTransactionsDataPreview({
+  transactions,
+}: {
+  transactions: AllTransactionsData[];
+}) {
   const t = await getTranslations("Payouts.allTransactions");
+  const format = await getFormatter();
+  const date = (value: string) => (
+    <time dateTime={value}>{format.dateTime(new Date(value), DATE_FORMAT)}</time>
+  );
 
   const columns: DataTableColumn[] = [
     { label: t("date") },
@@ -33,8 +37,6 @@ export default async function AllTransactionsDataPreview() {
     { label: t("paidDate") },
   ];
 
-  const transactions = data.data;
-
   return (
     <DataTable
       columns={columns}
@@ -45,7 +47,7 @@ export default async function AllTransactionsDataPreview() {
         transactions.map((row) => (
           <TableRow key={row.id} className="border-gray-100">
             <TableCell className="px-5 py-3 text-[13px] text-gray-600">
-              {formatDate(row.date)}
+              {date(row.date)}
             </TableCell>
 
             <TableCell className="px-5 py-3">
@@ -66,16 +68,23 @@ export default async function AllTransactionsDataPreview() {
             </TableCell>
 
             <TableCell className="px-5 py-3 text-[13px] font-semibold text-gray-900">
-              {t("amountValue", { value: row.amount.toLocaleString("en-US") })}
+              <bdi>{formatMoney(format, row.amount, row.currency)}</bdi>
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              <StatusBadge status={row.status} label={row.status_label} />
+              <Badge
+                className={cn(
+                  "text-[11px] font-medium rounded-full",
+                  statusClassNames[row.status],
+                )}
+              >
+                {row.status_label}
+              </Badge>
             </TableCell>
 
             <TableCell className="px-5 py-3 text-[13px] text-orange-600">
               {row.status === "pending" && row.becomes_ready_on
-                ? formatDate(row.becomes_ready_on)
+                ? date(row.becomes_ready_on)
                 : empty}
             </TableCell>
 
@@ -83,10 +92,10 @@ export default async function AllTransactionsDataPreview() {
               {row.paid_date ? (
                 <div>
                   <p className="text-[13px] text-green-700">
-                    {formatDate(row.paid_date)}
+                    {date(row.paid_date)}
                   </p>
                   {row.paid_reference && (
-                    <p className="font-mono text-[10px] text-gray-400 mt-0.5">
+                    <p className="font-mono text-[10px] text-gray-400 mt-0.5 break-all">
                       {row.paid_reference}
                     </p>
                   )}
@@ -113,40 +122,21 @@ export default async function AllTransactionsDataPreview() {
 
 function TypeBadge({ row }: { row: AllTransactionsData }) {
   const type = row.type.toLowerCase();
+  const isLegalService = type.includes("legal");
 
-  const className = type.includes("legal")
+  const className = isLegalService
     ? "bg-purple-50 text-purple-700"
     : type.includes("emergency")
       ? "bg-red-50 text-red-700"
       : "bg-blue-50 text-blue-700";
 
   const label =
-    type.includes("legal") && row.service_type_label
+    isLegalService && row.service_type_label
       ? `${row.type_label} · ${row.service_type_label}`
       : row.type_label;
 
   return (
-    <Badge className={`text-[11px] font-normal rounded-full ${className}`}>
-      {label}
-    </Badge>
-  );
-}
-
-function StatusBadge({
-  status,
-  label,
-}: {
-  status: AllTransactionsData["status"];
-  label: string;
-}) {
-  const className = {
-    pending: "bg-amber-100 text-amber-800",
-    ready: "bg-secondary/20 text-[#8a6d1f]",
-    paid: "bg-green-100 text-green-700",
-  }[status];
-
-  return (
-    <Badge className={`text-[11px] font-medium rounded-full ${className}`}>
+    <Badge className={cn("text-[11px] font-normal rounded-full", className)}>
       {label}
     </Badge>
   );

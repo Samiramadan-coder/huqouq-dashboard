@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const avatarColors = [
@@ -21,13 +22,18 @@ function getInitials(name: string) {
 export default function LawyerAvatar({
   lawyer,
 }: {
-  lawyer: { id: number; name: string; photo_url: string };
+  lawyer: { id: number; name: string; photo_url: string | null };
 }) {
   return (
     <Avatar className="size-8">
-      {lawyer.photo_url && <AvatarImage src={lawyer.photo_url} />}
+      {lawyer.photo_url && (
+        <AvatarImage src={lawyer.photo_url} alt={lawyer.name} />
+      )}
       <AvatarFallback
-        className={`text-white text-[12px] font-semibold ${avatarColors[lawyer.id % avatarColors.length]}`}
+        className={cn(
+          "text-white text-[12px] font-semibold",
+          avatarColors[lawyer.id % avatarColors.length],
+        )}
       >
         {getInitials(lawyer.name)}
       </AvatarFallback>

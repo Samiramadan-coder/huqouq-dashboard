@@ -8,83 +8,98 @@ import {
   UserRoundCheck,
   Users,
 } from "lucide-react";
-import type { DashboardNavigationItem } from "@/types/dashboard-layout";
+import type {
+  DashboardNavigationItem,
+  DashboardNavigationLinkItem,
+} from "@/types/dashboard-layout";
+
+export function isNavHrefActive(href: string, pathname: string) {
+  return href === "/"
+    ? pathname === "/"
+    : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export const findActiveNavLink = (pathname: string) =>
+  navigation().find(
+    (item): item is DashboardNavigationLinkItem =>
+      item.type === "link" && isNavHrefActive(item.href, pathname),
+  );
 
 export const navigation = (): DashboardNavigationItem[] => [
   {
-    label: "sidebar.navigation.overview",
+    label: "layout.sidebar.navigation.overview",
     type: "label",
   },
   {
-    label: "sidebar.navigation.dashboard",
+    label: "layout.sidebar.navigation.dashboard",
     href: "/",
     type: "link",
     icon: createElement(LayoutGrid, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.approvals",
+    label: "layout.sidebar.navigation.approvals",
     type: "label",
   },
   {
-    label: "sidebar.navigation.lawyerApprovals",
+    label: "layout.sidebar.navigation.lawyerApprovals",
     href: "/lawyer-approvals",
     type: "link",
     icon: createElement(UserRoundCheck, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.caseApprovals",
+    label: "layout.sidebar.navigation.caseApprovals",
     href: "/case-approvals",
     type: "link",
     icon: createElement(Briefcase, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.legalServicesApprovals",
+    label: "layout.sidebar.navigation.legalServicesApprovals",
     href: "/legal-services-approvals",
     type: "link",
     icon: createElement(Users, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.operations",
+    label: "layout.sidebar.navigation.operations",
     type: "label",
   },
   {
-    label: "sidebar.navigation.caseMonitoring",
+    label: "layout.sidebar.navigation.caseMonitoring",
     href: "/case-monitoring",
     type: "link",
     icon: createElement(MonitorCheck, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.users",
+    label: "layout.sidebar.navigation.users",
     type: "label",
   },
   {
-    label: "sidebar.navigation.lawyers",
+    label: "layout.sidebar.navigation.lawyers",
     href: "/lawyers",
     type: "link",
     icon: createElement(UserRoundCheck, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.client",
+    label: "layout.sidebar.navigation.client",
     href: "/clients",
     type: "link",
     icon: createElement(Users, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.finance",
+    label: "layout.sidebar.navigation.finance",
     type: "label",
   },
   {
-    label: "sidebar.navigation.payouts",
+    label: "layout.sidebar.navigation.payouts",
     href: "/payouts",
     type: "link",
     icon: createElement(Banknote, { className: "h-4 w-4" }),
   },
   {
-    label: "sidebar.navigation.settingsLabel",
+    label: "layout.sidebar.navigation.settingsLabel",
     type: "label",
   },
   {
-    label: "sidebar.navigation.settings",
+    label: "layout.sidebar.navigation.settings",
     href: "/settings",
     type: "link",
     icon: createElement(Settings, { className: "h-4 w-4" }),

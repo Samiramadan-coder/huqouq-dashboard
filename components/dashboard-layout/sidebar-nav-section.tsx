@@ -6,7 +6,7 @@ import { useSidebar } from "../ui/sidebar";
 
 export default function SidebarNavSection({ label }: { label: string }) {
   const { state } = useSidebar();
-  const t = useTranslations("layout");
+  const t = useTranslations();
   const isSidebarOpen = state === "expanded";
 
   return (

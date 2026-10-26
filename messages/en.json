@@ -61,7 +61,7 @@
   },
   "layout": {
     "header": {
-      "dashboard": "Dashboard"
+      "notifications": "Notifications"
     },
     "sidebar": {
       "brandName": "Huqouq",

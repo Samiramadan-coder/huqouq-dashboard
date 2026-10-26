@@ -61,7 +61,7 @@
   },
   "layout": {
     "header": {
-      "dashboard": "لوحة التحكم"
+      "notifications": "الإشعارات"
     },
     "sidebar": {
       "brandName": "حقوق",

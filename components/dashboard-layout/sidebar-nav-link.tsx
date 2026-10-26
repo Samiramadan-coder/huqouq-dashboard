@@ -5,6 +5,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { DashboardNavigationLinkItem } from "@/types/dashboard-layout";
 import { Badge } from "../ui/badge";
+import { isNavHrefActive } from "@/constants/dashboard-layout";
 
 export default function SidebarNavLink({
   item,
@@ -12,14 +13,9 @@ export default function SidebarNavLink({
   item: DashboardNavigationLinkItem;
 }) {
   const pathname = usePathname();
-  const t = useTranslations("layout");
+  const t = useTranslations();
   const { isMobile, setOpenMobile } = useSidebar();
-  const normalizedPathname = pathname.replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
-  const isActive =
-    item.href === "/"
-      ? normalizedPathname === "/"
-      : normalizedPathname === item.href ||
-        normalizedPathname.startsWith(`${item.href}/`);
+  const isActive = isNavHrefActive(item.href, pathname);
 
   const handleClick = () => {
     if (isMobile) {

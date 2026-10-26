@@ -201,18 +201,20 @@ export function FilterControl({
         </div>
       </div>
 
-      <div
-        role="status"
-        className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 text-[13px] text-red-700"
-      >
-        <TriangleAlert className="text-red-500 shrink-0 size-3.5" />
-        <span>
-          <span className="font-semibold">
-            {urgencyCounts.critical} {t("criticalCases")}
-          </span>{" "}
-          {t("awaitingUrgentReview")}
-        </span>
-      </div>
+      {urgencyCounts.critical > 0 && (
+        <div
+          role="status"
+          className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 text-[13px] text-red-700"
+        >
+          <TriangleAlert className="text-red-500 shrink-0 size-3.5" />
+          <span>
+            <span className="font-semibold">
+              {t("criticalCases", { count: urgencyCounts.critical })}
+            </span>{" "}
+            {t("awaitingUrgentReview")}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

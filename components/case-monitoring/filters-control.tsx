@@ -35,18 +35,20 @@ export function FilterControl({ counts }: { counts: Counts }) {
 
   return (
     <>
-      <div
-        role="status"
-        className="flex items-start gap-2 p-4 rounded-xl bg-amber-50 border border-amber-200"
-      >
-        <TriangleAlert className="text-amber-600 shrink-0 size-4" />
-        <div className="text-[13px] text-amber-800">
-          <span className="font-semibold">
-            {counts.needs_attention} {t("attentionNotice")}
-          </span>{" "}
-          {t("attentionNoticeDescription")}
+      {counts.needs_attention > 0 && (
+        <div
+          role="status"
+          className="flex items-start gap-2 p-4 rounded-xl bg-amber-50 border border-amber-200"
+        >
+          <TriangleAlert className="text-amber-600 shrink-0 size-4" />
+          <div className="text-[13px] text-amber-800">
+            <span className="font-semibold">
+              {t("attentionNotice", { count: counts.needs_attention })}
+            </span>{" "}
+            {t("attentionNoticeDescription")}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex items-center justify-between gap-4">
         <Tabs

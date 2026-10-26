@@ -185,7 +185,7 @@
     "has_offers": "لديه عروض",
     "closed": "مغلق",
     "searchPlaceholder": "ابحث حسب العنوان أو الفئة....",
-    "criticalCases": "القضايا الحرجة",
+    "criticalCases": "{count, plural, one {قضية حرجة واحدة} two {قضيتان حرجتان} few {# قضايا حرجة} many {# قضية حرجة} other {# قضية حرجة}}",
     "awaitingUrgentReview": "في انتظار المراجعة العاجلة — تظهر في أعلى القائمة.",
     "Table": {
       "client": "العميل",
@@ -258,7 +258,7 @@
     "pending_closure": "بانتظار الإغلاق",
     "view": "عرض",
     "searchPlaceholder": "ابحث بالعنوان أو العميل أو المحامي…",
-    "attentionNotice": "القضايا تحتاج إلى اهتمامك.",
+    "attentionNotice": "{count, plural, one {قضية واحدة تحتاج} two {قضيتان تحتاجان} few {# قضايا تحتاج} many {# قضية تحتاج} other {# قضية تحتاج}} إلى اهتمامك.",
     "attentionNoticeDescription": "تم وضع علامة تلقائيًا على هذه القضايا بسبب عدم النشاط، أو تأخر الإغلاق، أو طول المدة بشكل غير عادي. تم ترتيبها في أعلى القائمة.",
     "sendCheckInMessage": "إرسال رسالة متابعة",
     "flagForDisputeReview": "وضع علامة للمراجعة النزاع",

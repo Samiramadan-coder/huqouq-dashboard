@@ -147,7 +147,6 @@
       "academicDegree": "Academic Degree",
       "barDegree": "Bar Degree",
       "barNumber": "Bar Number",
-
       "yearsOfExperience": "Years of Experience",
       "consultationFee": "Consultation Fee",
       "submissionDate": "Submission Date"
@@ -244,8 +243,12 @@
       "alreadyReviewed": "This case has already been reviewed.",
       "noDocuments": "No documents attached",
       "previewDocument": "Preview document: {name}",
-      "budgetNotProvided": "Not specified by client — open to lawyers offers",
-      "minReasonChars": "{count} / 10 Minimum"
+      "budgetNotProvided": "Not specified by client — open to lawyers' offers",
+      "minReasonChars": "{count} / {min} minimum",
+      "budgetRange": "AED {min} – {max}",
+      "budgetFrom": "From AED {amount}",
+      "budgetUpTo": "Up to AED {amount}",
+      "reason_max_length": "Reason must be at most 1000 characters"
     }
   },
   "CaseMonitoring": {

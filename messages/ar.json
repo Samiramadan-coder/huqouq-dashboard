@@ -246,7 +246,11 @@
       "noDocuments": "لا توجد مستندات مرفقة",
       "previewDocument": "معاينة المستند: {name}",
       "budgetNotProvided": "غير محدد من قبل العميل - متاح لعروض المحامين",
-      "minReasonChars": "{count} / 10 الحد الأدني"
+      "minReasonChars": "{count} / {min} الحد الأدنى",
+      "budgetRange": "{min} – {max} درهم",
+      "budgetFrom": "من {amount} درهم",
+      "budgetUpTo": "حتى {amount} درهم",
+      "reason_max_length": "يجب ألا يتجاوز السبب 1000 حرف"
     }
   },
   "CaseMonitoring": {

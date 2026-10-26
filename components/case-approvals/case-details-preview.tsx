@@ -26,6 +26,17 @@ export default function CaseDetailsPreview({
   const t = useTranslations("CaseApprovals.Details");
   const format = useFormatter();
 
+  // A client may give a full range, only one bound, or no budget at all.
+  const { budget_min: min, budget_max: max } = caseDetails;
+  const budgetLabel =
+    min > 0 && max > 0
+      ? t("budgetRange", { min: format.number(min), max: format.number(max) })
+      : min > 0
+        ? t("budgetFrom", { amount: format.number(min) })
+        : max > 0
+          ? t("budgetUpTo", { amount: format.number(max) })
+          : null;
+
   const details = (
     <>
       <Card className="py-0 gap-0 ring-0! border border-primary/15">
@@ -81,12 +92,11 @@ export default function CaseDetailsPreview({
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
               {t("budget")}
             </p>
-            {caseDetails.budget_max > 0 ? (
+            {budgetLabel ? (
               <div className="flex items-center gap-2">
                 <Banknote className="size-4 text-gray-400" />
                 <span className="text-[13px] font-semibold text-gray-800">
-                  {format.number(caseDetails.budget_min)} -{" "}
-                  {format.number(caseDetails.budget_max)}
+                  {budgetLabel}
                 </span>
               </div>
             ) : (

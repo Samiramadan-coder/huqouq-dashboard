@@ -117,6 +117,7 @@ export type CaseReviewResult =
   | { success: false; error: "forbidden" | "failed" };
 
 export const REJECTION_REASON_MIN_LENGTH = 10;
+export const REJECTION_REASON_MAX_LENGTH = 1000;
 
 export const rejectSchema = (t: T) =>
   z.object({
@@ -124,7 +125,8 @@ export const rejectSchema = (t: T) =>
       .string()
       .trim()
       .min(1, t("reason_required"))
-      .min(REJECTION_REASON_MIN_LENGTH, t("reason_min_length")),
+      .min(REJECTION_REASON_MIN_LENGTH, t("reason_min_length"))
+      .max(REJECTION_REASON_MAX_LENGTH, t("reason_max_length")),
   });
 
 export type RejectFormData = z.infer<ReturnType<typeof rejectSchema>>;

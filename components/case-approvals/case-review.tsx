@@ -5,6 +5,8 @@ import {
   RejectFormData,
   rejectSchema,
   ReviewStatus,
+  REJECTION_REASON_MAX_LENGTH,
+  REJECTION_REASON_MIN_LENGTH,
 } from "@/types/case-approvals";
 import { toast } from "sonner";
 import { Card } from "../ui/card";
@@ -63,6 +65,8 @@ export default function CaseReview({
   });
 
   const reason = useWatch({ control: control, name: "reason" });
+  const reasonLength = reason.trim().length;
+  const isReasonValid = reasonLength >= REJECTION_REASON_MIN_LENGTH;
 
   // Disables every decision control while a request or the redirect is running.
   const isBusy = isPending || isSubmitting;
@@ -207,14 +211,17 @@ export default function CaseReview({
                 required
                 disabled={isBusy}
                 errors={errors}
+                maxLength={REJECTION_REASON_MAX_LENGTH}
                 placeholder={t("placeholderRejectionReason")}
                 description={
                   <span
-                    className={
-                      reason.trim().length >= 10 ? "text-emerald-500" : ""
-                    }
+                    aria-live="polite"
+                    className={isReasonValid ? "text-emerald-500" : ""}
                   >
-                    {t("minReasonChars", { count: reason.trim().length })}
+                    {t("minReasonChars", {
+                      count: reasonLength,
+                      min: REJECTION_REASON_MIN_LENGTH,
+                    })}
                   </span>
                 }
               />
@@ -258,7 +265,7 @@ export default function CaseReview({
               type="submit"
               form={`${formId}-reject`}
               variant="outline"
-              disabled={isBusy || reason.trim().length < 10}
+              disabled={isBusy || !isReasonValid}
               aria-busy={isSubmitting}
               className="bg-transparent text-red-700 border-red-200 h-11"
             >

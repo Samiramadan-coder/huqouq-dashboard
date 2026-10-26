@@ -83,7 +83,8 @@
         "settingsLabel": "الإعدادات",
         "settings": "الإعدادات",
         "finance": "المالية",
-        "payouts": "المدفوعات"
+        "payouts": "المدفوعات",
+        "legalServicesMonitoring": "مراقبة الخدمات القانونية"
       }
     }
   },
@@ -700,5 +701,16 @@
     "clients": "العملاء",
     "payouts": "المدفوعات",
     "settings": "الإعدادات"
+  },
+  "LegalServicesMonitoring": {
+    "Stats": {
+      "active": "خدمات نشطة",
+      "awaiting_approval": "بانتظار موافقة العميل",
+      "revision": "مطلوب تعديل",
+      "dispute": "قيد النزاع",
+      "held_in_escrow": "محتجز في الضمان",
+      "need_attention": "تحتاج إلى متابعة",
+      "currency": "{amount} درهم"
+    }
   }
 }

@@ -83,7 +83,8 @@
         "settingsLabel": "Settings",
         "settings": "Settings",
         "finance": "Finance",
-        "payouts": "Payouts"
+        "payouts": "Payouts",
+        "legalServicesMonitoring": "Legal Services Monitoring"
       }
     }
   },
@@ -700,5 +701,16 @@
     "clients": "Clients",
     "payouts": "Payouts",
     "settings": "Settings"
+  },
+  "LegalServicesMonitoring": {
+    "Stats": {
+      "active": "Active services",
+      "awaiting_approval": "Awaiting client approval",
+      "revision": "Revision requested",
+      "dispute": "In dispute",
+      "held_in_escrow": "Held in escrow",
+      "need_attention": "Need attention",
+      "currency": "AED {amount}"
+    }
   }
 }

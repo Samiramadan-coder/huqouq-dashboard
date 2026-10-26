@@ -2,6 +2,7 @@ import { createElement } from "react";
 import {
   Banknote,
   Briefcase,
+  FileSearch,
   LayoutGrid,
   MonitorCheck,
   Settings,
@@ -67,6 +68,12 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/case-monitoring",
     type: "link",
     icon: createElement(MonitorCheck, { className: "h-4 w-4" }),
+  },
+  {
+    label: "layout.sidebar.navigation.legalServicesMonitoring",
+    href: "/legal-services-monitoring",
+    type: "link",
+    icon: createElement(FileSearch, { className: "h-4 w-4" }),
   },
   {
     label: "layout.sidebar.navigation.users",

@@ -20,6 +20,8 @@ export default async function Page() {
     meta: FinancialSettingsMeta;
   }>("/api/admin/settings/financial");
 
+  console.log(data);
+
   return (
     <div className="p-4 sm:p-6">
       <div className="container max-w-5xl">

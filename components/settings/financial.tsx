@@ -3,7 +3,7 @@
 import {
   FeePercentage,
   FinancialSettings,
-  FinancialSettingKey,
+  FeePercentageKey,
   feePercentageSchema,
   FinancialSettingsMeta,
 } from "@/types/settings";
@@ -16,7 +16,8 @@ import { Info, Save } from "lucide-react";
 import { useTranslations } from "next-intl";
 import NormalFormInput from "../form/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateFinancialSetting } from "@/lib/settings";
+import PayoutTimingCard from "./payout-timing";
+import { updateFinancialSettings } from "@/lib/settings";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 
 const AGREEMENT_EXAMPLE_AMOUNT = 2000;
@@ -97,6 +98,13 @@ export default function Financial({
           });
         }}
       />
+
+      <PayoutTimingCard
+        defaultValues={{
+          payout_hold_period: data.payout_hold_period,
+          payout_hold_unit: data.payout_hold_unit,
+        }}
+      />
     </div>
   );
 }
@@ -136,7 +144,7 @@ function FeeSettingCard({
   meta,
   renderExample,
 }: {
-  settingKey: FinancialSettingKey;
+  settingKey: FeePercentageKey;
   title: string;
   hint: string;
   presets: number[];
@@ -173,10 +181,9 @@ function FeeSettingCard({
     );
 
   const onSubmit: SubmitHandler<FeePercentage> = async (formData) => {
-    const result = await updateFinancialSetting(
-      settingKey,
-      formData.percentage,
-    );
+    const result = await updateFinancialSettings({
+      [settingKey]: formData.percentage,
+    });
 
     if (result.success) {
       toast.success(result.message);

@@ -563,7 +563,30 @@
     "exampleLegalServicesFee": "مثال: {legalServicesFee}% من 5,000 درهم = {platformFee} درهم رسوم منصة · يحصل المحامي على {lawyerReceives} درهم. يتم استخدام هذا المعدل في حسابات الرسوم المعروضة للعميل عند الدفع، وفي أرباح المحامي، وفي تحليل إيرادات المنصة.",
     "exampleConsultationFee": "في استشارة بقيمة {amount} درهم، تحصل المنصة على {platformFee} درهم ويستلم المحامي {lawyerFee} درهم.",
     "legalServicesFeeHint": "تخصم Huqouq هذه النسبة المئوية من كل دفعة للخدمات القانونية قبل تحويل الباقي إلى المحامي. مثال: 10% من 5,000 درهم = 500 درهم رسوم منصة، 4,500 درهم للمحامي.",
-    "financialSettings": "الإعدادات المالية"
+    "financialSettings": "الإعدادات المالية",
+    "payoutTiming": "توقيت الصرف",
+    "payoutHoldPeriod": "فترة تعليق الصرف",
+    "payoutUnits": {
+      "business_days": "أيام عمل",
+      "calendar_days": "أيام تقويمية",
+      "hours": "ساعات"
+    },
+    "payoutDuration": {
+      "business_days": "{count, plural, one {يوم عمل واحد} two {يومي عمل} few {# أيام عمل} other {# يوم عمل}}",
+      "calendar_days": "{count, plural, one {يوم واحد} two {يومين} few {# أيام} other {# يومًا}}",
+      "hours": "{count, plural, one {ساعة واحدة} two {ساعتين} few {# ساعات} other {# ساعة}}"
+    },
+    "payoutInstant": "فوري",
+    "payoutPresetDays": "{count, plural, one {يوم واحد} two {يومان} few {# أيام} other {# يومًا}}",
+    "payoutPresetHours": "{count, plural, one {ساعة واحدة} two {ساعتان} few {# ساعات} other {# ساعة}}",
+    "payoutPresetWeek": "{label} (أسبوع واحد)",
+    "payoutHint": "تصبح الأموال متاحة للصرف بعد {duration} من إتمام الاستشارة أو المكالمة.",
+    "payoutHintInstant": "تصبح الأموال متاحة للصرف فور إتمام الاستشارة أو المكالمة.",
+    "fundLifecycle": "دورة حياة الأموال",
+    "lifecycleSessionEnds": "انتهاء الجلسة",
+    "lifecyclePending": "قيد الانتظار · {duration}",
+    "lifecycleReady": "جاهزة للصرف",
+    "lifecycleAdminProcesses": "يقوم المسؤول بتنفيذ الصرف"
   },
   "Payouts": {
     "title": "المدفوعات",

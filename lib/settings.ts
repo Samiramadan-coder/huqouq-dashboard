@@ -1,10 +1,10 @@
 "use server";
 
 import { http, ValidationError } from "@/lib/http";
-import { FinancialSettingKey } from "@/types/settings";
+import { FinancialSettingKey, FinancialSettings } from "@/types/settings";
 
-// Response type for updating a single financial setting.
-type FinancialSettingResponse =
+// Response type for updating financial settings.
+export type FinancialSettingsResponse =
   | {
       success: true;
       message: string;
@@ -14,14 +14,14 @@ type FinancialSettingResponse =
       errors?: Partial<Record<FinancialSettingKey, string>>;
     };
 
-export async function updateFinancialSetting(
-  key: FinancialSettingKey,
-  value: number,
-): Promise<FinancialSettingResponse> {
+// Updates one or more financial settings in a single request.
+export async function updateFinancialSettings(
+  values: Partial<FinancialSettings>,
+): Promise<FinancialSettingsResponse> {
   try {
     const { data } = await http.patch<{ message: string }>(
       `/api/admin/settings/financial`,
-      { [key]: value },
+      values,
     );
 
     return { success: true, message: data.message };

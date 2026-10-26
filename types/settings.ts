@@ -1,27 +1,19 @@
 import z from "zod";
 
-export const agreementConfirmationFeeSchema = (max: number, min: number) =>
+export const feePercentageSchema = (max: number, min: number) =>
   z.object({
-    agreement_confirmation_fee_percentage: z.number().min(min).max(max),
+    percentage: z.number().min(min).max(max),
   });
 
-export type AgreementConfirmationFee = z.infer<
-  ReturnType<typeof agreementConfirmationFeeSchema>
->;
-
-export const legalServicesFeeSchema = (max: number, min: number) =>
-  z.object({
-    legal_services_fee_percentage: z.number().min(min).max(max),
-  });
-
-export type LegalServicesFee = z.infer<
-  ReturnType<typeof legalServicesFeeSchema>
->;
+export type FeePercentage = z.infer<ReturnType<typeof feePercentageSchema>>;
 
 export type FinancialSettings = {
   agreement_confirmation_fee_percentage: number;
   legal_services_fee_percentage: number;
+  consultations_fee_percentage: number;
 };
+
+export type FinancialSettingKey = keyof FinancialSettings;
 
 export type FinancialSettingsMeta = {
   max: number;

@@ -1,26 +1,27 @@
 "use client";
 
 import {
-  LegalServicesFee,
+  FeePercentage,
   FinancialSettings,
+  FinancialSettingKey,
+  feePercentageSchema,
   FinancialSettingsMeta,
-  legalServicesFeeSchema,
-  AgreementConfirmationFee,
-  agreementConfirmationFeeSchema,
 } from "@/types/settings";
 
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import type { ReactNode } from "react";
 import { Info, Save } from "lucide-react";
 import { useTranslations } from "next-intl";
 import NormalFormInput from "../form/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { updateFinancialSetting } from "@/lib/settings";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import {
-  updateAgreementConfirmationFee,
-  updateLegalServicesFee,
-} from "@/lib/settings";
-import { toast } from "sonner";
+
+const AGREEMENT_EXAMPLE_AMOUNT = 2000;
+const LEGAL_SERVICES_EXAMPLE_AMOUNT = 5000;
+const CONSULTATION_EXAMPLE_AMOUNT = 320;
 
 export default function Financial({
   data,
@@ -29,23 +30,123 @@ export default function Financial({
   data: FinancialSettings;
   meta: FinancialSettingsMeta;
 }) {
+  const t = useTranslations("Settings");
+
   return (
     <div className="space-y-4">
-      <AgreementConfirmationFeeSettings data={data} meta={meta} />
-      <LegalServicesFeeSettings data={data} meta={meta} />
+      <FeeSettingCard
+        settingKey="agreement_confirmation_fee_percentage"
+        title={t("agreementConfirmFee")}
+        hint={t("agreementHint")}
+        presets={[2, 3, 5, 7.5, 10]}
+        tone="blue"
+        defaultValue={data.agreement_confirmation_fee_percentage}
+        meta={meta}
+        renderExample={(percentage) =>
+          t("exampleAgreementConfirmFee", {
+            agreementConfirmationFee: percentage,
+            feePercentageOf200AED: percentOf(
+              AGREEMENT_EXAMPLE_AMOUNT,
+              percentage,
+            ),
+          })
+        }
+      />
+
+      <FeeSettingCard
+        settingKey="legal_services_fee_percentage"
+        title={t("legalServicesFee")}
+        hint={t("legalServicesFeeHint")}
+        presets={[5, 10, 15, 20]}
+        tone="purple"
+        defaultValue={data.legal_services_fee_percentage}
+        meta={meta}
+        renderExample={(percentage) => {
+          const platformFee = percentOf(
+            LEGAL_SERVICES_EXAMPLE_AMOUNT,
+            percentage,
+          );
+
+          return t("exampleLegalServicesFee", {
+            legalServicesFee: percentage,
+            platformFee,
+            lawyerReceives: LEGAL_SERVICES_EXAMPLE_AMOUNT - platformFee,
+          });
+        }}
+      />
+
+      <FeeSettingCard
+        settingKey="consultations_fee_percentage"
+        title={"Consultations Platform Fee"}
+        hint={
+          "Percentage taken from each transaction before crediting the lawyer's balance. Currently 0% during launch period."
+        }
+        presets={[0, 5, 10, 15, 20]}
+        tone="blue"
+        defaultValue={data.consultations_fee_percentage}
+        meta={meta}
+        renderExample={(percentage) => {
+          const platformFee = percentOf(
+            CONSULTATION_EXAMPLE_AMOUNT,
+            percentage,
+          );
+
+          return t("exampleConsultationFee", {
+            platformFee,
+            lawyerFee: CONSULTATION_EXAMPLE_AMOUNT - platformFee,
+          });
+        }}
+      />
     </div>
   );
 }
 
-// AgreementConfirmationFeeSettings component handles the configuration of the agreement confirmation fee settings.
-function AgreementConfirmationFeeSettings({
-  data,
+// Returns `percentage`% of `amount`, rounded to 2 decimals to avoid float noise.
+function percentOf(amount: number, percentage: number) {
+  return Math.round(amount * percentage) / 100;
+}
+
+// Rounds a value to the precision of the step so +/- never yields 0.30000000000000004.
+function roundToStep(value: number, step: number) {
+  const decimals = (String(step).split(".")[1] ?? "").length;
+  return Number(value.toFixed(decimals));
+}
+
+const TONES = {
+  blue: {
+    box: "bg-blue-50/60 border-blue-100",
+    icon: "text-blue-400",
+    text: "text-blue-700",
+  },
+  purple: {
+    box: "bg-purple-50/60 border-purple-100",
+    icon: "text-purple-400",
+    text: "text-purple-800",
+  },
+} as const;
+
+// FeeSettingCard renders a form for configuring a single financial fee percentage.
+function FeeSettingCard({
+  settingKey,
+  title,
+  hint,
+  presets,
+  tone,
+  defaultValue,
   meta,
+  renderExample,
 }: {
-  data: FinancialSettings;
+  settingKey: FinancialSettingKey;
+  title: string;
+  hint: string;
+  presets: number[];
+  tone: keyof typeof TONES;
+  defaultValue: number;
   meta: FinancialSettingsMeta;
+  renderExample: (percentage: number) => ReactNode;
 }) {
   const t = useTranslations("Settings");
+  const tCommon = useTranslations("Common");
 
   const {
     control,
@@ -53,66 +154,68 @@ function AgreementConfirmationFeeSettings({
     handleSubmit,
     setValue,
     setError,
-    formState: { errors, isSubmitting },
-  } = useForm<AgreementConfirmationFee>({
-    resolver: zodResolver(agreementConfirmationFeeSchema(meta.max, meta.min)),
-    defaultValues: {
-      agreement_confirmation_fee_percentage:
-        data.agreement_confirmation_fee_percentage,
-    },
+    reset,
+    formState: { errors, isSubmitting, isDirty },
+  } = useForm<FeePercentage>({
+    resolver: zodResolver(feePercentageSchema(meta.max, meta.min)),
+    defaultValues: { percentage: defaultValue },
   });
 
-  const agreementConfirmationFee = useWatch({
-    control: control,
-    name: "agreement_confirmation_fee_percentage",
-  });
+  const watched = useWatch({ control, name: "percentage" });
+  // Empty number inputs yield NaN, so fall back to 0 for derived values.
+  const percentage = Number.isFinite(watched) ? watched : 0;
 
-  const onSubmit: SubmitHandler<AgreementConfirmationFee> = async (
-    formData,
-  ) => {
-    const result = await updateAgreementConfirmationFee(
-      formData.agreement_confirmation_fee_percentage,
+  const changeValue = (value: number) =>
+    setValue(
+      "percentage",
+      roundToStep(Math.min(Math.max(value, meta.min), meta.max), meta.step),
+      { shouldDirty: true, shouldValidate: true },
+    );
+
+  const onSubmit: SubmitHandler<FeePercentage> = async (formData) => {
+    const result = await updateFinancialSetting(
+      settingKey,
+      formData.percentage,
     );
 
     if (result.success) {
       toast.success(result.message);
+      // Make the saved value the new baseline so the form is no longer dirty.
+      reset({ percentage: formData.percentage });
       return;
     }
 
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
-        toast.error(message);
-        setError(field as keyof AgreementConfirmationFee, {
-          type: "server",
-          message,
-        });
-      });
+    const serverErrors = Object.values(result.errors ?? {}).filter(Boolean);
 
+    if (serverErrors.length === 0) {
+      toast.error(tCommon("ErrorOccurred"));
       return;
     }
+
+    serverErrors.forEach((message) => toast.error(message));
+    setError("percentage", { type: "server", message: serverErrors[0] });
   };
+
+  const toneClasses = TONES[tone];
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
       <div className="px-5 py-3.5 border-b border-gray-100 bg-gray-50/60">
-        <h3 className="text-[13px] font-semibold text-gray-700">
-          {t("agreementConfirmFee")}
-        </h3>
+        <h3 className="text-[13px] font-semibold text-gray-700">{title}</h3>
       </div>
 
       <div className="p-5">
         <label className="block text-[12px] font-medium text-gray-600 mb-1.5">
-          {t("agreementConfirmFee")} (%)
+          {title} (%)
         </label>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex gap-2 items-center"
+          className="flex flex-wrap gap-2 items-start"
         >
           <NormalFormInput
             register={register}
-            name="agreement_confirmation_fee_percentage"
+            name="percentage"
             suffix="%"
             required
             errors={errors}
@@ -124,257 +227,63 @@ function AgreementConfirmationFeeSettings({
 
           <Button
             type="button"
-            className="w-8 font-bold bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
-            onClick={() =>
-              setValue(
-                "agreement_confirmation_fee_percentage",
-                Math.max((agreementConfirmationFee || 0) - meta.step, meta.min),
-              )
-            }
+            className="h-10 w-8 font-bold bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
+            disabled={percentage <= meta.min}
+            onClick={() => changeValue(percentage - meta.step)}
           >
             -
           </Button>
 
           <Button
             type="button"
-            className="w-8 font-bold bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
-            onClick={() =>
-              setValue(
-                "agreement_confirmation_fee_percentage",
-                Math.min((agreementConfirmationFee || 0) + meta.step, meta.max),
-              )
-            }
+            className="h-10 w-8 font-bold bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
+            disabled={percentage >= meta.max}
+            onClick={() => changeValue(percentage + meta.step)}
           >
             +
           </Button>
 
-          <FixedButton
-            onClick={() => setValue("agreement_confirmation_fee_percentage", 2)}
-            percentage={2}
-            isActive={agreementConfirmationFee === 2}
-          />
-
-          <FixedButton
-            onClick={() => setValue("agreement_confirmation_fee_percentage", 3)}
-            percentage={3}
-            isActive={agreementConfirmationFee === 3}
-          />
-
-          <FixedButton
-            onClick={() => setValue("agreement_confirmation_fee_percentage", 5)}
-            percentage={5}
-            isActive={agreementConfirmationFee === 5}
-          />
-
-          <FixedButton
-            onClick={() =>
-              setValue("agreement_confirmation_fee_percentage", 7.5)
-            }
-            percentage={7.5}
-            isActive={agreementConfirmationFee === 7.5}
-          />
-
-          <FixedButton
-            onClick={() =>
-              setValue("agreement_confirmation_fee_percentage", 10)
-            }
-            percentage={10}
-            isActive={agreementConfirmationFee === 10}
-          />
+          {presets.map((preset) => (
+            <FixedButton
+              key={preset}
+              onClick={() => changeValue(preset)}
+              percentage={preset}
+              isActive={percentage === preset}
+            />
+          ))}
 
           <Button
             type="submit"
             className="h-10 px-4 text-[13px]"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isDirty}
           >
             <Save />
             {t("save")}
           </Button>
         </form>
 
-        <div className="mt-4 p-3 rounded-lg bg-blue-50/60 border border-blue-100 flex items-center gap-2">
-          <Info className="text-blue-400 shrink-0 size-4" aria-hidden="true" />
-          <p className="text-[12px] text-blue-700">
-            {t("exampleAgreementConfirmFee", {
-              agreementConfirmationFee,
-              feePercentageOf200AED: (agreementConfirmationFee / 100) * 2000,
-            })}
-          </p>
-        </div>
-
-        <p className="mt-1 text-[11px] text-gray-400">{t("agreementHint")}</p>
-      </div>
-    </div>
-  );
-}
-
-// PlatformFeeSettings component handles the configuration of the platform fee settings.
-function LegalServicesFeeSettings({
-  data,
-  meta,
-}: {
-  data: FinancialSettings;
-  meta: FinancialSettingsMeta;
-}) {
-  const t = useTranslations("Settings");
-
-  const {
-    control,
-    register,
-    handleSubmit,
-    setValue,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<LegalServicesFee>({
-    resolver: zodResolver(legalServicesFeeSchema(meta.max, meta.min)),
-    defaultValues: {
-      legal_services_fee_percentage: data.legal_services_fee_percentage,
-    },
-  });
-
-  const legalServicesFee = useWatch({
-    control: control,
-    name: "legal_services_fee_percentage",
-  });
-
-  const onSubmit: SubmitHandler<LegalServicesFee> = async (formData) => {
-    const result = await updateLegalServicesFee(
-      formData.legal_services_fee_percentage,
-    );
-
-    if (result.success) {
-      toast.success(result.message);
-      return;
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        if (!message) return;
-        toast.error(message);
-        setError(field as keyof LegalServicesFee, {
-          type: "server",
-          message,
-        });
-      });
-
-      return;
-    }
-  };
-
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <div className="px-5 py-3.5 border-b border-gray-100 bg-gray-50/60">
-        <h3 className="text-[13px] font-semibold text-gray-700">
-          {t("legalServicesFee")}
-        </h3>
-      </div>
-
-      <div className="p-5">
-        <label className="block text-[12px] font-medium text-gray-600 mb-1.5">
-          {t("legalServicesFee")} (%)
-        </label>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex gap-2 items-center"
+        <div
+          className={cn(
+            "mt-4 p-3 rounded-lg border flex items-center gap-2",
+            toneClasses.box,
+          )}
         >
-          <NormalFormInput
-            register={register}
-            name="legal_services_fee_percentage"
-            suffix="%"
-            required
-            errors={errors}
-            min={meta.min}
-            max={meta.max}
-            step={meta.step}
-            type="number"
-          />
-
-          <Button
-            type="button"
-            className="w-8 font-bold bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
-            onClick={() =>
-              setValue(
-                "legal_services_fee_percentage",
-                Math.max((legalServicesFee || 0) - meta.step, meta.min),
-              )
-            }
-          >
-            -
-          </Button>
-
-          <Button
-            type="button"
-            className="w-8 font-bold bg-transparent text-gray-700 border-gray-200 hover:bg-transparent"
-            onClick={() =>
-              setValue(
-                "legal_services_fee_percentage",
-                Math.min((legalServicesFee || 0) + meta.step, meta.max),
-              )
-            }
-          >
-            +
-          </Button>
-
-          <FixedButton
-            onClick={() => setValue("legal_services_fee_percentage", 5)}
-            percentage={5}
-            isActive={legalServicesFee === 5}
-          />
-
-          <FixedButton
-            onClick={() => setValue("legal_services_fee_percentage", 10)}
-            percentage={10}
-            isActive={legalServicesFee === 10}
-          />
-
-          <FixedButton
-            onClick={() => setValue("legal_services_fee_percentage", 15)}
-            percentage={15}
-            isActive={legalServicesFee === 15}
-          />
-
-          <FixedButton
-            onClick={() => setValue("legal_services_fee_percentage", 20)}
-            percentage={20}
-            isActive={legalServicesFee === 20}
-          />
-
-          <Button
-            type="submit"
-            className="h-10 px-4 text-[13px]"
-            disabled={isSubmitting}
-          >
-            <Save />
-            {t("save")}
-          </Button>
-        </form>
-
-        <div className="mt-4 p-3 rounded-lg bg-purple-50/60 border border-purple-100 flex items-center gap-2">
           <Info
-            className="text-purple-400 shrink-0 size-4"
+            className={cn("shrink-0 size-4", toneClasses.icon)}
             aria-hidden="true"
           />
-          <p className="text-[12px] text-purple-800">
-            {t("exampleLegalServicesFee", {
-              legalServicesFee: legalServicesFee || 0,
-              platformFee: ((legalServicesFee || 0) * 5000) / 100,
-              lawyerReceives: 5000 - ((legalServicesFee || 0) * 5000) / 100,
-            })}
+          <p className={cn("text-[12px]", toneClasses.text)}>
+            {renderExample(percentage)}
           </p>
         </div>
 
-        <p className="mt-1 text-[11px] text-gray-400">
-          Huqouq deducts this % from each Legal Service payment before
-          transferring the remainder to the lawyer. Example: 10% of AED 5,000 =
-          AED 500 platform fee, AED 4,500 to lawyer.
-        </p>
+        <p className="mt-1 text-[11px] text-gray-400">{hint}</p>
       </div>
     </div>
   );
 }
 
-// FixedButton component represents a button with a fixed percentage value for the legal services fee.
+// FixedButton component represents a button that sets a preset fee percentage.
 function FixedButton({
   onClick,
   percentage,
@@ -387,8 +296,9 @@ function FixedButton({
   return (
     <Button
       type="button"
+      aria-pressed={isActive}
       className={cn(
-        "w-12 text-xs bg-transparent text-gray-700 border-gray-200 hover:bg-primary hover:text-white",
+        "h-10 w-12 text-xs bg-transparent text-gray-700 border-gray-200 hover:bg-primary hover:text-white",
         isActive && "bg-primary text-white",
       )}
       onClick={onClick}

@@ -1,26 +1,27 @@
 "use server";
 
 import { http, ValidationError } from "@/lib/http";
-import { AgreementConfirmationFee, LegalServicesFee } from "@/types/settings";
+import { FinancialSettingKey } from "@/types/settings";
 
-// Response type for updating the agreement confirmation fee.
-type AgreementConfirmationFeeResponse =
+// Response type for updating a single financial setting.
+type FinancialSettingResponse =
   | {
       success: true;
       message: string;
     }
   | {
       success: false;
-      errors?: Partial<Record<keyof AgreementConfirmationFee, string>>;
+      errors?: Partial<Record<FinancialSettingKey, string>>;
     };
 
-export async function updateAgreementConfirmationFee(
-  agreement_confirmation_fee_percentage: number,
-): Promise<AgreementConfirmationFeeResponse> {
+export async function updateFinancialSetting(
+  key: FinancialSettingKey,
+  value: number,
+): Promise<FinancialSettingResponse> {
   try {
     const { data } = await http.patch<{ message: string }>(
       `/api/admin/settings/financial`,
-      { agreement_confirmation_fee_percentage },
+      { [key]: value },
     );
 
     return { success: true, message: data.message };
@@ -31,42 +32,7 @@ export async function updateAgreementConfirmationFee(
           field,
           messages[0] ?? "Invalid value",
         ]),
-      ) as Partial<Record<keyof AgreementConfirmationFee, string>>;
-      return { success: false, errors };
-    }
-    return { success: false };
-  }
-}
-
-// Response type for updating the legal services fee.
-type LegalServicesFeeResponse =
-  | {
-      success: true;
-      message: string;
-    }
-  | {
-      success: false;
-      errors?: Partial<Record<keyof LegalServicesFee, string>>;
-    };
-
-export async function updateLegalServicesFee(
-  legal_services_fee_percentage: number,
-): Promise<LegalServicesFeeResponse> {
-  try {
-    const { data } = await http.patch<{ message: string }>(
-      `/api/admin/settings/financial`,
-      { legal_services_fee_percentage },
-    );
-
-    return { success: true, message: data.message };
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(error.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof LegalServicesFee, string>>;
+      ) as Partial<Record<FinancialSettingKey, string>>;
       return { success: false, errors };
     }
     return { success: false };

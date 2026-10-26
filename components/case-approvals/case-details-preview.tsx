@@ -77,11 +77,11 @@ export default function CaseDetailsPreview({
             </div>
           </div>
 
-          {caseDetails.budget_max > 0 && (
-            <div className="px-5 py-4">
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
-                {t("budget")}
-              </p>
+          <div className="px-5 py-4">
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1">
+              {t("budget")}
+            </p>
+            {caseDetails.budget_max > 0 ? (
               <div className="flex items-center gap-2">
                 <Banknote className="size-4 text-gray-400" />
                 <span className="text-[13px] font-semibold text-gray-800">
@@ -89,8 +89,12 @@ export default function CaseDetailsPreview({
                   {format.number(caseDetails.budget_max)}
                 </span>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="text-gray-800 text-[13px] font-semibold">
+                {t("budgetNotProvided")}
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 

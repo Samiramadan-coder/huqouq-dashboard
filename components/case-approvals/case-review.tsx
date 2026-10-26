@@ -19,16 +19,10 @@ import { useRouter } from "@/i18n/navigation";
 import { Field, FieldGroup } from "../ui/field";
 import NormalFormTextarea from "../form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { approveCase, rejectCase } from "@/lib/cases-approvals";
 import { ShieldAlert, TriangleAlert, X } from "lucide-react";
-import {
-  type ReactNode,
-  useId,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { type ReactNode, useId, useMemo, useState, useTransition } from "react";
 
 const conditions = [
   "Condition1",
@@ -54,13 +48,12 @@ export default function CaseReview({
   const [isPending, startTransition] = useTransition();
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
-  const [selectedConditions, setSelectedConditions] = useState<Condition[]>(
-    [],
-  );
+  const [selectedConditions, setSelectedConditions] = useState<Condition[]>([]);
 
   const schema = useMemo(() => rejectSchema(t), [t]);
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -68,6 +61,8 @@ export default function CaseReview({
     defaultValues: { reason: "" },
     resolver: zodResolver(schema),
   });
+
+  const reason = useWatch({ control: control, name: "reason" });
 
   // Disables every decision control while a request or the redirect is running.
   const isBusy = isPending || isSubmitting;
@@ -99,7 +94,12 @@ export default function CaseReview({
       try {
         const result = await approveCase(caseId);
         if (
-          handleResult(result, "approve_success", "approve_failure", "published")
+          handleResult(
+            result,
+            "approve_success",
+            "approve_failure",
+            "published",
+          )
         ) {
           setIsApproveOpen(false);
         }
@@ -208,6 +208,15 @@ export default function CaseReview({
                 disabled={isBusy}
                 errors={errors}
                 placeholder={t("placeholderRejectionReason")}
+                description={
+                  <span
+                    className={
+                      reason.trim().length >= 10 ? "text-emerald-500" : ""
+                    }
+                  >
+                    {t("minReasonChars", { count: reason.trim().length })}
+                  </span>
+                }
               />
             </form>
           </Card>
@@ -249,7 +258,7 @@ export default function CaseReview({
               type="submit"
               form={`${formId}-reject`}
               variant="outline"
-              disabled={isBusy}
+              disabled={isBusy || reason.trim().length < 10}
               aria-busy={isSubmitting}
               className="bg-transparent text-red-700 border-red-200 h-11"
             >
@@ -270,13 +279,15 @@ export default function CaseReview({
             </Button>
           )}
 
-          <ApproveBtn
-            open={isApproveOpen}
-            onOpenChange={setIsApproveOpen}
-            onConfirm={handleApprove}
-            disabled={isBusy || remaining > 0}
-            isPending={isPending}
-          />
+          {!showRejectForm && (
+            <ApproveBtn
+              open={isApproveOpen}
+              onOpenChange={setIsApproveOpen}
+              onConfirm={handleApprove}
+              disabled={isBusy || remaining > 0}
+              isPending={isPending}
+            />
+          )}
         </div>
       </div>
     </>

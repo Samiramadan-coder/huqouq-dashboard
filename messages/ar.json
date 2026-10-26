@@ -244,7 +244,9 @@
       "actionForbidden": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
       "alreadyReviewed": "تمت مراجعة هذه القضية بالفعل.",
       "noDocuments": "لا توجد مستندات مرفقة",
-      "previewDocument": "معاينة المستند: {name}"
+      "previewDocument": "معاينة المستند: {name}",
+      "budgetNotProvided": "غير محدد من قبل العميل - متاح لعروض المحامين",
+      "minReasonChars": "{count} / 10 الحد الأدني"
     }
   },
   "CaseMonitoring": {

@@ -243,7 +243,9 @@
       "actionForbidden": "You don't have permission to perform this action.",
       "alreadyReviewed": "This case has already been reviewed.",
       "noDocuments": "No documents attached",
-      "previewDocument": "Preview document: {name}"
+      "previewDocument": "Preview document: {name}",
+      "budgetNotProvided": "Not specified by client — open to lawyers offers",
+      "minReasonChars": "{count} / 10 Minimum"
     }
   },
   "CaseMonitoring": {

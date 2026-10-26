@@ -66,3 +66,9 @@ export type LegalService = {
   urgency: "standard" | "urgent" | "very_urgent";
   urgency_label: string;
 };
+
+export type Filters = {
+  lawyers: { id: number; name: string }[];
+  service_types: { label: string; value: string }[];
+  urgencies: { label: string; value: string }[];
+};

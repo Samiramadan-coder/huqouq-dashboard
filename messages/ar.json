@@ -700,9 +700,11 @@
     "lawyers": "المحامون",
     "clients": "العملاء",
     "payouts": "المدفوعات",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "legalServicesMonitoring": "مراقبة الخدمات القانونية"
   },
   "LegalServicesMonitoring": {
+    "description": "تابع كل خدمة قانونية مقبولة من الدفع حتى صرف المستحقات. تُثبَّت الخدمات التي تحتاج إلى تدخل الإدارة في الأعلى.",
     "Stats": {
       "active": "خدمات نشطة",
       "awaiting_approval": "بانتظار موافقة العميل",
@@ -742,6 +744,12 @@
       "view": "عرض",
       "viewService": "عرض الخدمة {reference}",
       "noServices": "لا توجد خدمات"
+    },
+    "Filters": {
+      "searchPlaceholder": "ابحث بالمرجع أو العميل أو المحامي…",
+      "allServiceTypes": "جميع أنواع الخدمات",
+      "allLawyers": "جميع المحامين",
+      "allUrgencies": "جميع درجات الاستعجال"
     }
   }
 }

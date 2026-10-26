@@ -700,9 +700,11 @@
     "lawyers": "Lawyers",
     "clients": "Clients",
     "payouts": "Payouts",
-    "settings": "Settings"
+    "settings": "Settings",
+    "legalServicesMonitoring": "Legal Services Monitoring"
   },
   "LegalServicesMonitoring": {
+    "description": "Track every accepted legal service from payment to payout. Services that need an admin are pinned to the top.",
     "Stats": {
       "active": "Active services",
       "awaiting_approval": "Awaiting client approval",
@@ -742,6 +744,12 @@
       "view": "View",
       "viewService": "View service {reference}",
       "noServices": "No services found"
+    },
+    "Filters": {
+      "searchPlaceholder": "Search by reference, client, lawyer…",
+      "allServiceTypes": "All service types",
+      "allLawyers": "All lawyers",
+      "allUrgencies": "All urgencies"
     }
   }
 }

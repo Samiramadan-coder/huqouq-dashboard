@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { ChatMessage } from "@/types/chat";
 import { Spinner } from "../ui/spinner";
 import { subscribeToMessages } from "@/features/chat";
-import { ChatParticipants } from "@/types/case-monitoring";
+import { ChatParticipants, formatFileSize } from "@/types/case-monitoring";
 import { useDirection } from "@/components/ui/direction";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -643,25 +643,6 @@ function formatAudioTime(seconds: number) {
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
 
-const FILE_SIZE_UNITS = ["byte", "kilobyte", "megabyte", "gigabyte"] as const;
-
-// Formats a byte count as a localized file size (e.g. "1.4 MB").
-function formatFileSize(
-  bytes: number,
-  format: Pick<ReturnType<typeof useFormatter>, "number">,
-) {
-  const exponent = Math.min(
-    Math.floor(Math.log(bytes) / Math.log(1024)),
-    FILE_SIZE_UNITS.length - 1,
-  );
-
-  return format.number(bytes / 1024 ** exponent, {
-    style: "unit",
-    unit: FILE_SIZE_UNITS[exponent],
-    unitDisplay: "short",
-    maximumFractionDigits: exponent === 0 ? 0 : 1,
-  });
-}
 
 // Picks an icon and accent color for a file based on its MIME type or extension.
 function getFileIconStyle(fileType: string | null, fileName: string | null) {

@@ -228,3 +228,23 @@ export type CaseMessageResult =
       error: "forbidden" | "failed";
       errors?: Partial<Record<keyof CaseMessageFormValues, string>>;
     };
+
+const FILE_SIZE_UNITS = ["byte", "kilobyte", "megabyte", "gigabyte"] as const;
+
+// Formats a byte count as a localized file size (e.g. "1.4 MB").
+export function formatFileSize(
+  bytes: number,
+  format: Pick<ReturnType<typeof useFormatter>, "number">,
+) {
+  const exponent = Math.min(
+    Math.max(0, Math.floor(Math.log(bytes) / Math.log(1024))),
+    FILE_SIZE_UNITS.length - 1,
+  );
+
+  return format.number(bytes / 1024 ** exponent, {
+    style: "unit",
+    unit: FILE_SIZE_UNITS[exponent],
+    unitDisplay: "short",
+    maximumFractionDigits: exponent === 0 ? 0 : 1,
+  });
+}

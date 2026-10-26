@@ -1,27 +1,17 @@
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 import { Pagination } from "@/types/shared";
 import { TableCell, TableRow } from "../ui/table";
-import { ArrowRight, ShieldCheck, TriangleAlert } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { ShieldCheck, TriangleAlert } from "lucide-react";
+import LegalServiceDetails from "./legal-service-details";
 import { getFormatter, getTranslations } from "next-intl/server";
-import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DATE_FORMAT, formatMoney } from "@/types/case-monitoring";
-import { LegalService, MonitoringTab } from "@/types/legal-services-montoring";
+import { DataTable, DataTableColumn } from "../reusable/data-table";
+import { LegalService } from "@/types/legal-services-montoring";
+import StatusBadge from "./status-badge";
 
 // The API doesn't send a currency for legal services; fees are always in AED.
 const CURRENCY = "AED";
-
-const statusClassNames: Record<MonitoringTab, string> = {
-  all: "bg-gray-50 text-gray-700 border-gray-200",
-  has_offers: "bg-violet-50 text-violet-700 border-violet-200",
-  in_progress: "bg-blue-50 text-blue-700 border-blue-200",
-  delivered: "bg-amber-50 text-amber-700 border-amber-200",
-  revision: "bg-orange-50 text-orange-700 border-orange-200",
-  dispute: "bg-red-50 text-red-700 border-red-200",
-  completed: "bg-green-50 text-green-700 border-green-200",
-  closed: "bg-gray-100 text-gray-600 border-gray-200",
-};
 
 function Person({
   name,
@@ -154,23 +144,17 @@ export default async function DataPreview({
 
               <TableCell className="px-5 py-3">
                 <p className="whitespace-nowrap text-gray-800 text-[13px]">
-                  {formatMoney(format, service.agreed_fee, CURRENCY)}
+                  {service.agreed_fee
+                    ? formatMoney(format, service.agreed_fee, CURRENCY)
+                    : "-"}
                 </p>
               </TableCell>
 
               <TableCell className="px-5 py-3">
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-[11px] font-semibold",
-                    statusClassNames[service.status],
-                  )}
-                >
-                  <span
-                    aria-hidden
-                    className="size-1.5 rounded-full bg-current"
-                  />
-                  {service.status_label}
-                </span>
+                <StatusBadge
+                  status={service.status}
+                  label={service.status_label}
+                />
               </TableCell>
 
               <TableCell className="px-5 py-3">
@@ -219,16 +203,10 @@ export default async function DataPreview({
               </TableCell>
 
               <TableCell className="px-5 py-3">
-                <Button
-                  variant="default"
-                  className="rounded-sm text-xs"
-                  aria-label={t("viewService", {
-                    reference: service.reference,
-                  })}
-                >
-                  {t("view")}
-                  <ArrowRight className="size-3 rtl:rotate-180" />
-                </Button>
+                <LegalServiceDetails
+                  reference={service.reference}
+                  serviceId={service.id}
+                />
               </TableCell>
             </TableRow>
           );

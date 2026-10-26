@@ -740,6 +740,109 @@
       "allServiceTypes": "All service types",
       "allLawyers": "All lawyers",
       "allUrgencies": "All urgencies"
+    },
+    "Details": {
+      "loading": "Loading service details…",
+      "details_failure": "Failed to load the service details.",
+      "actionForbidden": "You don't have permission to view this service.",
+      "retry": "Retry",
+      "Actions": {
+        "checkin": "Send check-in",
+        "extendDeadline": "Extend deadline",
+        "extendReview": "Extend review window",
+        "approveOnBehalf": "Approve on client's behalf",
+        "cancelRefund": "Cancel & refund"
+      },
+      "Tabs": {
+        "request": "Request",
+        "offers": "Offers",
+        "parties": "Parties",
+        "payment": "Payment & escrow",
+        "timeline": "Timeline",
+        "deliveries": "Deliveries",
+        "chat": "Chat",
+        "notes": "Notes",
+        "activity": "Activity"
+      },
+      "footer": "Every admin action requires a reason and is recorded in the activity log.",
+      "lastUpdated": "Last updated {date}",
+      "Request": {
+        "clientRequest": "Client's request",
+        "serviceType": "Service type",
+        "requested": "Requested",
+        "approvedByAdmin": "Approved by admin",
+        "approvingAdmin": "Approving admin",
+        "requestedBy": "Requested by {name}",
+        "attachedFiles": "Attached files ({count})",
+        "noFiles": "No files attached",
+        "download": "Download {name}"
+      },
+      "Offers": {
+        "delivery": "{time} delivery",
+        "rating": "Rating",
+        "noOffers": "No offers yet"
+      },
+      "Parties": {
+        "client": "Client",
+        "lawyer": "Lawyer",
+        "email": "Email",
+        "phone": "Phone",
+        "rating": "Rating",
+        "reviews": "{count, plural, one {# review} other {# reviews}}",
+        "verified": "Verified lawyer",
+        "contactHidden": "Contact details are hidden",
+        "memberSince": "Member since {date}",
+        "noLawyer": "No lawyer assigned yet"
+      },
+      "Payment": {
+        "payment": "Payment",
+        "amountPaid": "Amount paid",
+        "paymentDate": "Payment date",
+        "reference": "Reference",
+        "method": "Method",
+        "providers": {
+          "manual": "Manual"
+        },
+        "feeBreakdown": "Fee breakdown",
+        "agreedFee": "Agreed fee (paid to escrow)",
+        "platformFee": "Huqouq platform fee ({percentage}%)",
+        "refunded": "Refunded to client ({date})",
+        "lawyerPayout": "Lawyer net payout",
+        "feeNote": "Platform fee percentage is set in Admin Settings. Huqouq takes no fee on a full refund.",
+        "payout": "Payout",
+        "payoutDescription": {
+          "notStarted": "Funds stay in escrow until the delivery is approved.",
+          "ready": "Ready for payout since {date}.",
+          "paid": "Paid out on {date} · Ref {reference}"
+        },
+        "noPayment": "No payment has been made yet."
+      },
+      "Deliveries": {
+        "round": "Round {round}",
+        "deliveredIn": "Delivered in {duration}",
+        "durationDays": "{days}d {hours}h",
+        "durationHours": "{hours}h {minutes}m",
+        "durationMinutes": "{minutes}m",
+        "lawyerNote": "Lawyer's note",
+        "download": "Download {name}",
+        "responseTypes": {
+          "revision_requested": "Revision requested",
+          "revision": "Revision requested",
+          "approved": "Approved by client",
+          "accepted": "Approved by client"
+        },
+        "noDeliveries": "No deliveries yet"
+      },
+      "Activity": {
+        "title": "Activity log",
+        "entries": "{count, plural, one {# entry} other {# entries}}",
+        "categories": {
+          "admin": "Admin",
+          "status": "Status",
+          "system": "System"
+        },
+        "noActivity": "No activity yet"
+      }
     }
   }
 }

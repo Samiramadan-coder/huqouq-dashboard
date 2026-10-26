@@ -59,7 +59,6 @@ export default async function Page({
     filters: Filters;
   }>("/api/admin/legal-services-monitoring", {
     params: {
-      // An empty tab keeps the API's default (all).
       tab: parseTab(tab) ?? "",
       q: q || "",
       lawyer_id: lawyer_id || "",
@@ -67,9 +66,10 @@ export default async function Page({
       urgency: urgency || "",
       page: parsePage(page),
     },
+    next: {
+      tags: ["legal-service-monitoring"],
+    },
   });
-
-  console.log(data);
 
   return (
     <div className="p-4 sm:p-6 space-y-6">

@@ -740,6 +740,109 @@
       "allServiceTypes": "جميع أنواع الخدمات",
       "allLawyers": "جميع المحامين",
       "allUrgencies": "جميع درجات الاستعجال"
+    },
+    "Details": {
+      "loading": "جارٍ تحميل تفاصيل الخدمة…",
+      "details_failure": "تعذّر تحميل تفاصيل الخدمة.",
+      "actionForbidden": "ليست لديك صلاحية لعرض هذه الخدمة.",
+      "retry": "إعادة المحاولة",
+      "Actions": {
+        "checkin": "إرسال رسالة متابعة",
+        "extendDeadline": "تمديد الموعد النهائي",
+        "extendReview": "تمديد فترة المراجعة",
+        "approveOnBehalf": "الموافقة نيابةً عن العميل",
+        "cancelRefund": "إلغاء واسترداد"
+      },
+      "Tabs": {
+        "request": "الطلب",
+        "offers": "العروض",
+        "parties": "الأطراف",
+        "payment": "الدفع والضمان",
+        "timeline": "المخطط الزمني",
+        "deliveries": "التسليمات",
+        "chat": "المحادثة",
+        "notes": "الملاحظات",
+        "activity": "النشاط"
+      },
+      "footer": "كل إجراء إداري يتطلب سببًا ويُسجَّل في سجل النشاط.",
+      "lastUpdated": "آخر تحديث {date}",
+      "Request": {
+        "clientRequest": "طلب العميل",
+        "serviceType": "نوع الخدمة",
+        "requested": "تاريخ الطلب",
+        "approvedByAdmin": "تاريخ موافقة الإدارة",
+        "approvingAdmin": "المسؤول الموافق",
+        "requestedBy": "مقدم الطلب: {name}",
+        "attachedFiles": "الملفات المرفقة ({count})",
+        "noFiles": "لا توجد ملفات مرفقة",
+        "download": "تنزيل {name}"
+      },
+      "Offers": {
+        "delivery": "التسليم خلال {time}",
+        "rating": "التقييم",
+        "noOffers": "لا توجد عروض بعد"
+      },
+      "Parties": {
+        "client": "العميل",
+        "lawyer": "المحامي",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "rating": "التقييم",
+        "reviews": "{count, plural, one {تقييم واحد} other {# تقييمات}}",
+        "verified": "محامٍ موثّق",
+        "contactHidden": "بيانات التواصل مخفية",
+        "memberSince": "عضو منذ {date}",
+        "noLawyer": "لم يتم تعيين محامٍ بعد"
+      },
+      "Payment": {
+        "payment": "الدفع",
+        "amountPaid": "المبلغ المدفوع",
+        "paymentDate": "تاريخ الدفع",
+        "reference": "المرجع",
+        "method": "طريقة الدفع",
+        "providers": {
+          "manual": "يدوي"
+        },
+        "feeBreakdown": "تفاصيل الرسوم",
+        "agreedFee": "الرسوم المتفق عليها (مدفوعة إلى الضمان)",
+        "platformFee": "رسوم منصة حقوق ({percentage}%)",
+        "refunded": "مسترد للعميل ({date})",
+        "lawyerPayout": "صافي مستحقات المحامي",
+        "feeNote": "تُحدَّد نسبة رسوم المنصة في إعدادات الإدارة. لا تأخذ حقوق أي رسوم عند الاسترداد الكامل.",
+        "payout": "صرف المستحقات",
+        "payoutDescription": {
+          "notStarted": "تبقى الأموال في الضمان حتى تتم الموافقة على التسليم.",
+          "ready": "جاهزة للصرف منذ {date}.",
+          "paid": "تم الصرف في {date} · المرجع {reference}"
+        },
+        "noPayment": "لم يتم الدفع بعد."
+      },
+      "Deliveries": {
+        "round": "الجولة {round}",
+        "deliveredIn": "تم التسليم خلال {duration}",
+        "durationDays": "{days} يوم {hours} ساعة",
+        "durationHours": "{hours} ساعة {minutes} دقيقة",
+        "durationMinutes": "{minutes} دقيقة",
+        "lawyerNote": "ملاحظة المحامي",
+        "download": "تنزيل {name}",
+        "responseTypes": {
+          "revision_requested": "طُلب تعديل",
+          "revision": "طُلب تعديل",
+          "approved": "وافق العميل",
+          "accepted": "وافق العميل"
+        },
+        "noDeliveries": "لا توجد تسليمات بعد"
+      },
+      "Activity": {
+        "title": "سجل النشاط",
+        "entries": "{count, plural, one {إدخال واحد} other {# إدخالات}}",
+        "categories": {
+          "admin": "الإدارة",
+          "status": "الحالة",
+          "system": "النظام"
+        },
+        "noActivity": "لا يوجد نشاط بعد"
+      }
     }
   }
 }

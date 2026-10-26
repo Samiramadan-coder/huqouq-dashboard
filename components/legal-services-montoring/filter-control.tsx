@@ -65,7 +65,7 @@ export default function FilterControl({
         }
       >
         <TabsList className="h-auto! bg-white gap-0 p-1 rounded-xl border border-gray-200 flex-wrap">
-          {monitoringTabs.map((statusKey) => {
+          {filters.tabs.map(({ value: statusKey, label }) => {
             const isActive = statusKey === tab;
 
             return (
@@ -74,7 +74,7 @@ export default function FilterControl({
                 value={statusKey}
                 className="px-4 h-9 text-[13px] font-medium rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
               >
-                {t(`Tabs.${statusKey}`)}{" "}
+                {label}{" "}
                 <span
                   className={cn(
                     "min-w-4.5 h-4.5 px-1 text-[11px] grid place-content-center font-bold rounded-full bg-gray-100 text-gray-600",

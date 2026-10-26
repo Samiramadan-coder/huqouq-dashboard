@@ -47,8 +47,7 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { tab, q, lawyer_id, service_type, urgency, page } =
-    await searchParams;
+  const { tab, q, lawyer_id, service_type, urgency, page } = await searchParams;
   const t = await getTranslations("LegalServicesMonitoring");
 
   const { data } = await http.get<{
@@ -69,6 +68,8 @@ export default async function Page({
       page: parsePage(page),
     },
   });
+
+  console.log(data);
 
   return (
     <div className="p-4 sm:p-6 space-y-6">

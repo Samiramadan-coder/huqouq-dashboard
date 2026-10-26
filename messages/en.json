@@ -718,16 +718,6 @@
       "title": "{count, plural, one {# service needs} other {# services need}} admin attention",
       "description": "Flagged when a delivery is overdue, auto-approval is under 24 hours away, a service reaches 3+ revision rounds, a dispute is open, or nothing has happened for 7+ days."
     },
-    "Tabs": {
-      "all": "All",
-      "has_offers": "Has offers",
-      "in_progress": "In progress",
-      "delivered": "Delivered",
-      "revision": "Revision",
-      "dispute": "Dispute",
-      "completed": "Completed",
-      "closed": "Closed"
-    },
     "Table": {
       "service": "Service",
       "clientLawyer": "Client → Lawyer",

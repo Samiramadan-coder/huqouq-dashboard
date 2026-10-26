@@ -60,7 +60,7 @@ export type LegalService = {
   round: null | number;
   service_type: string;
   service_type_label: string;
-  status: "has_offers" | "delivered" | "in_progress" | "completed";
+  status: MonitoringTab;
   status_label: string;
   summary: string;
   urgency: "standard" | "urgent" | "very_urgent";
@@ -71,4 +71,5 @@ export type Filters = {
   lawyers: { id: number; name: string }[];
   service_types: { label: string; value: string }[];
   urgencies: { label: string; value: string }[];
+  tabs: { value: MonitoringTab; label: string }[];
 };

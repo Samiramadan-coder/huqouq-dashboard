@@ -7,16 +7,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { DATE_FORMAT, formatMoney } from "@/types/case-monitoring";
-import { LegalService } from "@/types/legal-services-montoring";
+import { LegalService, MonitoringTab } from "@/types/legal-services-montoring";
 
 // The API doesn't send a currency for legal services; fees are always in AED.
 const CURRENCY = "AED";
 
-const statusClassNames: Record<string, string> = {
+const statusClassNames: Record<MonitoringTab, string> = {
+  all: "bg-gray-50 text-gray-700 border-gray-200",
   has_offers: "bg-violet-50 text-violet-700 border-violet-200",
   in_progress: "bg-blue-50 text-blue-700 border-blue-200",
   delivered: "bg-amber-50 text-amber-700 border-amber-200",
+  revision: "bg-orange-50 text-orange-700 border-orange-200",
+  dispute: "bg-red-50 text-red-700 border-red-200",
   completed: "bg-green-50 text-green-700 border-green-200",
+  closed: "bg-gray-100 text-gray-600 border-gray-200",
 };
 
 function Person({
@@ -158,8 +162,7 @@ export default async function DataPreview({
                 <span
                   className={cn(
                     "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-[11px] font-semibold",
-                    statusClassNames[service.status] ??
-                      "bg-gray-50 text-gray-700 border-gray-200",
+                    statusClassNames[service.status],
                   )}
                 >
                   <span

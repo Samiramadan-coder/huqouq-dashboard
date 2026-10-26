@@ -711,6 +711,37 @@
       "held_in_escrow": "محتجز في الضمان",
       "need_attention": "تحتاج إلى متابعة",
       "currency": "{amount} درهم"
+    },
+    "Attention": {
+      "title": "{count, plural, one {خدمة واحدة تحتاج} other {# خدمات تحتاج}} إلى متابعة الإدارة",
+      "description": "يتم الإبلاغ عند تأخر التسليم، أو اقتراب الموافقة التلقائية خلال أقل من 24 ساعة، أو وصول الخدمة إلى 3 جولات تعديل أو أكثر، أو وجود نزاع مفتوح، أو عدم وجود أي نشاط لمدة 7 أيام أو أكثر."
+    },
+    "Tabs": {
+      "all": "الكل",
+      "has_offers": "لديها عروض",
+      "in_progress": "قيد التنفيذ",
+      "delivered": "تم التسليم",
+      "revision": "تعديل",
+      "dispute": "نزاع",
+      "completed": "مكتملة",
+      "closed": "مغلقة"
+    },
+    "Table": {
+      "service": "الخدمة",
+      "clientLawyer": "العميل ← المحامي",
+      "agreedFee": "الرسوم المتفق عليها",
+      "status": "الحالة",
+      "due": "الموعد النهائي",
+      "round": "الجولة",
+      "lastActivity": "آخر نشاط",
+      "actions": "الإجراءات",
+      "services": "خدمات",
+      "verified": "محامٍ موثّق",
+      "offersCount": "{count, plural, =0 {لا توجد عروض بعد} one {عرض واحد} other {# عروض}}",
+      "roundNumber": "الجولة {round}",
+      "view": "عرض",
+      "viewService": "عرض الخدمة {reference}",
+      "noServices": "لا توجد خدمات"
     }
   }
 }

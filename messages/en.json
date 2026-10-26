@@ -711,6 +711,37 @@
       "held_in_escrow": "Held in escrow",
       "need_attention": "Need attention",
       "currency": "AED {amount}"
+    },
+    "Attention": {
+      "title": "{count, plural, one {# service needs} other {# services need}} admin attention",
+      "description": "Flagged when a delivery is overdue, auto-approval is under 24 hours away, a service reaches 3+ revision rounds, a dispute is open, or nothing has happened for 7+ days."
+    },
+    "Tabs": {
+      "all": "All",
+      "has_offers": "Has offers",
+      "in_progress": "In progress",
+      "delivered": "Delivered",
+      "revision": "Revision",
+      "dispute": "Dispute",
+      "completed": "Completed",
+      "closed": "Closed"
+    },
+    "Table": {
+      "service": "Service",
+      "clientLawyer": "Client → Lawyer",
+      "agreedFee": "Agreed Fee",
+      "status": "Status",
+      "due": "Due",
+      "round": "Round",
+      "lastActivity": "Last Activity",
+      "actions": "Actions",
+      "services": "services",
+      "verified": "Verified lawyer",
+      "offersCount": "{count, plural, =0 {No offers yet} one {# offer} other {# offers}}",
+      "roundNumber": "Round {round}",
+      "view": "View",
+      "viewService": "View service {reference}",
+      "noServices": "No services found"
     }
   }
 }

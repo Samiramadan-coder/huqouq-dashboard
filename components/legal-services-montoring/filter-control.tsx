@@ -1,28 +1,31 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Download, Search } from "lucide-react";
-import { Field } from "../ui/field";
-import { useTranslations } from "next-intl";
-import QuerySelect from "../reusable/query-select";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   debounce,
   parseAsString,
   parseAsStringLiteral,
   useQueryStates,
 } from "nuqs";
+
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+
 import {
   Counts,
   Filters,
   monitoringTabs,
 } from "@/types/legal-services-montoring";
+
+import { cn } from "@/lib/utils";
+import { Field } from "../ui/field";
 import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
+import { Download, Search } from "lucide-react";
+import QuerySelect from "../reusable/query-select";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 const SEARCH_DEBOUNCE_MS = 400;
 
@@ -43,7 +46,6 @@ export default function FilterControl({
         lawyer_id: parseAsString.withDefault(""),
         service_type: parseAsString.withDefault(""),
         urgency: parseAsString.withDefault(""),
-        // Reset to the first page whenever a filter changes.
         page: parseAsString,
       },
       { history: "push", shallow: false },
@@ -53,6 +55,16 @@ export default function FilterControl({
   const setFilter =
     (key: "lawyer_id" | "service_type" | "urgency") => (value: string) =>
       setFilters({ [key]: value || null, page: null });
+
+  // Exports what the current filters show, across all pages.
+  const exportParams = new URLSearchParams(
+    Object.entries({ tab, q, lawyer_id, service_type, urgency }).filter(
+      ([, value]) => value,
+    ),
+  );
+  const exportHref = `/api/legal-services-monitoring/export?${exportParams}`;
+
+  console.log(exportHref);
 
   return (
     <div className="space-y-5">
@@ -163,9 +175,14 @@ export default function FilterControl({
         <Button
           className="border-gray-200 text-[12.5px] text-primary font-normal h-9 bg-white"
           variant="outline"
+          asChild
         >
-          <Download className="size-3.5" />
-          {t("Filters.exportCSV")}
+          {/* Downloads through the app's proxy route, which adds the
+              HTTP-only token on the server. */}
+          <a href={exportHref} download>
+            <Download className="size-3.5" />
+            {t("Filters.exportCSV")}
+          </a>
         </Button>
       </div>
     </div>

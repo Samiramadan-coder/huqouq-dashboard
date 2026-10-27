@@ -3,12 +3,15 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontalIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  const t = useTranslations("Common");
+
   return (
     <nav
       role="navigation"
-      aria-label="pagination"
+      aria-label={t("Pagination")}
       data-slot="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
@@ -63,34 +66,38 @@ function PaginationLink({
 
 function PaginationPrevious({
   className,
-  text = "Previous",
+  text,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const t = useTranslations("Common");
+
   return (
     <PaginationLink
-      aria-label="Go to previous page"
+      aria-label={t("PreviousPage")}
       size="default"
       className={cn("ps-3! pe-3.5!", className)}
       {...props}
     >
-      <span className="hidden sm:block">{text}</span>
+      <span className="hidden sm:block">{text ?? t("Previous")}</span>
     </PaginationLink>
   );
 }
 
 function PaginationNext({
   className,
-  text = "Next",
+  text,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const t = useTranslations("Common");
+
   return (
     <PaginationLink
-      aria-label="Go to next page"
+      aria-label={t("NextPage")}
       size="default"
       className={cn("ps-3.5! pe-3!", className)}
       {...props}
     >
-      <span className="hidden sm:block">{text}</span>
+      <span className="hidden sm:block">{text ?? t("Next")}</span>
     </PaginationLink>
   );
 }
@@ -99,6 +106,8 @@ function PaginationEllipsis({
   className,
   ...props
 }: React.ComponentProps<"span">) {
+  const t = useTranslations("Common");
+
   return (
     <span
       aria-hidden
@@ -110,7 +119,7 @@ function PaginationEllipsis({
       {...props}
     >
       <MoreHorizontalIcon />
-      <span className="sr-only">More pages</span>
+      <span className="sr-only">{t("MorePages")}</span>
     </span>
   );
 }

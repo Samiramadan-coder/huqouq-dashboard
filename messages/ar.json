@@ -41,7 +41,15 @@
     "To": "إلى",
     "From": "من",
     "Of": "من",
-    "Loading": "جارٍ التحميل…"
+    "Loading": "جارٍ التحميل…",
+    "ToggleSidebar": "إظهار/إخفاء القائمة الجانبية",
+    "MorePages": "المزيد من الصفحات",
+    "Sidebar": "القائمة الجانبية",
+    "SidebarDescription": "تعرض القائمة الجانبية على الجوال.",
+    "Pagination": "التنقل بين الصفحات",
+    "PreviousPage": "الانتقال إلى الصفحة السابقة",
+    "NextPage": "الانتقال إلى الصفحة التالية",
+    "SwitchLanguage": "تغيير اللغة"
   },
   "Auth": {
     "Login": {
@@ -100,8 +108,6 @@
     "applicationsApproved2": "— نشطون الآن على المنصة",
     "applicationsRejected1": "الطلبات المُعادة",
     "applicationsRejected2": "— في انتظار تعديلات المحامين",
-    "applicationsApproved": "{count} طلبات تمت الموافقة عليها الآن نشط على المنصة",
-    "applicationsRejected": "{count} طلبات مرفوضة",
     "backToPending": "العودة إلى في الانتظار",
     "approveSection": "الموافقة على القسم",
     "flagSection": "الإبلاغ عن القسم",
@@ -408,8 +414,8 @@
       "PrimarySpecializations": "التخصصات الرئيسية",
       "LanguagesBio": "اللغات والنبذة التعريفية",
       "Education": "المؤهلات العلمية",
-      "Present": "حتى الآن",
-      "YearRange": "{start} – {end}",
+      "Present": "الآن",
+      "YearRange": "من {start} إلى {end}",
       "BarCertificate": "شهادة القيد المهني",
       "BarNumber": "رقم القيد",
       "IssuingBody": "جهة الإصدار",
@@ -476,9 +482,11 @@
       "status": "الحالة",
       "cases": "القضايا",
       "consults": "الاستشارات",
-      "sos": "SOS",
+      "sos": "الطوارئ",
       "joined": "انضم",
-      "actions": "الإجراءات"
+      "actions": "الإجراءات",
+      "noDataAvailable": "لا توجد بيانات متاحة",
+      "clients": "العملاء"
     },
     "flaggedCount": "{count} مميز",
     "clientsCount": "{count, plural, =0 {لا يوجد عملاء} =1 {عميل واحد} other {# عملاء}}",
@@ -844,5 +852,8 @@
         "noActivity": "لا يوجد نشاط بعد"
       }
     }
+  },
+  "Home": {
+    "underDevelopment": "لوحة تحكم حقوق لا تزال قيد التطوير"
   }
 }

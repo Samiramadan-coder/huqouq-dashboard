@@ -41,7 +41,15 @@
     "To": "To",
     "From": "From",
     "Of": "Of",
-    "Loading": "Loading…"
+    "Loading": "Loading…",
+    "ToggleSidebar": "Toggle Sidebar",
+    "MorePages": "More pages",
+    "Sidebar": "Sidebar",
+    "SidebarDescription": "Displays the mobile sidebar.",
+    "Pagination": "Pagination",
+    "PreviousPage": "Go to previous page",
+    "NextPage": "Go to next page",
+    "SwitchLanguage": "Switch language"
   },
   "Auth": {
     "Login": {
@@ -844,5 +852,8 @@
         "noActivity": "No activity yet"
       }
     }
+  },
+  "Home": {
+    "underDevelopment": "Huqouq Dashboard Still Under Development"
   }
 }

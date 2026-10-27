@@ -1,11 +1,11 @@
+import { formatDate } from "@/lib/format";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
 import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import UrgencyBadge from "../reusable/urgency-label";
 import { Case, ReviewStatus } from "@/types/case-approvals";
 import CaseStatusLabel from "../reusable/case-status-label";
@@ -21,6 +21,7 @@ export default async function DataPreview({
   tableStatus: ReviewStatus;
 }) {
   const t = await getTranslations("CaseApprovals");
+  const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
     { label: t("Table.client") },
@@ -111,6 +112,7 @@ export default async function DataPreview({
                   tableStatus === "pending_review"
                     ? caseItem.created_at
                     : caseItem.reviewed_at || "",
+                  locale,
                 )}
               </p>
             </TableCell>

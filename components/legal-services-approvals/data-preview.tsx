@@ -1,9 +1,9 @@
+import { formatDate } from "@/lib/format";
 import { Badge } from "../ui/badge";
-import { formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
 import ServiceDetails from "./service-details";
 import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import UrgencyBadge from "../reusable/urgency-label";
 import ServiceStatusBadge from "./service-status-badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -20,6 +20,7 @@ export default async function DataPreview({
   tab: ReviewTab;
 }) {
   const t = await getTranslations("LegalServicesApprovals");
+  const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
     { label: t("Table.serviceType") },
@@ -78,7 +79,7 @@ export default async function DataPreview({
 
             <TableCell className="px-5 py-3">
               <p className="whitespace-nowrap text-gray-500 text-[13px]">
-                {formatDate(service.submitted_at || "")}
+                {formatDate(service.submitted_at || "", locale)}
               </p>
             </TableCell>
 

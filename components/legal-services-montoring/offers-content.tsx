@@ -1,10 +1,9 @@
+import { formatMoney, DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CircleCheck, Star } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
-import { formatMoney } from "@/types/case-monitoring";
+import { useLocale, useFormatter, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
-  DATE_TIME_FORMAT,
   LegalServiceDetails,
 } from "@/types/legal-services-montoring";
 
@@ -18,6 +17,7 @@ export default function OffersContent({
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Offers");
   const format = useFormatter();
+  const locale = useLocale();
 
   if (!offers.length) {
     return <p className="text-[13px] text-gray-400">{t("noOffers")}</p>;
@@ -69,7 +69,7 @@ export default function OffersContent({
 
             <div className="text-end shrink-0">
               <p className="text-[15px] font-bold text-primary">
-                {formatMoney(format, offer.fee, CURRENCY)}
+                {formatMoney(offer.fee, CURRENCY, locale)}
               </p>
               <p className="text-[11px] text-gray-500">
                 {t("delivery", { time: offer.delivery_time_label })}

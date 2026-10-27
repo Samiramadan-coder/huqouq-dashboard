@@ -1,14 +1,15 @@
+import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { formatMoney } from "./format";
 import type { Summary } from "@/types/payouts";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getFormatter, getTranslations } from "next-intl/server";
 import { CircleCheck, Download, UsersRound, Wallet } from "lucide-react";
 
 // Totals are displayed exactly as the API computes them; nothing is summed here.
 export default async function Stats({ stats }: { stats: Summary }) {
   const t = await getTranslations("Payouts.stats");
   const format = await getFormatter();
-  const money = (value: number) => formatMoney(format, value, stats.currency);
+  const locale = await getLocale();
+  const money = (value: number) => formatMoney(value, stats.currency, locale);
 
   const items = [
     {

@@ -1,8 +1,8 @@
+import { DATE_FORMAT } from "@/lib/format";
 import { CalendarDays, MapPin } from "lucide-react";
 import { ClientDetailsView } from "@/types/clients";
 import ClientStatusBadge from "./client-status-badge";
 import { useFormatter, useTranslations } from "next-intl";
-import { DATE_FORMAT } from "../people-directory/format";
 import {
   ContactRows,
   InfoRow,

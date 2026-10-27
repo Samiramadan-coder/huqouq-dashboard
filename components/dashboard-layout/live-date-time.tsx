@@ -1,8 +1,11 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
+import { formatDate } from "@/lib/format";
 
 export default function LiveDateTime() {
+  const locale = useLocale();
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
@@ -13,17 +16,24 @@ export default function LiveDateTime() {
     return () => window.clearInterval(interval);
   }, []);
 
-  const date = new Intl.DateTimeFormat("en-GB", {
+  // "Tue 27 Oct" / "الثلاثاء 27 أكتوبر": the parts joined by spaces, without
+  // the locale's punctuation.
+  const date = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : locale, {
     weekday: "short",
     day: "2-digit",
     month: "short",
-  }).format(now);
+    numberingSystem: "latn",
+  })
+    .formatToParts(now)
+    .filter((part) => part.type !== "literal")
+    .map((part) => part.value)
+    .join(" ");
 
-  const time = new Intl.DateTimeFormat("en-US", {
+  const time = formatDate(now, locale, {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
-  }).format(now);
+  });
 
   return (
     <time

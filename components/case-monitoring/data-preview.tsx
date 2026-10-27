@@ -1,3 +1,4 @@
+import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import CaseDetails from "./case-details";
 import { Pagination } from "@/types/shared";
@@ -5,12 +6,10 @@ import { TriangleAlert } from "lucide-react";
 import { TableCell, TableRow } from "../ui/table";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import CaseStatusLabel from "../reusable/case-status-label";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import {
   CaseMonitoring,
-  DATE_FORMAT,
-  formatMoney,
   getLastActivity,
 } from "@/types/case-monitoring";
 
@@ -23,6 +22,7 @@ export default async function DataPreview({
 }) {
   const t = await getTranslations("CaseMonitoring");
   const format = await getFormatter();
+  const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
     { label: t("Table.case") },
@@ -133,9 +133,9 @@ export default async function DataPreview({
               <TableCell className="px-5 py-3">
                 <p className="whitespace-nowrap text-gray-700 text-[13px]">
                   {formatMoney(
-                    format,
                     caseItem.accepted_offer.amount,
                     caseItem.currency,
+                    locale,
                   )}
                 </p>
               </TableCell>

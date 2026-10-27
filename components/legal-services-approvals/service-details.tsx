@@ -1,5 +1,6 @@
 "use client";
 
+import { formatDate } from "@/lib/format";
 import {
   Sheet,
   SheetTitle,
@@ -30,8 +31,8 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import DownloadFile from "./download-file";
-import { useTranslations } from "next-intl";
-import { cn, formatDate } from "@/lib/utils";
+import { useLocale, useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 import { useId, useRef, useState } from "react";
 import { Field, FieldGroup } from "../ui/field";
 import UrgencyBadge from "../reusable/urgency-label";
@@ -164,6 +165,7 @@ function ServiceDetailsContent({
   onDecided: () => void;
 }) {
   const t = useTranslations("LegalServicesApprovals");
+  const locale = useLocale();
   const checklistId = useId();
   const [isDeciding, setIsDeciding] = useState(false);
   const [selectedConditions, setSelectedConditions] = useState<Condition[]>(
@@ -273,12 +275,14 @@ function ServiceDetailsContent({
 
                 <span className="flex items-center gap-1 text-[11px] text-gray-400">
                   <User className="size-3" />
-                  {t("Details.joined")} {formatDate(service.client.joined_at)}
+                  {t("Details.joined")}{" "}
+                  {formatDate(service.client.joined_at, locale)}
                 </span>
 
                 <span className="flex items-center gap-1 text-[11px] text-gray-400">
                   <Calendar className="size-3" />
-                  {t("Details.submitted")} {formatDate(service.submitted_at)}
+                  {t("Details.submitted")}{" "}
+                  {formatDate(service.submitted_at, locale)}
                 </span>
               </div>
             </div>

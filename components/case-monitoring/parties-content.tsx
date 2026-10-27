@@ -1,9 +1,10 @@
+import { DATE_FORMAT } from "@/lib/format";
 import { Separator } from "../ui/separator";
 import { Shield, Star } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { getFormatter, getTranslations } from "next-intl/server";
-import { CaseMonitoring, DATE_FORMAT } from "@/types/case-monitoring";
+import { CaseMonitoring } from "@/types/case-monitoring";
 
 export default async function PartiesContent({
   caseItem,

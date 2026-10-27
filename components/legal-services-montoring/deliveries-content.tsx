@@ -1,10 +1,10 @@
+import { DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { FileText } from "lucide-react";
 import { Section } from "./section";
 import { useFormatter, useTranslations } from "next-intl";
 import { formatFileSize } from "@/types/case-monitoring";
 import {
-  DATE_TIME_FORMAT,
   LegalServiceDetails,
 } from "@/types/legal-services-montoring";
 

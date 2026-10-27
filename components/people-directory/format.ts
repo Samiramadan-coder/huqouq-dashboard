@@ -1,10 +1,3 @@
-// Date format shared by every date shown in the lawyers and clients features.
-export const DATE_FORMAT = {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-} as const satisfies Intl.DateTimeFormatOptions;
-
 // Masks the middle digits of a phone number for list views, keeping the
 // country code and last digits readable, e.g. "+971 50 123 4567" → "+971 •• ••• 4567".
 export function maskPhone(phone: string | null | undefined): string {

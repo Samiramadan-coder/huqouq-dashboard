@@ -1,9 +1,9 @@
+import { DATE_TIME_FORMAT } from "@/lib/format";
 import {
   NoteFormValues,
   noteSchema,
   NOTE_REASON_MAX_LENGTH,
   NOTE_REASON_MIN_LENGTH,
-  DATE_TIME_FORMAT,
   LegalServiceDetails,
 } from "@/types/legal-services-montoring";
 import { toast } from "sonner";

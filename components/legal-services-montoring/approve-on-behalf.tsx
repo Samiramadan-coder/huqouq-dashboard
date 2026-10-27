@@ -1,3 +1,4 @@
+import { formatMoney } from "@/lib/format";
 import {
   Dialog,
   DialogTitle,
@@ -23,9 +24,8 @@ import { Spinner } from "../ui/spinner";
 import { useMemo, useState } from "react";
 import NormalFormTextarea from "../form/textarea";
 import { CircleCheck, TriangleAlert } from "lucide-react";
-import { formatMoney } from "@/types/case-monitoring";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormatter, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import { approveLegalServiceOnBehalf } from "@/lib/legal-services-monitoring";
 
@@ -42,9 +42,8 @@ export default function ApproveOnBehalf({
   title?: string;
   onSuccess: () => void;
 }) {
-  const tCommon = useTranslations("Common");
   const t = useTranslations("LegalServicesMonitoring.Details");
-  const format = useFormatter();
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
 
   const schema = useMemo(
@@ -141,9 +140,9 @@ export default function ApproveOnBehalf({
               <p>
                 {t("ApproveOnBehalf.warning", {
                   amount: formatMoney(
-                    format,
                     service.payment?.lawyer_amount ?? 0,
-                    tCommon("AED"),
+                    "AED",
+                    locale,
                   ),
                 })}
               </p>

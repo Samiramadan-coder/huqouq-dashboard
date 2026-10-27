@@ -39,16 +39,6 @@ export const createSlug = (value: string) =>
     .replace(/-{2,}/g, "-");
 
 /**
- * Formats a date string or Date object into a human-readable format (e.g., "Jan 01, 2024").
- */
-export const formatDate = (date: string | Date) =>
-  new Date(date).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-
-/**
  * Formats a date string or Date object into a relative "time ago" string (e.g., "6 days ago").
  */
 export const timeAgo = (date: string | Date) => {

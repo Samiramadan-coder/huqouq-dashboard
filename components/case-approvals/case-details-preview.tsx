@@ -1,3 +1,4 @@
+import { formatDate } from "@/lib/format";
 import {
   MapPin,
   FileText,
@@ -7,11 +8,10 @@ import {
 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import CaseReview from "./case-review";
-import { formatDate } from "@/lib/utils";
 import CaseDocuments from "./case-documents";
 import { Separator } from "../ui/separator";
 import { CaseDetails } from "@/types/case-approvals";
-import { useFormatter, useTranslations } from "next-intl";
+import { useLocale, useFormatter, useTranslations } from "next-intl";
 import CaseStatusLabel from "../reusable/case-status-label";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -25,6 +25,7 @@ export default function CaseDetailsPreview({
 }) {
   const t = useTranslations("CaseApprovals.Details");
   const format = useFormatter();
+  const locale = useLocale();
 
   // A client may give a full range, only one bound, or no budget at all.
   const { budget_min: min, budget_max: max } = caseDetails;
@@ -58,7 +59,9 @@ export default function CaseDetailsPreview({
             <div className="flex items-center gap-1 text-gray-500 text-xs">
               <CalendarDays className="size-3.5" />
               <span>
-                {t("submitted", { date: formatDate(caseDetails.created_at) })}
+                {t("submitted", {
+                  date: formatDate(caseDetails.created_at, locale),
+                })}
               </span>
             </div>
           </div>

@@ -1,11 +1,10 @@
+import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import {
   CaseMonitoring,
-  DATE_FORMAT,
-  formatMoney,
   getLastActivity,
 } from "@/types/case-monitoring";
 import { Banknote, MapPin, Paperclip } from "lucide-react";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getFormatter, getTranslations } from "next-intl/server";
 
 export default async function DetailsContent({
   caseItem,
@@ -14,6 +13,7 @@ export default async function DetailsContent({
 }) {
   const t = await getTranslations("CaseMonitoring");
   const format = await getFormatter();
+  const locale = await getLocale();
   const lastActivity = getLastActivity(caseItem);
 
   return (
@@ -49,7 +49,9 @@ export default async function DetailsContent({
           icon={<Banknote className="size-3.5 text-gray-400" />}
           value={
             caseItem.budget_disclosed
-              ? `${formatMoney(format, caseItem.budget_min, caseItem.currency)} - ${formatMoney(format, caseItem.budget_max, caseItem.currency)}`
+              ? [caseItem.budget_min, caseItem.budget_max]
+                  .map((amount) => formatMoney(amount, caseItem.currency, locale))
+                  .join(" - ")
               : t("Details.notDisclosed")
           }
         />
@@ -58,9 +60,9 @@ export default async function DetailsContent({
           value={
             caseItem.payment
               ? formatMoney(
-                  format,
                   caseItem.payment.agreed_amount,
                   caseItem.payment.currency,
+                  locale,
                 )
               : "-"
           }

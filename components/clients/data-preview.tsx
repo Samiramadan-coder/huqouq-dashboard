@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from "@/lib/format";
 import { Client } from "@/types/clients";
 import { Pagination } from "@/types/shared";
 import ClientDetails from "./client-details";
@@ -6,7 +7,7 @@ import ClientStatusBadge from "./client-status-badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { DATE_FORMAT, maskPhone } from "../people-directory/format";
+import { maskPhone } from "../people-directory/format";
 
 export default async function DataPreview({
   clients,

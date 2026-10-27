@@ -1,6 +1,6 @@
+import { DATE_FORMAT } from "@/lib/format";
 import { useFormatter, useTranslations } from "next-intl";
 import { Mail, Phone, ShieldCheck, Star } from "lucide-react";
-import { DATE_FORMAT } from "@/types/case-monitoring";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { LegalServiceDetails } from "@/types/legal-services-montoring";
 

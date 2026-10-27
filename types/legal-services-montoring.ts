@@ -1,6 +1,5 @@
 import z from "zod";
 import { T } from "./shared";
-import { DATE_FORMAT } from "./case-monitoring";
 
 export type Summary = {
   active: number;
@@ -355,10 +354,3 @@ export type CheckinResult =
       error: ActionFailure;
       errors?: Partial<Record<keyof CheckinFormValues, string>>;
     };
-
-export const DATE_TIME_FORMAT = {
-  ...DATE_FORMAT,
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-} as const satisfies Intl.DateTimeFormatOptions;

@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from "@/lib/format";
 import { Star } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Lawyer } from "@/types/lawyers";
@@ -8,7 +9,7 @@ import LawyerStatusBadge from "./lawyer-status-badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { DATE_FORMAT, maskPhone } from "../people-directory/format";
+import { maskPhone } from "../people-directory/format";
 
 export default async function DataPreview({
   lawyers,

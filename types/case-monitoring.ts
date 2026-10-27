@@ -174,27 +174,6 @@ export type ChatParticipants = {
   lawyer: Pick<HiredLawyer, "name" | "photo_url">;
 };
 
-// Date format shared by every date shown in this feature.
-export const DATE_FORMAT = {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-} as const satisfies Intl.DateTimeFormatOptions;
-
-// Formats an amount in the given ISO currency, falling back to a plain number
-// with the code when the API sends an unknown currency.
-export function formatMoney(
-  format: Pick<ReturnType<typeof useFormatter>, "number">,
-  amount: number,
-  currency: string,
-): string {
-  try {
-    return format.number(amount, { style: "currency", currency });
-  } catch {
-    return `${currency} ${format.number(amount)}`.trim();
-  }
-}
-
 // "Last activity" of a case, as computed by the API (includes chat activity).
 // Returns null when the API sends no date or an unparsable one.
 export function getLastActivity(caseItem: CaseMonitoring): Date | null {

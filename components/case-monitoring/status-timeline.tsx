@@ -1,8 +1,9 @@
+import { DATE_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Check } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
-import { DATE_FORMAT, TimeLine } from "@/types/case-monitoring";
+import { TimeLine } from "@/types/case-monitoring";
 
 type StatusTimelineProps = {
   items: TimeLine[];

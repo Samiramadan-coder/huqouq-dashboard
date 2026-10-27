@@ -1,10 +1,10 @@
 "use client";
 
+import { DATE_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useFormatter, useTranslations } from "next-intl";
-import { DATE_FORMAT } from "./format";
 
 type HistoryType = "case" | "offer" | "consultation";
 

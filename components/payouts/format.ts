@@ -1,28 +1,3 @@
-import type { useFormatter } from "next-intl";
-
-type Formatter = Pick<ReturnType<typeof useFormatter>, "number">;
-
-// Date format shared by every date shown on the payouts page.
-export const DATE_FORMAT = {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-} as const satisfies Intl.DateTimeFormatOptions;
-
-// Formats an amount exactly as the API sends it (no arithmetic) in the given
-// ISO currency, falling back to the plain number when the code is unknown.
-export function formatMoney(
-  format: Formatter,
-  amount: number,
-  currency: string,
-): string {
-  try {
-    return format.number(amount, { style: "currency", currency });
-  } catch {
-    return `${currency} ${format.number(amount)}`.trim();
-  }
-}
-
 // Groups an IBAN in blocks of four for readability.
 export function groupIban(iban: string): string {
   return iban.replace(/\s+/g, "").replace(/(.{4})/g, "$1 ").trim();

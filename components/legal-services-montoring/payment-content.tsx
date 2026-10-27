@@ -1,9 +1,8 @@
+import { formatMoney, DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Fields, Section } from "./section";
-import { useFormatter, useTranslations } from "next-intl";
-import { formatMoney } from "@/types/case-monitoring";
+import { useLocale, useFormatter, useTranslations } from "next-intl";
 import {
-  DATE_TIME_FORMAT,
   LegalServiceDetails,
 } from "@/types/legal-services-montoring";
 
@@ -31,12 +30,13 @@ export default function PaymentContent({
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Payment");
   const format = useFormatter();
+  const locale = useLocale();
 
   if (!payment) {
     return <p className="text-[13px] text-gray-400">{t("noPayment")}</p>;
   }
 
-  const money = (amount: number) => formatMoney(format, amount, CURRENCY);
+  const money = (amount: number) => formatMoney(amount, CURRENCY, locale);
   const formatDateTime = (date: string | null) =>
     date ? format.dateTime(new Date(date), DATE_TIME_FORMAT) : "-";
 

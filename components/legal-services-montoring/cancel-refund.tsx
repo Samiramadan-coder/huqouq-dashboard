@@ -1,3 +1,4 @@
+import { formatMoney } from "@/lib/format";
 import {
   Dialog,
   DialogTitle,
@@ -23,9 +24,8 @@ import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { useMemo, useState } from "react";
 import NormalFormTextarea from "../form/textarea";
-import { formatMoney } from "@/types/case-monitoring";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormatter, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import { cancelRefundLegalService } from "@/lib/legal-services-monitoring";
 
@@ -44,9 +44,8 @@ export default function CancelRefund({
   title?: string;
   onSuccess: () => void;
 }) {
-  const tCommon = useTranslations("Common");
   const t = useTranslations("LegalServicesMonitoring.Details");
-  const format = useFormatter();
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
 
   const schema = useMemo(
@@ -67,7 +66,7 @@ export default function CancelRefund({
   });
 
   const reason = useWatch({ control, name: "reason" });
-  const money = (amount: number) => formatMoney(format, amount, tCommon("AED"));
+  const money = (amount: number) => formatMoney(amount, "AED", locale);
 
   const onSubmit: SubmitHandler<CancelRefundFormValues> = async (data) => {
     try {

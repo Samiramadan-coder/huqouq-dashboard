@@ -1,11 +1,12 @@
-import { formatDate } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { formatDate } from "@/lib/format";
+import { useLocale, useTranslations } from "next-intl";
 import MainTitle from "../reusable/main-title";
 import { Lawyer } from "@/types/lawyer-approvals";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("LawyerApprovals.ProfessionalInfo");
+  const locale = useLocale();
   const tAccountTypes = useTranslations("LawyerApprovals.AccountTypes");
 
   return (
@@ -64,7 +65,7 @@ export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
         <div className="flex items-center">
           <MainTitle className="w-50">{t("submissionDate")}</MainTitle>
           <p className="text-[13px] text-gray-700">
-            {formatDate(lawyer.lawyer_profile.submitted_at)}
+            {formatDate(lawyer.lawyer_profile.submitted_at, locale)}
           </p>
         </div>
       </div>

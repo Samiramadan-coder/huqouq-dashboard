@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { formatMoney } from "@/lib/format";
 import { Summary } from "@/types/legal-services-montoring";
 import {
   Activity,
@@ -54,7 +55,10 @@ export default function Stats({ summary }: { summary: Summary }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-4">
       {cards.map(({ key, Icon, iconClassName }) => {
-        const value = summary[key].toLocaleString(locale);
+        const value =
+          key === "held_in_escrow"
+            ? formatMoney(summary[key], "AED", locale)
+            : summary[key].toLocaleString(locale);
 
         return (
           <div
@@ -71,9 +75,7 @@ export default function Stats({ summary }: { summary: Summary }) {
             </div>
             <div className="min-w-0">
               <p className="text-xl font-bold leading-tight text-gray-900 truncate">
-                {key === "held_in_escrow"
-                  ? t("currency", { amount: value })
-                  : value}
+                {value}
               </p>
               <p className="text-xs text-gray-500 truncate">{t(key)}</p>
             </div>

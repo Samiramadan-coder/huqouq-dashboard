@@ -33,6 +33,7 @@
     "UpdatedSuccessfully": "Updated successfully",
     "UpdateFailed": "Update failed. Please try again.",
     "New": "New",
+    "Close": "Close",
     "AED": "AED",
     "ImageAddedSuccessfully": "Image added successfully",
     "ImageAddFailed": "Failed to add image. Please try again.",
@@ -719,8 +720,7 @@
       "revision": "Revision requested",
       "dispute": "In dispute",
       "held_in_escrow": "Held in escrow",
-      "need_attention": "Need attention",
-      "currency": "AED {amount}"
+      "need_attention": "Need attention"
     },
     "Attention": {
       "title": "{count, plural, one {# service needs} other {# services need}} admin attention",

@@ -1,11 +1,11 @@
+import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
 import { TableCell, TableRow } from "../ui/table";
 import { ShieldCheck, TriangleAlert } from "lucide-react";
 import LegalServiceDetails from "./legal-service-details";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getFormatter, getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { DATE_FORMAT, formatMoney } from "@/types/case-monitoring";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { LegalService } from "@/types/legal-services-montoring";
 import StatusBadge from "./status-badge";
@@ -49,6 +49,7 @@ export default async function DataPreview({
 }) {
   const t = await getTranslations("LegalServicesMonitoring.Table");
   const format = await getFormatter();
+  const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
     { label: t("service") },
@@ -145,7 +146,7 @@ export default async function DataPreview({
               <TableCell className="px-5 py-3">
                 <p className="whitespace-nowrap text-gray-800 text-[13px]">
                   {service.agreed_fee
-                    ? formatMoney(format, service.agreed_fee, CURRENCY)
+                    ? formatMoney(service.agreed_fee, CURRENCY, locale)
                     : "-"}
                 </p>
               </TableCell>

@@ -1,11 +1,11 @@
+import { formatMoney } from "@/lib/format";
 import BankDetails from "./bank-details";
-import { formatMoney } from "./format";
 import LawyerAvatar from "./lawyer-avatar";
 import { TriangleAlert } from "lucide-react";
 import ConfirmPayout from "./confirm-payout";
 import { TableCell, TableRow } from "../ui/table";
 import type { ByLawyerRow } from "@/types/payouts";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 
 export default async function ByLawyerDataPreview({
@@ -16,8 +16,8 @@ export default async function ByLawyerDataPreview({
   currency: string;
 }) {
   const t = await getTranslations("Payouts.byLawyer");
-  const format = await getFormatter();
-  const money = (value: number) => formatMoney(format, value, currency);
+  const locale = await getLocale();
+  const money = (value: number) => formatMoney(value, currency, locale);
 
   const columns: DataTableColumn[] = [
     { label: t("lawyer") },

@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from "@/lib/format";
 import {
   BriefcaseBusiness,
   CalendarDays,
@@ -11,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { LawyerDetailsView } from "@/types/lawyers";
 import { Separator } from "@/components/ui/separator";
 import { useFormatter, useTranslations } from "next-intl";
-import { DATE_FORMAT } from "../people-directory/format";
 import {
   ContactRows,
   InfoRow,

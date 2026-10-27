@@ -1,5 +1,6 @@
 "use client";
 
+import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import {
   Sheet,
   SheetTitle,
@@ -43,8 +44,7 @@ import PaymentContent from "./payment-content";
 import ActivityContent from "./activity-content";
 import DeliveriesContent from "./deliveries-content";
 import UrgencyBadge from "../reusable/urgency-label";
-import { useFormatter, useTranslations } from "next-intl";
-import { DATE_FORMAT, formatMoney } from "@/types/case-monitoring";
+import { useLocale, useFormatter, useTranslations } from "next-intl";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { getLegalServiceDetails } from "@/lib/legal-services-monitoring";
 
@@ -180,9 +180,9 @@ function DetailsContent({
   service: LegalServiceDetailsType;
   onChanged: () => void;
 }) {
-  const tCommon = useTranslations("Common");
   const t = useTranslations("LegalServicesMonitoring.Details");
   const format = useFormatter();
+  const locale = useLocale();
 
   const acceptedOffer = service.offers.find((offer) => offer.accepted);
   const counts: Partial<Record<TabValue, number>> = {
@@ -217,7 +217,7 @@ function DetailsContent({
                 ? `${service.client.name} → ${service.lawyer.name}`
                 : service.client.name,
               service.agreed_fee !== null &&
-                formatMoney(format, service.agreed_fee, tCommon("AED")),
+                formatMoney(service.agreed_fee, "AED", locale),
               acceptedOffer?.delivery_time_label,
             ]
               .filter(Boolean)

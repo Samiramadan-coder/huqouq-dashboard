@@ -1,10 +1,10 @@
+import { formatDate } from "@/lib/format";
 import { Badge } from "../ui/badge";
-import { formatDate } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/types/shared";
 import ReViewBtn from "../reusable/review-btn";
 import { TableCell, TableRow } from "../ui/table";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { CircleCheck, CircleX } from "lucide-react";
 import { ApprovalStatus, Lawyer } from "@/types/lawyer-approvals";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
@@ -20,6 +20,7 @@ export default async function DataPreview({
   tableStatus: ApprovalStatus;
 }) {
   const t = await getTranslations("LawyerApprovals");
+  const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
     { label: t("Table.lawyer") },
@@ -99,6 +100,7 @@ export default async function DataPreview({
                   lawyer.lawyer_profile.profile_status === "in_review"
                     ? lawyer.lawyer_profile.submitted_at
                     : lawyer.lawyer_profile.reviewed_at || "",
+                  locale,
                 )}
               </p>
             </TableCell>

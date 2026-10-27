@@ -33,6 +33,7 @@
     "UpdatedSuccessfully": "تم التحديث بنجاح",
     "UpdateFailed": "فشل التحديث. يرجى المحاولة مرة أخرى.",
     "New": "جديد",
+    "Close": "إغلاق",
     "AED": "درهم",
     "ImageAddedSuccessfully": "تمت إضافة الصورة بنجاح",
     "ImageAddFailed": "فشل في إضافة الصورة. يرجى المحاولة مرة أخرى.",
@@ -719,8 +720,7 @@
       "revision": "مطلوب تعديل",
       "dispute": "قيد النزاع",
       "held_in_escrow": "محتجز في الضمان",
-      "need_attention": "تحتاج إلى متابعة",
-      "currency": "{amount} درهم"
+      "need_attention": "تحتاج إلى متابعة"
     },
     "Attention": {
       "title": "{count, plural, one {خدمة واحدة تحتاج} other {# خدمات تحتاج}} إلى متابعة الإدارة",

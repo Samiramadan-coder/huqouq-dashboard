@@ -1,9 +1,9 @@
+import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import LawyerAvatar from "./lawyer-avatar";
 import { TableCell, TableRow } from "../ui/table";
-import { DATE_FORMAT, formatMoney } from "./format";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getFormatter, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import type { AllTransactionsData, TransactionStatus } from "@/types/payouts";
 
@@ -22,6 +22,7 @@ export default async function AllTransactionsDataPreview({
 }) {
   const t = await getTranslations("Payouts.allTransactions");
   const format = await getFormatter();
+  const locale = await getLocale();
   const date = (value: string) => (
     <time dateTime={value}>{format.dateTime(new Date(value), DATE_FORMAT)}</time>
   );
@@ -68,7 +69,7 @@ export default async function AllTransactionsDataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3 text-[13px] font-semibold text-gray-900">
-              <bdi>{formatMoney(format, row.amount, row.currency)}</bdi>
+              <bdi>{formatMoney(row.amount, row.currency, locale)}</bdi>
             </TableCell>
 
             <TableCell className="px-5 py-3">

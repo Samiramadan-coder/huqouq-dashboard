@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { SidebarMenuButton, useSidebar } from "../ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -12,6 +13,7 @@ export default function SidebarNavLink({
 }: {
   item: DashboardNavigationLinkItem;
 }) {
+  const format = useAppFormatter();
   const pathname = usePathname();
   const t = useTranslations();
   const { isMobile, setOpenMobile } = useSidebar();
@@ -41,7 +43,7 @@ export default function SidebarNavLink({
 
         {item.count && (
           <Badge className="ms-auto bg-amber-100! text-amber-700! text-[10px] w-5 h-5">
-            {item.count}
+            {format.number(item.count)}
           </Badge>
         )}
       </Link>

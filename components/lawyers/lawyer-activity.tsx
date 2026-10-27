@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import {
   Star,
   Clock3,
@@ -7,7 +8,7 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import ActivityGrid from "../people-directory/activity-grid";
 import type { Activity as LawyerActivity } from "@/types/lawyers";
 
@@ -17,7 +18,7 @@ export default function ActivitySummary({
   activity: LawyerActivity;
 }) {
   const t = useTranslations("Lawyers.Activity");
-  const format = useFormatter();
+  const format = useAppFormatter();
 
   return (
     <ActivityGrid

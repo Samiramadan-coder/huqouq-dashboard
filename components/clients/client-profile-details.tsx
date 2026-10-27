@@ -1,8 +1,9 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import { CalendarDays, MapPin } from "lucide-react";
 import { ClientDetailsView } from "@/types/clients";
 import ClientStatusBadge from "./client-status-badge";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   ContactRows,
   InfoRow,
@@ -16,7 +17,7 @@ export default function ClientProfileDetails({
 }) {
   const t = useTranslations("Clients.Profile");
   const tCommon = useTranslations("PeopleDirectory");
-  const format = useFormatter();
+  const format = useAppFormatter();
 
   return (
     <div className="w-full space-y-6 text-start">

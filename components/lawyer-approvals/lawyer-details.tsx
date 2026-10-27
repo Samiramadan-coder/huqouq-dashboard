@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { CircleCheck, CircleX, Clock, ChevronLeft } from "lucide-react";
 import { Lawyer, ReviewItem } from "@/types/lawyer-approvals";
 import Education from "./education";
@@ -16,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 // so the full lawyer record is never serialized to the browser.
 export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("LawyerApprovals");
+  const format = useAppFormatter();
   const reviewItems = lawyer.lawyer_profile.review_items;
 
   const approvedCount = reviewItems.filter(
@@ -58,17 +60,17 @@ export default function LawyerDetails({ lawyer }: { lawyer: Lawyer }) {
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1 text-green-700 text-[12px]">
             <CircleCheck className="size-3.5" />
-            {approvedCount} {t("approved")}
+            {format.number(approvedCount)} {t("approved")}
           </span>
 
           <span className="flex items-center gap-1 text-red-600 text-[12px]">
             <CircleX className="size-3.5" />
-            {flaggedCount} {t("rejected")}
+            {format.number(flaggedCount)} {t("rejected")}
           </span>
 
           <span className="flex items-center gap-1 text-gray-400 text-[12px]">
             <Clock className="size-3.5" />
-            {pendingCount} {t("toReview")}
+            {format.number(pendingCount)} {t("toReview")}
           </span>
         </div>
       </div>

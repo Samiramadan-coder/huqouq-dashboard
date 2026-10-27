@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_TIME_FORMAT } from "@/lib/format";
 import {
   NoteFormValues,
@@ -11,7 +12,7 @@ import { useMemo } from "react";
 import { Lock } from "lucide-react";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
-import { useFormatter, useNow, useTranslations } from "next-intl";
+import { useNow, useTranslations } from "next-intl";
 import NormalFormTextarea from "../form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
@@ -28,7 +29,7 @@ export default function Notes({
   onSuccess: () => void;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Notes");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const now = useNow({ updateInterval: 60_000 });
 
   const schema = useMemo(() => noteSchema(t), [t]);

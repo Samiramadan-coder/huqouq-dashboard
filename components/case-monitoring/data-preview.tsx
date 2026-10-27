@@ -1,3 +1,4 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import CaseDetails from "./case-details";
@@ -6,7 +7,7 @@ import { TriangleAlert } from "lucide-react";
 import { TableCell, TableRow } from "../ui/table";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import CaseStatusLabel from "../reusable/case-status-label";
-import { getLocale, getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import {
   CaseMonitoring,
@@ -21,7 +22,7 @@ export default async function DataPreview({
   pagination: Pagination;
 }) {
   const t = await getTranslations("CaseMonitoring");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
   const locale = await getLocale();
 
   const columns: DataTableColumn[] = [

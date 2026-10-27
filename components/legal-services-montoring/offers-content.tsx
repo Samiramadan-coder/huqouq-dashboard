@@ -1,7 +1,8 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { formatMoney, DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { CircleCheck, Star } from "lucide-react";
-import { useLocale, useFormatter, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   LegalServiceDetails,
@@ -16,7 +17,7 @@ export default function OffersContent({
   offers: LegalServiceDetails["offers"];
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Offers");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const locale = useLocale();
 
   if (!offers.length) {

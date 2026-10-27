@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import {
   Star,
   CircleCheck,
@@ -7,7 +8,7 @@ import {
 } from "lucide-react";
 
 import { Progress } from "@/components/ui/progress";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import ActivityGrid from "../people-directory/activity-grid";
 import type { Activity as ClientActivity } from "@/types/clients";
 
@@ -17,7 +18,7 @@ export default function ActivitySummary({
   activity: ClientActivity;
 }) {
   const t = useTranslations("Clients.Activity");
-  const format = useFormatter();
+  const format = useAppFormatter();
 
   // rejection_rate is a 0–100 percentage.
   const rejectionRate = Math.min(100, Math.max(0, activity.rejection_rate));

@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { formatDate } from "@/lib/format";
 import { useLocale, useTranslations } from "next-intl";
 import MainTitle from "../reusable/main-title";
@@ -6,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
   const t = useTranslations("LawyerApprovals.ProfessionalInfo");
+  const format = useAppFormatter();
   const locale = useLocale();
   const tAccountTypes = useTranslations("LawyerApprovals.AccountTypes");
 
@@ -58,7 +60,7 @@ export default function ProfessionalInfo({ lawyer }: { lawyer: Lawyer }) {
         <div className="flex items-center">
           <MainTitle className="w-50">{t("yearsOfExperience")}</MainTitle>
           <p className="text-[13px] text-gray-700">
-            {lawyer.lawyer_profile.years_of_experience}
+            {format.number(lawyer.lawyer_profile.years_of_experience)}
           </p>
         </div>
 

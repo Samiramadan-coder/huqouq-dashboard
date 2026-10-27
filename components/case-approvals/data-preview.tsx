@@ -1,3 +1,4 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { formatDate } from "@/lib/format";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
@@ -21,6 +22,7 @@ export default async function DataPreview({
   tableStatus: ReviewStatus;
 }) {
   const t = await getTranslations("CaseApprovals");
+  const format = await getAppFormatter();
   const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
@@ -81,7 +83,7 @@ export default async function DataPreview({
                 {caseItem.title}
               </p>
               <p className="text-[11px] text-gray-400 mt-0.5">
-                {caseItem.documents_count} {t("Table.documents")}
+                {format.number(caseItem.documents_count)} {t("Table.documents")}
               </p>
             </TableCell>
 

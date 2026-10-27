@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,6 +22,8 @@ export default function ActivityGrid({
   stats: ActivityStat[];
   children?: ReactNode;
 }) {
+  const format = useAppFormatter();
+
   return (
     <section className="w-full space-y-3 text-start">
       <h2 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
@@ -43,7 +46,9 @@ export default function ActivityGrid({
                   {label}
                 </dt>
                 <dd className="text-lg font-bold leading-5 text-primary">
-                  <bdi>{value}</bdi>
+                  <bdi>
+                    {typeof value === "number" ? format.number(value) : value}
+                  </bdi>
                 </dd>
               </div>
             </CardContent>

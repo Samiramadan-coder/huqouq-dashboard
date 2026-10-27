@@ -1,8 +1,9 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Check } from "lucide-react";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { TimeLine } from "@/types/case-monitoring";
 
 type StatusTimelineProps = {
@@ -13,7 +14,7 @@ type StatusTimelineProps = {
 // upcoming). Upcoming steps have no date, so the list is not re-sorted by date.
 export async function StatusTimeline({ items }: StatusTimelineProps) {
   const t = await getTranslations("CaseMonitoring");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
 
   return (
     <ol className="w-full">

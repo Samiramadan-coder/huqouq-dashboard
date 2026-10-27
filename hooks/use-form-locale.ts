@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { AppLocale } from "@/i18n/routing";
 import { messages } from "@/lib/create-translator";
+import { getMessageFormats } from "@/lib/format";
 import { createTranslator, useLocale } from "next-intl";
 
 type Namespace = keyof (typeof messages)["en"];
@@ -15,6 +16,7 @@ export function useFormLocale(namespace: Namespace) {
     return createTranslator({
       locale: activeLocale,
       messages: messages[activeLocale],
+      formats: getMessageFormats(activeLocale),
       namespace,
     });
   }, [activeLocale, namespace]);

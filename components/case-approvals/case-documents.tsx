@@ -1,8 +1,9 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { useState } from "react";
 import { FileText } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { CaseDocument } from "@/types/case-approvals";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
@@ -16,7 +17,7 @@ export default function CaseDocuments({
 }: {
   documents: CaseDocument[];
 }) {
-  const format = useFormatter();
+  const format = useAppFormatter();
   const t = useTranslations("CaseApprovals.Details");
   const [selectedDocument, setSelectedDocument] = useState<CaseDocument | null>(
     null,

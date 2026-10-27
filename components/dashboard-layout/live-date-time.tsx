@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
-import { formatDate } from "@/lib/format";
+import { formatDate, getNumberingSystem } from "@/lib/format";
 
 export default function LiveDateTime() {
   const locale = useLocale();
@@ -22,7 +22,7 @@ export default function LiveDateTime() {
     weekday: "short",
     day: "2-digit",
     month: "short",
-    numberingSystem: "latn",
+    numberingSystem: getNumberingSystem(locale),
   })
     .formatToParts(now)
     .filter((part) => part.type !== "literal")

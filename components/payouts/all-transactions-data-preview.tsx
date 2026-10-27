@@ -1,9 +1,10 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import LawyerAvatar from "./lawyer-avatar";
 import { TableCell, TableRow } from "../ui/table";
-import { getLocale, getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import type { AllTransactionsData, TransactionStatus } from "@/types/payouts";
 
@@ -21,7 +22,7 @@ export default async function AllTransactionsDataPreview({
   transactions: AllTransactionsData[];
 }) {
   const t = await getTranslations("Payouts.allTransactions");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
   const locale = await getLocale();
   const date = (value: string) => (
     <time dateTime={value}>{format.dateTime(new Date(value), DATE_FORMAT)}</time>

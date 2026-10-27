@@ -1,8 +1,9 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_TIME_FORMAT } from "@/lib/format";
 import { Download, FileText } from "lucide-react";
 import { Button } from "../ui/button";
 import { Fields, Section } from "./section";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { formatFileSize } from "@/types/case-monitoring";
 import {
   LegalServiceDetails,
@@ -14,7 +15,7 @@ export default function RequestContent({
   service: LegalServiceDetails;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Request");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const { request } = service;
 
   const formatDateTime = (date: string | null) =>

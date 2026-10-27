@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import {
   debounce,
   parseAsString,
@@ -37,6 +38,7 @@ export default function FilterControl({
   filters: Filters;
 }) {
   const t = useTranslations("LegalServicesMonitoring");
+  const format = useAppFormatter();
 
   const [{ tab, q, lawyer_id, service_type, urgency }, setFilters] =
     useQueryStates(
@@ -92,7 +94,7 @@ export default function FilterControl({
                     isActive && "bg-white/20 text-white",
                   )}
                 >
-                  {counts[statusKey]}
+                  {format.number(counts[statusKey])}
                 </span>
               </TabsTrigger>
             );

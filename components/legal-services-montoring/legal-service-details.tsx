@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import {
   Sheet,
@@ -44,7 +45,7 @@ import PaymentContent from "./payment-content";
 import ActivityContent from "./activity-content";
 import DeliveriesContent from "./deliveries-content";
 import UrgencyBadge from "../reusable/urgency-label";
-import { useLocale, useFormatter, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { getLegalServiceDetails } from "@/lib/legal-services-monitoring";
 
@@ -181,7 +182,7 @@ function DetailsContent({
   onChanged: () => void;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const locale = useLocale();
 
   const acceptedOffer = service.offers.find((offer) => offer.accepted);
@@ -256,7 +257,7 @@ function DetailsContent({
                   {t(`Tabs.${value}`)}
                   {counts[value] ? (
                     <span className="min-w-4.5 h-4.5 px-1 text-[11px] grid place-content-center font-semibold rounded-full bg-gray-100 text-gray-600">
-                      {counts[value]}
+                      {format.number(counts[value])}
                     </span>
                   ) : null}
                 </TabsTrigger>

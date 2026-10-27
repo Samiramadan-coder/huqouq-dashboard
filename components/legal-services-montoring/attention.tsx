@@ -1,9 +1,11 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { TriangleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Attention as AttentionType } from "@/types/legal-services-montoring";
 
 export default function Attention({ attention }: { attention: AttentionType }) {
   const t = useTranslations("LegalServicesMonitoring.Attention");
+  const format = useAppFormatter();
 
   if (attention.total === 0) return null;
 
@@ -20,7 +22,8 @@ export default function Attention({ attention }: { attention: AttentionType }) {
               key={value}
               className="rounded-full border border-amber-300 bg-white px-3 py-1 text-xs text-amber-900"
             >
-              <span className="font-semibold">{count}</span> · {label}
+              <span className="font-semibold">{format.number(count)}</span> ·{" "}
+              {label}
             </span>
           ))}
         </div>

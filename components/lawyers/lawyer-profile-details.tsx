@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import {
   BriefcaseBusiness,
@@ -11,7 +12,7 @@ import { Fragment } from "react";
 import { Badge } from "@/components/ui/badge";
 import { LawyerDetailsView } from "@/types/lawyers";
 import { Separator } from "@/components/ui/separator";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   ContactRows,
   InfoRow,
@@ -25,7 +26,8 @@ export default function LawyerProfileDetails({
 }) {
   const t = useTranslations("Lawyers.Profile");
   const tCommon = useTranslations("PeopleDirectory");
-  const format = useFormatter();
+  const format = useAppFormatter();
+  const year = (value: number) => format.number(value, { useGrouping: false });
   const { profile } = lawyer;
   const location = [lawyer.city, lawyer.country].filter(Boolean).join(", ");
 
@@ -172,11 +174,11 @@ export default function LawyerProfileDetails({
                     {experience.organization}
                     {" · "}
                     {t("YearRange", {
-                      start: String(experience.start_year),
+                      start: year(experience.start_year),
                       end:
                         experience.end_year === null
                           ? t("Present")
-                          : String(experience.end_year),
+                          : year(experience.end_year),
                     })}
                   </p>
                 </div>

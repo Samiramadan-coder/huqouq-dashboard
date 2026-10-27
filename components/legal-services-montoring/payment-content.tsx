@@ -1,7 +1,8 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { formatMoney, DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Fields, Section } from "./section";
-import { useLocale, useFormatter, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   LegalServiceDetails,
 } from "@/types/legal-services-montoring";
@@ -29,7 +30,7 @@ export default function PaymentContent({
   payment: LegalServiceDetails["payment"];
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Payment");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const locale = useLocale();
 
   if (!payment) {

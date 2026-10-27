@@ -1,10 +1,11 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
 import { TableCell, TableRow } from "../ui/table";
 import { ShieldCheck, TriangleAlert } from "lucide-react";
 import LegalServiceDetails from "./legal-service-details";
-import { getLocale, getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { LegalService } from "@/types/legal-services-montoring";
@@ -48,7 +49,7 @@ export default async function DataPreview({
   pagination: Pagination;
 }) {
   const t = await getTranslations("LegalServicesMonitoring.Table");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
   const locale = await getLocale();
 
   const columns: DataTableColumn[] = [

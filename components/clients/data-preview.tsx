@@ -1,3 +1,4 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import { Client } from "@/types/clients";
 import { Pagination } from "@/types/shared";
@@ -5,7 +6,7 @@ import ClientDetails from "./client-details";
 import { TableCell, TableRow } from "../ui/table";
 import ClientStatusBadge from "./client-status-badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { maskPhone } from "../people-directory/format";
 
@@ -17,7 +18,7 @@ export default async function DataPreview({
   pagination: Pagination;
 }) {
   const t = await getTranslations("Clients");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
 
   const columns: DataTableColumn[] = [
     { label: t("table.client") },
@@ -77,7 +78,7 @@ export default async function DataPreview({
 
             <TableCell className="px-5 py-3">
               <span className="text-gray-600 font-semibold text-[13px]">
-                {client.cases_count}{" "}
+                {format.number(client.cases_count)}{" "}
                 <span className="text-[11px] text-destructive">
                   ({t("rejectedCount", { count: client.rejected_cases_count })})
                 </span>
@@ -85,7 +86,7 @@ export default async function DataPreview({
             </TableCell>
 
             <TableCell className="px-5 py-3">
-              {client.consultations_count}
+              {format.number(client.consultations_count)}
             </TableCell>
 
             <TableCell className="px-5 py-3">-</TableCell>

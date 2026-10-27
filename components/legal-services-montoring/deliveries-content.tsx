@@ -1,8 +1,9 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { FileText } from "lucide-react";
 import { Section } from "./section";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { formatFileSize } from "@/types/case-monitoring";
 import {
   LegalServiceDetails,
@@ -39,7 +40,7 @@ export default function DeliveriesContent({
   deliveries: Delivery[];
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Deliveries");
-  const format = useFormatter();
+  const format = useAppFormatter();
 
   if (!deliveries.length) {
     return <p className="text-[13px] text-gray-400">{t("noDeliveries")}</p>;

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
@@ -8,6 +9,7 @@ import { Counts, reviewTabs } from "@/types/legal-services-approvals";
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("LegalServicesApprovals");
+  const format = useAppFormatter();
 
   const [{ tab }, setFilters] = useQueryStates(
     {
@@ -47,7 +49,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
                       isActive && "bg-white/20 text-white",
                     )}
                   >
-                    {counts[statusKey]}
+                    {format.number(counts[statusKey])}
                   </span>
                 )}
               </TabsTrigger>

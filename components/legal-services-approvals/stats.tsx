@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { useTranslations } from "next-intl";
 import { Counts } from "@/types/legal-services-approvals";
 import { CircleCheck, CircleX, Clock, TriangleAlert } from "lucide-react";
@@ -11,6 +12,7 @@ export default function Stats({
   urgentCount: number;
 }) {
   const t = useTranslations("LegalServicesApprovals");
+  const format = useAppFormatter();
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function Stats({
               {t("pending_review")}
             </p>
             <p className="text-[22px] font-bold leading-tight text-amber-800">
-              {counts.pending_review}
+              {format.number(counts.pending_review)}
             </p>
           </div>
         </div>
@@ -38,7 +40,7 @@ export default function Stats({
               {t("approved")}
             </p>
             <p className="text-[22px] font-bold leading-tight text-emerald-700">
-              {counts.approved}
+              {format.number(counts.approved)}
             </p>
           </div>
         </div>
@@ -52,7 +54,7 @@ export default function Stats({
               {t("rejected")}
             </p>
             <p className="text-[22px] font-bold leading-tight text-orange-700">
-              {counts.rejected}
+              {format.number(counts.rejected)}
             </p>
           </div>
         </div>
@@ -62,7 +64,8 @@ export default function Stats({
         <Alert className="bg-orange-50 border-orange-200 py-3">
           <TriangleAlert className="text-orange-800!" />
           <AlertDescription className="text-orange-800 text-[13px] font-semibold">
-            {urgentCount} {t("legal_services_approvals_stats_alert")}
+            {format.number(urgentCount)}{" "}
+            {t("legal_services_approvals_stats_alert")}
           </AlertDescription>
         </Alert>
       )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import {
   Download,
   Expand,
@@ -28,7 +29,7 @@ import { Spinner } from "../ui/spinner";
 import { subscribeToMessages } from "@/features/chat";
 import { ChatParticipants, formatFileSize } from "@/types/case-monitoring";
 import { useDirection } from "@/components/ui/direction";
-import { useFormatter, useNow, useTranslations } from "next-intl";
+import { useNow, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   useEffect,
@@ -146,7 +147,7 @@ function MessageBubble({
   message: ChatMessage;
   sender: { name: string; photo_url: string | null };
 }) {
-  const format = useFormatter();
+  const format = useAppFormatter();
   const now = useNow();
 
   const isText = message.type === "text";
@@ -572,7 +573,7 @@ function FileAttachment({
   sizeBytes: number | null;
   sentByUser: boolean;
 }) {
-  const format = useFormatter();
+  const format = useAppFormatter();
   const t = useTranslations("CaseMonitoring.Chat");
   const { Icon, className } = getFileIconStyle(fileType, name);
 

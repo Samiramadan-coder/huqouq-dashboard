@@ -1,7 +1,8 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_TIME_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Section } from "./section";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   LegalServiceDetails,
 } from "@/types/legal-services-montoring";
@@ -20,7 +21,7 @@ export default function ActivityContent({
   activity: Activity[];
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Activity");
-  const format = useFormatter();
+  const format = useAppFormatter();
 
   return (
     <Section

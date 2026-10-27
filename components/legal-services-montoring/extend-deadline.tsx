@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_TIME_FORMAT } from "@/lib/format";
 import {
   Dialog,
@@ -28,7 +29,7 @@ import { ArrowRight, CalendarClock } from "lucide-react";
 import NormalFormTextarea from "../form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { extendLegalServiceDeadline } from "@/lib/legal-services-monitoring";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -47,7 +48,7 @@ export default function ExtendDeadline({
   onSuccess: () => void;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const locale = useLocale();
   const [open, setOpen] = useState(false);
 

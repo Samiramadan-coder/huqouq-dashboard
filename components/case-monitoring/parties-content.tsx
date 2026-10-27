@@ -1,9 +1,10 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import { Separator } from "../ui/separator";
 import { Shield, Star } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { CaseMonitoring } from "@/types/case-monitoring";
 
 export default async function PartiesContent({
@@ -12,7 +13,7 @@ export default async function PartiesContent({
   caseItem: CaseMonitoring;
 }) {
   const t = await getTranslations("CaseMonitoring");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
 
   return (
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -58,7 +59,7 @@ export default async function PartiesContent({
 
             <InfoRow
               label={t("Participants.Client.totalCases")}
-              value={caseItem.client.cases_count}
+              value={format.number(caseItem.client.cases_count)}
             />
           </div>
         </CardContent>

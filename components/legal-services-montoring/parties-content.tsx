@@ -1,5 +1,6 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Mail, Phone, ShieldCheck, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { LegalServiceDetails } from "@/types/legal-services-montoring";
@@ -20,7 +21,7 @@ function PartyCard({
   children?: React.ReactNode;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Parties");
-  const format = useFormatter();
+  const format = useAppFormatter();
 
   return (
     <section className="rounded-xl border border-gray-200 bg-white p-5">
@@ -89,7 +90,7 @@ function PartyCard({
 
 export default function PartiesContent({ parties }: { parties: Parties }) {
   const t = useTranslations("LegalServicesMonitoring.Details.Parties");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const { client, lawyer } = parties;
 
   return (

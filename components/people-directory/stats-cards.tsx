@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { Card } from "../ui/card";
 import type { LucideIcon } from "lucide-react";
 
@@ -14,6 +15,8 @@ export type StatCard = {
 
 // Row of summary cards shown above the lawyers and clients lists.
 export default function StatsCards({ stats }: { stats: StatCard[] }) {
+  const format = useAppFormatter();
+
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {stats.map(({ key, label, value, icon: Icon, ...classNames }) => (
@@ -42,7 +45,7 @@ export default function StatsCards({ stats }: { stats: StatCard[] }) {
                 classNames.titleClassName,
               )}
             >
-              {value}
+              {format.number(value)}
             </span>
           </div>
         </Card>

@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { formatDate } from "@/lib/format";
 import {
   MapPin,
@@ -11,7 +12,7 @@ import CaseReview from "./case-review";
 import CaseDocuments from "./case-documents";
 import { Separator } from "../ui/separator";
 import { CaseDetails } from "@/types/case-approvals";
-import { useLocale, useFormatter, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import CaseStatusLabel from "../reusable/case-status-label";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -24,7 +25,7 @@ export default function CaseDetailsPreview({
   caseDetails: CaseDetails;
 }) {
   const t = useTranslations("CaseApprovals.Details");
-  const format = useFormatter();
+  const format = useAppFormatter();
   const locale = useLocale();
 
   // A client may give a full range, only one bound, or no budget at all.

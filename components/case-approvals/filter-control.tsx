@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import {
   InputGroup,
   InputGroupAddon,
@@ -46,6 +47,7 @@ export function FilterControl({
   counts: Counts;
   urgencyCounts: UrgencyCounts;
 }) {
+  const format = useAppFormatter();
   const { referenceData } = useReferenceData();
   const t = useTranslations("CaseApprovals");
 
@@ -95,7 +97,7 @@ export function FilterControl({
                     isActive && "bg-white/20 text-white",
                   )}
                 >
-                  {counts[statusKey]}
+                  {format.number(counts[statusKey])}
                 </span>
               </TabsTrigger>
             );
@@ -191,12 +193,12 @@ export function FilterControl({
         <div className="ms-auto flex items-center gap-2">
           <Badge className="rounded-sm px-3 h-6 bg-destructive/2 text-destructive border-destructive/20">
             <span aria-hidden className="size-1.5 rounded-full bg-destructive" />
-            {urgencyCounts.critical} {t("Filters.critical")}
+            {format.number(urgencyCounts.critical)} {t("Filters.critical")}
           </Badge>
 
           <Badge className="rounded-sm px-3 h-6 bg-amber-50 text-amber-700 border-amber-200">
             <span aria-hidden className="size-1.5 rounded-full bg-amber-700" />
-            {urgencyCounts.urgent} {t("Filters.urgent")}
+            {format.number(urgencyCounts.urgent)} {t("Filters.urgent")}
           </Badge>
         </div>
       </div>

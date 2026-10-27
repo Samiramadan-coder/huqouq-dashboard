@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import {
   InputGroup,
   InputGroupAddon,
@@ -22,6 +23,7 @@ const SEARCH_DEBOUNCE_MS = 400;
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("LawyerApprovals");
+  const format = useAppFormatter();
 
   const [{ status, q }, setFilters] = useQueryStates(
     {
@@ -64,7 +66,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
                     isActive && "bg-white/20 text-white",
                   )}
                 >
-                  {counts[statusKey]}
+                  {format.number(counts[statusKey])}
                 </span>
               </TabsTrigger>
             );
@@ -104,7 +106,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
         {status === "pending" && (
           <div className="shrink-0 rounded-sm border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs text-amber-600">
             <span className="text-amber-700 font-semibold">
-              {counts.pending}
+              {format.number(counts.pending)}
             </span>{" "}
             {t("applicationsAwaitingReview")}
           </div>
@@ -114,7 +116,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
           <div className="shrink-0 rounded-sm border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs text-emerald-600 flex items-center gap-1">
             <CircleCheck className="text-emerald-400 size-3.5" />
             <span className="text-emerald-700 font-semibold">
-              {counts.approved}
+              {format.number(counts.approved)}
             </span>{" "}
             <span className="text-emerald-700 font-semibold">
               {t("applicationsApproved1")}
@@ -127,7 +129,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
           <div className="shrink-0 rounded-sm border border-red-200 bg-red-50 px-3 py-1.5 text-xs text-red-600 flex items-center gap-1">
             <CircleX className="text-red-400 size-3.5" />
             <span className="text-red-700 font-semibold">
-              {counts.rejected}
+              {format.number(counts.rejected)}
             </span>{" "}
             <span className="text-red-700 font-semibold">
               {t("applicationsRejected1")}

@@ -1,10 +1,11 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 type HistoryType = "case" | "offer" | "consultation";
 
@@ -30,7 +31,7 @@ export default function HistoryList<Type extends HistoryType>({
   // Status highlighted in green, e.g. "accepted" offers.
   positiveStatus: string;
 }) {
-  const format = useFormatter();
+  const format = useAppFormatter();
   const t = useTranslations("PeopleDirectory");
 
   return (

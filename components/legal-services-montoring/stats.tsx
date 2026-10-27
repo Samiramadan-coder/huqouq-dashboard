@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { formatMoney } from "@/lib/format";
+import { formatMoney, formatNumber } from "@/lib/format";
 import { Summary } from "@/types/legal-services-montoring";
 import {
   Activity,
@@ -58,7 +58,7 @@ export default function Stats({ summary }: { summary: Summary }) {
         const value =
           key === "held_in_escrow"
             ? formatMoney(summary[key], "AED", locale)
-            : summary[key].toLocaleString(locale);
+            : formatNumber(summary[key], locale);
 
         return (
           <div

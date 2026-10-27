@@ -1,10 +1,11 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT, formatMoney } from "@/lib/format";
 import {
   CaseMonitoring,
   getLastActivity,
 } from "@/types/case-monitoring";
 import { Banknote, MapPin, Paperclip } from "lucide-react";
-import { getLocale, getFormatter, getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function DetailsContent({
   caseItem,
@@ -12,7 +13,7 @@ export default async function DetailsContent({
   caseItem: CaseMonitoring;
 }) {
   const t = await getTranslations("CaseMonitoring");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
   const locale = await getLocale();
   const lastActivity = getLastActivity(caseItem);
 

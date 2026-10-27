@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { cn } from "@/lib/utils";
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
 import { Pagination } from "@/types/shared";
@@ -37,6 +38,7 @@ export function DataTable({
   pagination,
 }: DataTableProps) {
   const t = useTranslations("Common");
+  const format = useAppFormatter();
 
   return (
     <div className="w-full min-w-0 border border-gray-200 rounded-lg overflow-hidden">
@@ -69,16 +71,19 @@ export function DataTable({
             <TableCell className="px-4 py-3 text-[11px] text-gray-400">
               {!pagination ? (
                 <p>
-                  {t("Showing")} <span>{rowsCount}</span> {countUnit}
+                  {t("Showing")} <span>{format.number(rowsCount)}</span>{" "}
+                  {countUnit}
                 </p>
               ) : (
                 <p>
                   {t("Showing")}
-                  <span className="mx-1">{pagination.from}</span>
+                  <span className="mx-1">{format.number(pagination.from)}</span>
                   {t("To")}
-                  <span className="mx-1">{pagination.to}</span>
+                  <span className="mx-1">{format.number(pagination.to)}</span>
                   {t("Of")}
-                  <span className="mx-1">{pagination.total}</span>
+                  <span className="mx-1">
+                    {format.number(pagination.total)}
+                  </span>
                   {countUnit}
                 </p>
               )}

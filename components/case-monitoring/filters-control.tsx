@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Counts, monitoringTabs } from "@/types/case-monitoring";
@@ -22,6 +23,7 @@ const SEARCH_DEBOUNCE_MS = 400;
 
 export function FilterControl({ counts }: { counts: Counts }) {
   const t = useTranslations("CaseMonitoring");
+  const format = useAppFormatter();
 
   const [{ tab, q }, setFilters] = useQueryStates(
     {
@@ -78,7 +80,7 @@ export function FilterControl({ counts }: { counts: Counts }) {
                         isActive && "bg-white/20 text-white",
                       )}
                     >
-                      {counts[statusKey]}
+                      {format.number(counts[statusKey])}
                     </span>
                   )}
                 </TabsTrigger>

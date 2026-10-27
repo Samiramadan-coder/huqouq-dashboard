@@ -1,3 +1,4 @@
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { DATE_FORMAT } from "@/lib/format";
 import { Star } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -7,7 +8,7 @@ import LawyerDetails from "./lawyer-details";
 import { TableCell, TableRow } from "../ui/table";
 import LawyerStatusBadge from "./lawyer-status-badge";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { maskPhone } from "../people-directory/format";
 
@@ -19,7 +20,7 @@ export default async function DataPreview({
   pagination: Pagination;
 }) {
   const t = await getTranslations("Lawyers.table");
-  const format = await getFormatter();
+  const format = await getAppFormatter();
 
   const columns: DataTableColumn[] = [
     { label: t("lawyer") },
@@ -110,14 +111,14 @@ export default async function DataPreview({
                   {lawyer.rating ? format.number(lawyer.rating) : "-"}
                 </span>
                 <span className="text-gray-400 text-[11px]">
-                  ({lawyer.reviews_count})
+                  ({format.number(lawyer.reviews_count)})
                 </span>
               </div>
             </TableCell>
 
             <TableCell className="px-5 py-3">
               <span className="text-gray-600 font-semibold text-[13px]">
-                {lawyer.cases_count}
+                {format.number(lawyer.cases_count)}
               </span>
             </TableCell>
 

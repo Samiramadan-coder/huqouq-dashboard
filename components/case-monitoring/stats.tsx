@@ -1,3 +1,4 @@
+import { useAppFormatter } from "@/hooks/use-app-formatter";
 import { cn } from "@/lib/utils";
 import { Counts } from "@/types/case-monitoring";
 import { Activity, Briefcase, Clock, TriangleAlert } from "lucide-react";
@@ -37,6 +38,7 @@ const cards = [
 
 export default function Stats({ counts }: { counts: Counts }) {
   const t = useTranslations("CaseMonitoring");
+  const format = useAppFormatter();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -51,7 +53,7 @@ export default function Stats({ counts }: { counts: Counts }) {
             <p
               className={cn("text-[22px] font-bold leading-tight", valueClassName)}
             >
-              {counts[key]}
+              {format.number(counts[key])}
             </p>
           </div>
         </div>

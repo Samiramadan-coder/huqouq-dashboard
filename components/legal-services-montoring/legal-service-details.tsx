@@ -41,8 +41,10 @@ import StatusBadge from "./status-badge";
 import OffersContent from "./offers-content";
 import RequestContent from "./request-content";
 import PartiesContent from "./parties-content";
+import ChatContent from "../case-monitoring/chat-content";
 import PaymentContent from "./payment-content";
 import ActivityContent from "./activity-content";
+import TimelineContent from "./timeline-content";
 import DeliveriesContent from "./deliveries-content";
 import UrgencyBadge from "../reusable/urgency-label";
 import { useLocale, useTranslations } from "next-intl";
@@ -266,7 +268,12 @@ function DetailsContent({
           </div>
 
           {tabs.map(({ value }) => (
-            <TabsContent key={value} value={value} className="p-6">
+            <TabsContent
+              key={value}
+              value={value}
+              // The chat's sticky read-only banner bleeds to the edges of a p-4 container.
+              className={value === "chat" ? "p-4" : "p-6"}
+            >
               {value === "request" && <RequestContent service={service} />}
               {value === "offers" && <OffersContent offers={service.offers} />}
               {value === "parties" && (
@@ -278,6 +285,9 @@ function DetailsContent({
               {value === "deliveries" && (
                 <DeliveriesContent deliveries={service.deliveries} />
               )}
+              {value === "timeline" && (
+                <TimelineContent timeline={service.timeline} />
+              )}
               {value === "activity" && (
                 <ActivityContent activity={service.activity} />
               )}
@@ -288,7 +298,28 @@ function DetailsContent({
                   onSuccess={onChanged}
                 />
               )}
-              {/* TODO: fill in the remaining tabs. */}
+              {value === "chat" &&
+                (service.parties.lawyer ? (
+                  // Only the fields the transcript needs are sent to the client.
+                  <ChatContent
+                    participants={{
+                      chatId: `service-${service.id}`,
+                      client: {
+                        id: service.parties.client.id,
+                        name: service.parties.client.name,
+                        photo_url: service.parties.client.photo_url,
+                      },
+                      lawyer: {
+                        name: service.parties.lawyer.name,
+                        photo_url: service.parties.lawyer.photo_url,
+                      },
+                    }}
+                  />
+                ) : (
+                  <p className="text-center text-[13px] text-gray-400">
+                    {t("Parties.noLawyer")}
+                  </p>
+                ))}
             </TabsContent>
           ))}
         </Tabs>

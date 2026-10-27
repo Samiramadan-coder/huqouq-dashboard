@@ -952,6 +952,12 @@
         "failure": "Failed to send the check-in message.",
         "forbidden": "You don't have permission to perform this action."
       },
+      "Timeline": {
+        "title": "Service timeline",
+        "by": "by {actor}",
+        "scheduled": "Scheduled",
+        "noTimeline": "No timeline events yet"
+      },
       "Activity": {
         "title": "Activity log",
         "entries": "{count, plural, one {# entry} other {# entries}}",

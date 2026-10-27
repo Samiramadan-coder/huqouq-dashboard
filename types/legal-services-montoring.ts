@@ -210,6 +210,23 @@ export type LegalServiceDetails = LegalService & {
     actor: string;
     note: null | string;
   }[];
+  timeline: {
+    key:
+      | "submitted"
+      | "approved"
+      | "paid"
+      | "delivered"
+      | "revision"
+      | "delivered"
+      | "client_approved"
+      | "admin_approved"
+      | "approve_on_behalf"
+      | "payout_scheduled";
+    label: string;
+    at: string;
+    actor: string;
+    note: null | string;
+  }[];
 };
 
 export type ActionFailure = "forbidden" | "failed";

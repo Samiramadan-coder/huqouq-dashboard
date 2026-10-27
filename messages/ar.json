@@ -952,6 +952,12 @@
         "failure": "تعذر إرسال رسالة المتابعة.",
         "forbidden": "ليس لديك صلاحية لتنفيذ هذا الإجراء."
       },
+      "Timeline": {
+        "title": "المخطط الزمني للخدمة",
+        "by": "بواسطة {actor}",
+        "scheduled": "مجدول",
+        "noTimeline": "لا توجد أحداث بعد"
+      },
       "Activity": {
         "title": "سجل النشاط",
         "entries": "{count, plural, one {إدخال واحد} other {{count, number, digits} إدخالات}}",

@@ -53,15 +53,15 @@ export default function ChatContent({
   participants: ChatParticipants;
 }) {
   const t = useTranslations("CaseMonitoring");
-  const { caseId, client, lawyer } = participants;
+  const { chatId, client, lawyer } = participants;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<ChatState>("loading");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
-  // Subscribe to chat messages for the given case and client.
+  // Subscribe to chat messages for the given chat and client.
   useEffect(() => {
     const unsubscribe = subscribeToMessages(
-      String(caseId),
+      chatId,
       String(client.id),
       (messages) => {
         setMessages(messages);
@@ -71,7 +71,7 @@ export default function ChatContent({
     );
 
     return unsubscribe;
-  }, [caseId, client.id]);
+  }, [chatId, client.id]);
 
   // Scroll to the bottom of the chat when new messages are received.
   useEffect(() => {
@@ -643,7 +643,6 @@ function formatAudioTime(seconds: number) {
 
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
-
 
 // Picks an icon and accent color for a file based on its MIME type or extension.
 function getFileIconStyle(fileType: string | null, fileName: string | null) {

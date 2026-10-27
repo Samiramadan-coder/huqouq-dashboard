@@ -123,7 +123,7 @@ export default async function CaseDetails({
               {/* Only the fields the transcript needs are sent to the client. */}
               <ChatContent
                 participants={{
-                  caseId: caseItem.id,
+                  chatId: String(caseItem.id),
                   client: {
                     id: caseItem.client.id,
                     name: caseItem.client.name,

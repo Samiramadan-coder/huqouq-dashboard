@@ -169,7 +169,8 @@ export type CaseMonitoringResponse = {
 
 // The only case fields the chat transcript needs on the client.
 export type ChatParticipants = {
-  caseId: number;
+  // Firestore chat document id: the case id, or `service-${id}` for services.
+  chatId: string;
   client: Pick<Client, "id" | "name" | "photo_url">;
   lawyer: Pick<HiredLawyer, "name" | "photo_url">;
 };

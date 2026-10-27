@@ -930,6 +930,28 @@
         "failure": "Failed to approve the delivery.",
         "forbidden": "You don't have permission to perform this action."
       },
+      "Checkin": {
+        "title": "Send check-in message",
+        "description": "Posts a message from Huqouq Admin in the service chat and notifies the selected party.",
+        "sendTo": "Send to",
+        "bothParties": "Both parties",
+        "recipientRequired": "Choose who to send the message to.",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Hello, this is Huqouq support checking in on this service. Could you please share a quick status update?",
+        "messageRequired": "Message is required.",
+        "messageMaxLength": "Message must be at most 2000 characters.",
+        "reasonLabel": "Reason (required, saved to the activity log)",
+        "reasonPlaceholder": "Explain why you are checking in on this service…",
+        "reasonHint": "At least {min} characters.",
+        "reasonRequired": "Reason is required.",
+        "reasonMinLength": "Reason must be at least 8 characters.",
+        "reasonMaxLength": "Reason must be at most 1000 characters.",
+        "back": "Back",
+        "submit": "Send check-in",
+        "success": "The check-in message was sent.",
+        "failure": "Failed to send the check-in message.",
+        "forbidden": "You don't have permission to perform this action."
+      },
       "Activity": {
         "title": "Activity log",
         "entries": "{count, plural, one {# entry} other {# entries}}",

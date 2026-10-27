@@ -325,6 +325,37 @@ export type ApproveOnBehalfResult =
       errors?: Partial<Record<keyof ApproveOnBehalfFormValues, string>>;
     };
 
+export const CHECKIN_RECIPIENTS = ["client", "lawyer", "both"] as const;
+export const CHECKIN_MESSAGE_MAX_LENGTH = 2000;
+export const CHECKIN_REASON_MIN_LENGTH = 8;
+export const CHECKIN_REASON_MAX_LENGTH = 1000;
+
+export const checkinSchema = (t: T) =>
+  z.object({
+    recipient: z.enum(CHECKIN_RECIPIENTS, t("recipientRequired")),
+    message: z
+      .string()
+      .trim()
+      .min(1, t("messageRequired"))
+      .max(CHECKIN_MESSAGE_MAX_LENGTH, t("messageMaxLength")),
+    reason: z
+      .string()
+      .trim()
+      .min(1, t("reasonRequired"))
+      .min(CHECKIN_REASON_MIN_LENGTH, t("reasonMinLength"))
+      .max(CHECKIN_REASON_MAX_LENGTH, t("reasonMaxLength")),
+  });
+
+export type CheckinFormValues = z.infer<ReturnType<typeof checkinSchema>>;
+
+export type CheckinResult =
+  | { success: true; message: string }
+  | {
+      success: false;
+      error: ActionFailure;
+      errors?: Partial<Record<keyof CheckinFormValues, string>>;
+    };
+
 export const DATE_TIME_FORMAT = {
   ...DATE_FORMAT,
   hour: "2-digit",

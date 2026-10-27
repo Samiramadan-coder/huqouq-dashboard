@@ -5,6 +5,9 @@ import { updateTag } from "next/cache";
 import { ForbiddenError, http, ValidationError } from "./http";
 import {
   ActionFailure,
+  ApproveOnBehalfFormValues,
+  ApproveOnBehalfResult,
+  approveOnBehalfSchema,
   CancelRefundFormValues,
   CancelRefundResult,
   cancelRefundSchema,
@@ -23,6 +26,7 @@ const serviceIdSchema = z.number().int().positive();
 const serverNoteSchema = noteSchema((key) => key);
 const serverCancelRefundSchema = cancelRefundSchema((key) => key);
 const serverExtendDeadlineSchema = extendDeadlineSchema((key) => key);
+const serverApproveOnBehalfSchema = approveOnBehalfSchema((key) => key);
 
 // Maps a request error to a failure code without leaking its details.
 function toFailure(error: unknown, context: string): ActionFailure {
@@ -146,5 +150,71 @@ export async function extendLegalServiceDeadline(
     }
 
     return { success: false, error: toFailure(error, "extend-deadline") };
+  }
+}
+
+// Extend Client Review Window (same body as extending the delivery deadline)
+export async function extendLegalServiceReview(
+  formData: ExtendDeadlineFormValues,
+  serviceId: number,
+): Promise<ExtendDeadlineResult> {
+  const id = serviceIdSchema.safeParse(serviceId);
+  const values = serverExtendDeadlineSchema.safeParse(formData);
+  if (!id.success || !values.success) {
+    return { success: false, error: "failed" };
+  }
+
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/admin/legal-services-monitoring/${id.data}/extend-review`,
+      values.data,
+    );
+
+    updateTag("legal-service-monitoring");
+    return { success: true, message: data.message };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors)
+          .filter(([field]) => field in values.data)
+          .map(([field, messages]) => [field, messages[0]]),
+      ) as Partial<Record<keyof ExtendDeadlineFormValues, string>>;
+      return { success: false, error: "failed", errors };
+    }
+
+    return { success: false, error: toFailure(error, "extend-review") };
+  }
+}
+
+// Approve Delivery on Client's Behalf
+export async function approveLegalServiceOnBehalf(
+  formData: ApproveOnBehalfFormValues,
+  serviceId: number,
+): Promise<ApproveOnBehalfResult> {
+  const id = serviceIdSchema.safeParse(serviceId);
+  const values = serverApproveOnBehalfSchema.safeParse(formData);
+  if (!id.success || !values.success) {
+    return { success: false, error: "failed" };
+  }
+
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/admin/legal-services-monitoring/${id.data}/approve`,
+      values.data,
+    );
+
+    updateTag("legal-service-monitoring");
+    return { success: true, message: data.message };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors)
+          .filter(([field]) => field in values.data)
+          .map(([field, messages]) => [field, messages[0]]),
+      ) as Partial<Record<keyof ApproveOnBehalfFormValues, string>>;
+      return { success: false, error: "failed", errors };
+    }
+
+    return { success: false, error: toFailure(error, "approve") };
   }
 }

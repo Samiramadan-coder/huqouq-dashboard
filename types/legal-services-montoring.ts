@@ -300,6 +300,31 @@ export type ExtendDeadlineResult =
       errors?: Partial<Record<keyof ExtendDeadlineFormValues, string>>;
     };
 
+export const APPROVE_REASON_MIN_LENGTH = 8;
+export const APPROVE_REASON_MAX_LENGTH = 1000;
+
+export const approveOnBehalfSchema = (t: T) =>
+  z.object({
+    reason: z
+      .string()
+      .trim()
+      .min(1, t("reasonRequired"))
+      .min(APPROVE_REASON_MIN_LENGTH, t("reasonMinLength"))
+      .max(APPROVE_REASON_MAX_LENGTH, t("reasonMaxLength")),
+  });
+
+export type ApproveOnBehalfFormValues = z.infer<
+  ReturnType<typeof approveOnBehalfSchema>
+>;
+
+export type ApproveOnBehalfResult =
+  | { success: true; message: string }
+  | {
+      success: false;
+      error: ActionFailure;
+      errors?: Partial<Record<keyof ApproveOnBehalfFormValues, string>>;
+    };
+
 export const DATE_TIME_FORMAT = {
   ...DATE_FORMAT,
   hour: "2-digit",

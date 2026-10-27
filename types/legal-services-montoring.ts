@@ -1,3 +1,5 @@
+import z from "zod";
+import { T } from "./shared";
 import { DATE_FORMAT } from "./case-monitoring";
 
 export type Summary = {
@@ -93,7 +95,6 @@ export type LegalServiceDetails = LegalService & {
       size_bytes: number;
       uploaded_at: string;
     }[];
-    // Null while the client hasn't responded to the delivery yet.
     response: null | {
       at: string;
       by: string;
@@ -101,7 +102,12 @@ export type LegalServiceDetails = LegalService & {
       type: string;
     };
   }[];
-  notes: [];
+  notes: {
+    author: string;
+    body: string;
+    created_at: string;
+    id: number;
+  }[];
   offers: {
     accepted: boolean;
     created_at: string;
@@ -212,6 +218,29 @@ export type ActionFailure = "forbidden" | "failed";
 export type LegalServiceDetailsResult =
   | { success: true; data: LegalServiceDetails }
   | { success: false; error: ActionFailure };
+
+export const NOTE_REASON_MIN_LENGTH = 10;
+export const NOTE_REASON_MAX_LENGTH = 1000;
+
+export const noteSchema = (t: T) =>
+  z.object({
+    body: z
+      .string()
+      .trim()
+      .min(1, t("reasonRequired"))
+      .min(NOTE_REASON_MIN_LENGTH, t("reasonMinLength"))
+      .max(NOTE_REASON_MAX_LENGTH, t("reasonMaxLength")),
+  });
+
+export type NoteFormValues = z.infer<ReturnType<typeof noteSchema>>;
+
+export type AddNoteResult =
+  | { success: true; message: string }
+  | {
+      success: false;
+      error: ActionFailure;
+      errors?: Partial<Record<keyof NoteFormValues, string>>;
+    };
 
 export const DATE_TIME_FORMAT = {
   ...DATE_FORMAT,

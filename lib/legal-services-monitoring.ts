@@ -1,15 +1,20 @@
 "use server";
 
 import z from "zod";
-import { ForbiddenError, http } from "./http";
+import { updateTag } from "next/cache";
+import { ForbiddenError, http, ValidationError } from "./http";
 import {
   ActionFailure,
+  NoteFormValues,
+  AddNoteResult,
+  noteSchema,
   LegalServiceDetails,
   LegalServiceDetailsResult,
 } from "@/types/legal-services-montoring";
 
 // Server actions are public endpoints, so every argument is re-validated here.
 const serviceIdSchema = z.number().int().positive();
+const serverNoteSchema = noteSchema((key) => key);
 
 // Maps a request error to a failure code without leaking its details.
 function toFailure(error: unknown, context: string): ActionFailure {
@@ -34,5 +39,38 @@ export async function getLegalServiceDetails(
     return { success: true, data: data.data };
   } catch (error) {
     return { success: false, error: toFailure(error, "details") };
+  }
+}
+
+// Add Internal Note
+export async function addLegalServiceNote(
+  formData: NoteFormValues,
+  serviceId: number,
+): Promise<AddNoteResult> {
+  const id = serviceIdSchema.safeParse(serviceId);
+  const values = serverNoteSchema.safeParse(formData);
+  if (!id.success || !values.success) {
+    return { success: false, error: "failed" };
+  }
+
+  try {
+    const { data } = await http.post<{ message: string }>(
+      `/api/admin/legal-services-monitoring/${id.data}/notes`,
+      values.data,
+    );
+
+    updateTag("legal-service-monitoring");
+    return { success: true, message: data.message };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(error.errors)
+          .filter(([field]) => field in values.data)
+          .map(([field, messages]) => [field, messages[0]]),
+      ) as Partial<Record<keyof NoteFormValues, string>>;
+      return { success: false, error: "failed", errors };
+    }
+
+    return { success: false, error: toFailure(error, "notes") };
   }
 }

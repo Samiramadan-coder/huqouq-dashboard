@@ -842,6 +842,19 @@
         },
         "noDeliveries": "No deliveries yet"
       },
+      "Notes": {
+        "title": "Add internal note",
+        "private": "Not visible to users",
+        "reasonLabel": "Reason",
+        "reasonRequired": "Reason is required.",
+        "reasonMinLength": "Reason must be at least 10 characters.",
+        "reasonMaxLength": "Reason must be at most 1000 characters.",
+        "submit": "Save note",
+        "success": "Note saved.",
+        "failure": "Failed to save the note.",
+        "forbidden": "You don't have permission to perform this action.",
+        "noNotes": "No notes yet"
+      },
       "Activity": {
         "title": "Activity log",
         "entries": "{count, plural, one {# entry} other {# entries}}",

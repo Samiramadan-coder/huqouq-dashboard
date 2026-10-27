@@ -82,9 +82,11 @@ export default function LegalServiceDetails({
   // Ignores responses from requests that were superseded or closed.
   const requestId = useRef(0);
 
-  async function loadDetails() {
+  // A silent reload keeps the current details (and selected tab) on screen
+  // while refetching, e.g. after an admin action.
+  async function loadDetails({ silent = false } = {}) {
     const current = ++requestId.current;
-    setDetails({ status: "loading" });
+    if (!silent) setDetails({ status: "loading" });
 
     try {
       const result = await getLegalServiceDetails(serviceId);
@@ -128,7 +130,10 @@ export default function LegalServiceDetails({
 
       <SheetContent className="data-[side=right]:sm:max-w-5xl gap-0">
         {details.status === "ready" ? (
-          <DetailsContent service={details.service} />
+          <DetailsContent
+            service={details.service}
+            onChanged={() => void loadDetails({ silent: true })}
+          />
         ) : (
           <>
             <SheetHeader className="border-b border-border">
@@ -168,7 +173,13 @@ export default function LegalServiceDetails({
   );
 }
 
-function DetailsContent({ service }: { service: LegalServiceDetailsType }) {
+function DetailsContent({
+  service,
+  onChanged,
+}: {
+  service: LegalServiceDetailsType;
+  onChanged: () => void;
+}) {
   const tCommon = useTranslations("Common");
   const t = useTranslations("LegalServicesMonitoring.Details");
   const format = useFormatter();
@@ -269,7 +280,13 @@ function DetailsContent({ service }: { service: LegalServiceDetailsType }) {
               {value === "activity" && (
                 <ActivityContent activity={service.activity} />
               )}
-              {value === "notes" && <Notes serviceId={service.id} />}
+              {value === "notes" && (
+                <Notes
+                  serviceId={service.id}
+                  notes={service.notes}
+                  onSuccess={onChanged}
+                />
+              )}
               {/* TODO: fill in the remaining tabs. */}
             </TabsContent>
           ))}

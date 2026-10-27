@@ -64,8 +64,6 @@ export default function FilterControl({
   );
   const exportHref = `/api/legal-services-monitoring/export?${exportParams}`;
 
-  console.log(exportHref);
-
   return (
     <div className="space-y-5">
       <Tabs

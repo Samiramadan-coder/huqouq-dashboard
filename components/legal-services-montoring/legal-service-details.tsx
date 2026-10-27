@@ -239,7 +239,7 @@ function DetailsContent({
           </div>
         )}
 
-        <Actions serviceActions={service.actions} />
+        <Actions service={service} onChanged={onChanged} />
       </SheetHeader>
 
       <div className="flex-1 overflow-auto bg-gray-50/50">

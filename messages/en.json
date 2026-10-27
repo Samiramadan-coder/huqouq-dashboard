@@ -855,6 +855,24 @@
         "forbidden": "You don't have permission to perform this action.",
         "noNotes": "No notes yet"
       },
+      "CancelRefund": {
+        "title": "Cancel service with full refund",
+        "description": "Closes the service and returns the full escrow amount to the client.",
+        "refundToClient": "Refund to client",
+        "platformFee": "Huqouq fee",
+        "lawyerPayout": "Lawyer payout",
+        "reasonLabel": "Reason (required, saved to the activity log)",
+        "reasonPlaceholder": "Explain why this service is being cancelled…",
+        "reasonHint": "At least {min} characters.",
+        "reasonRequired": "Reason is required.",
+        "reasonMinLength": "Reason must be at least 8 characters.",
+        "reasonMaxLength": "Reason must be at most 1000 characters.",
+        "back": "Back",
+        "submit": "Cancel and refund",
+        "success": "The service was cancelled and the client refunded.",
+        "failure": "Failed to cancel and refund the service.",
+        "forbidden": "You don't have permission to perform this action."
+      },
       "Activity": {
         "title": "Activity log",
         "entries": "{count, plural, one {# entry} other {# entries}}",

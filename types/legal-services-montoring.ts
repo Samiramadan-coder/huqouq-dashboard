@@ -242,6 +242,31 @@ export type AddNoteResult =
       errors?: Partial<Record<keyof NoteFormValues, string>>;
     };
 
+export const CANCEL_REASON_MIN_LENGTH = 8;
+export const CANCEL_REASON_MAX_LENGTH = 1000;
+
+export const cancelRefundSchema = (t: T) =>
+  z.object({
+    reason: z
+      .string()
+      .trim()
+      .min(1, t("reasonRequired"))
+      .min(CANCEL_REASON_MIN_LENGTH, t("reasonMinLength"))
+      .max(CANCEL_REASON_MAX_LENGTH, t("reasonMaxLength")),
+  });
+
+export type CancelRefundFormValues = z.infer<
+  ReturnType<typeof cancelRefundSchema>
+>;
+
+export type CancelRefundResult =
+  | { success: true; message: string }
+  | {
+      success: false;
+      error: ActionFailure;
+      errors?: Partial<Record<keyof CancelRefundFormValues, string>>;
+    };
+
 export const DATE_TIME_FORMAT = {
   ...DATE_FORMAT,
   hour: "2-digit",

@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import CancelRefund from "./cancel-refund";
 import { useTranslations } from "next-intl";
 import { LegalServiceDetails } from "@/types/legal-services-montoring";
-import { CalendarClock, CircleCheck, Send, Timer, Undo2 } from "lucide-react";
+import { CalendarClock, CircleCheck, Send, Timer } from "lucide-react";
 
 type ActionKey = keyof LegalServiceDetails["actions"];
 const actions = [
@@ -26,11 +26,6 @@ const actions = [
     Icon: CircleCheck,
     labelKey: "approveOnBehalf",
   },
-  {
-    key: "cancel_refund",
-    Icon: Undo2,
-    labelKey: "cancelRefund",
-  },
 ] as const satisfies readonly {
   key: ActionKey;
   Icon: typeof Send;
@@ -38,17 +33,19 @@ const actions = [
 }[];
 
 export default function Actions({
-  serviceActions,
+  service,
+  onChanged,
 }: {
-  serviceActions: LegalServiceDetails["actions"];
+  service: LegalServiceDetails;
+  onChanged: () => void;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details");
+  const cancelRefund = service.actions.cancel_refund;
 
   return (
     <div className="flex flex-wrap gap-2">
       {actions.map(({ key, Icon, labelKey }) => {
-        const action = serviceActions[key];
-        const isDestructive = key === "cancel_refund";
+        const action = service.actions[key];
 
         return (
           <Button
@@ -56,17 +53,20 @@ export default function Actions({
             variant="outline"
             disabled={!action.available}
             title={action.available ? undefined : action.reason}
-            className={cn(
-              "h-9 rounded-md text-[13px] font-medium",
-              isDestructive &&
-                "border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800",
-            )}
+            className="h-9 rounded-md text-[13px] font-medium"
           >
             <Icon className="size-3.5" />
             {t(`Actions.${labelKey}`)}
           </Button>
         );
       })}
+
+      <CancelRefund
+        service={service}
+        disabled={!cancelRefund.available}
+        title={cancelRefund.available ? undefined : cancelRefund.reason}
+        onSuccess={onChanged}
+      />
     </div>
   );
 }

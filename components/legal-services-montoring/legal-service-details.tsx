@@ -15,15 +15,10 @@ import {
   Gavel,
   Users,
   Upload,
-  Timer,
-  Undo2,
-  Send,
   History,
   FileText,
   ArrowRight,
   CreditCard,
-  CircleCheck,
-  CalendarClock,
   ClipboardList,
   MessageSquare,
   TriangleAlert,
@@ -36,47 +31,27 @@ import {
   LegalServiceDetails as LegalServiceDetailsType,
 } from "@/types/legal-services-montoring";
 
-import { cn } from "@/lib/utils";
+import Notes from "./notes";
+import Actions from "./actions";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
 import StatusBadge from "./status-badge";
-import RequestContent from "./request-content";
 import OffersContent from "./offers-content";
+import RequestContent from "./request-content";
 import PartiesContent from "./parties-content";
 import PaymentContent from "./payment-content";
-import DeliveriesContent from "./deliveries-content";
 import ActivityContent from "./activity-content";
+import DeliveriesContent from "./deliveries-content";
 import UrgencyBadge from "../reusable/urgency-label";
 import { useFormatter, useTranslations } from "next-intl";
 import { DATE_FORMAT, formatMoney } from "@/types/case-monitoring";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { getLegalServiceDetails } from "@/lib/legal-services-monitoring";
 
-// The API doesn't send a currency for legal services; fees are always in AED.
-const CURRENCY = "AED";
-
 type DetailsState =
   | { status: "loading" }
   | { status: "error"; error: ActionFailure }
   | { status: "ready"; service: LegalServiceDetailsType };
-
-type ActionKey = keyof LegalServiceDetailsType["actions"];
-
-const actions = [
-  { key: "checkin", Icon: Send, labelKey: "checkin" },
-  { key: "extend_deadline", Icon: CalendarClock, labelKey: "extendDeadline" },
-  { key: "extend_review", Icon: Timer, labelKey: "extendReview" },
-  {
-    key: "approve_on_behalf",
-    Icon: CircleCheck,
-    labelKey: "approveOnBehalf",
-  },
-  { key: "cancel_refund", Icon: Undo2, labelKey: "cancelRefund" },
-] as const satisfies readonly {
-  key: ActionKey;
-  Icon: typeof Send;
-  labelKey: string;
-}[];
 
 const tabs = [
   { value: "request", Icon: ClipboardList },
@@ -194,6 +169,7 @@ export default function LegalServiceDetails({
 }
 
 function DetailsContent({ service }: { service: LegalServiceDetailsType }) {
+  const tCommon = useTranslations("Common");
   const t = useTranslations("LegalServicesMonitoring.Details");
   const format = useFormatter();
 
@@ -230,7 +206,7 @@ function DetailsContent({ service }: { service: LegalServiceDetailsType }) {
                 ? `${service.client.name} → ${service.lawyer.name}`
                 : service.client.name,
               service.agreed_fee !== null &&
-                formatMoney(format, service.agreed_fee, CURRENCY),
+                formatMoney(format, service.agreed_fee, tCommon("AED")),
               acceptedOffer?.delivery_time_label,
             ]
               .filter(Boolean)
@@ -252,30 +228,7 @@ function DetailsContent({ service }: { service: LegalServiceDetailsType }) {
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2">
-          {actions.map(({ key, Icon, labelKey }) => {
-            const action = service.actions[key];
-            const isDestructive = key === "cancel_refund";
-
-            return (
-              <Button
-                key={key}
-                variant="outline"
-                disabled={!action.available}
-                // Explains why an action is unavailable.
-                title={action.available ? undefined : action.reason}
-                className={cn(
-                  "h-9 rounded-md text-[13px] font-medium",
-                  isDestructive &&
-                    "border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800",
-                )}
-              >
-                <Icon className="size-3.5" />
-                {t(`Actions.${labelKey}`)}
-              </Button>
-            );
-          })}
-        </div>
+        <Actions serviceActions={service.actions} />
       </SheetHeader>
 
       <div className="flex-1 overflow-auto bg-gray-50/50">
@@ -316,6 +269,7 @@ function DetailsContent({ service }: { service: LegalServiceDetailsType }) {
               {value === "activity" && (
                 <ActivityContent activity={service.activity} />
               )}
+              {value === "notes" && <Notes serviceId={service.id} />}
               {/* TODO: fill in the remaining tabs. */}
             </TabsContent>
           ))}

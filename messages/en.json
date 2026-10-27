@@ -873,6 +873,27 @@
         "failure": "Failed to cancel and refund the service.",
         "forbidden": "You don't have permission to perform this action."
       },
+      "ExtendDeadline": {
+        "title": "Extend delivery deadline",
+        "description": "Gives the lawyer more time to deliver. The client and lawyer are notified.",
+        "currentDeadline": "Current deadline",
+        "newDeadline": "New deadline",
+        "daysLabel": "Extend by",
+        "daysPlaceholder": "Choose days",
+        "dayOption": "{count, plural, one {# day} other {# days}}",
+        "daysRequired": "Choose how many days to extend by.",
+        "reasonLabel": "Reason (required, saved to the activity log)",
+        "reasonPlaceholder": "Explain why the deadline is being extended…",
+        "reasonHint": "At least {min} characters.",
+        "reasonRequired": "Reason is required.",
+        "reasonMinLength": "Reason must be at least 8 characters.",
+        "reasonMaxLength": "Reason must be at most 1000 characters.",
+        "back": "Back",
+        "submit": "Extend deadline",
+        "success": "The delivery deadline was extended.",
+        "failure": "Failed to extend the delivery deadline.",
+        "forbidden": "You don't have permission to perform this action."
+      },
       "Activity": {
         "title": "Activity log",
         "entries": "{count, plural, one {# entry} other {# entries}}",

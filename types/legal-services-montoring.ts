@@ -267,6 +267,39 @@ export type CancelRefundResult =
       errors?: Partial<Record<keyof CancelRefundFormValues, string>>;
     };
 
+export const EXTEND_DEADLINE_DAYS = [1, 2, 3, 4, 5] as const;
+export const EXTEND_REASON_MIN_LENGTH = 8;
+export const EXTEND_REASON_MAX_LENGTH = 1000;
+
+export const extendDeadlineSchema = (t: T) =>
+  z.object({
+    days: z
+      .number(t("daysRequired"))
+      .int()
+      .refine(
+        (days) => (EXTEND_DEADLINE_DAYS as readonly number[]).includes(days),
+        t("daysRequired"),
+      ),
+    reason: z
+      .string()
+      .trim()
+      .min(1, t("reasonRequired"))
+      .min(EXTEND_REASON_MIN_LENGTH, t("reasonMinLength"))
+      .max(EXTEND_REASON_MAX_LENGTH, t("reasonMaxLength")),
+  });
+
+export type ExtendDeadlineFormValues = z.infer<
+  ReturnType<typeof extendDeadlineSchema>
+>;
+
+export type ExtendDeadlineResult =
+  | { success: true; message: string }
+  | {
+      success: false;
+      error: ActionFailure;
+      errors?: Partial<Record<keyof ExtendDeadlineFormValues, string>>;
+    };
+
 export const DATE_TIME_FORMAT = {
   ...DATE_FORMAT,
   hour: "2-digit",

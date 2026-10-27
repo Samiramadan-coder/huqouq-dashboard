@@ -873,6 +873,27 @@
         "failure": "تعذر إلغاء الخدمة واسترداد المبلغ.",
         "forbidden": "ليس لديك صلاحية لتنفيذ هذا الإجراء."
       },
+      "ExtendDeadline": {
+        "title": "تمديد موعد التسليم",
+        "description": "يمنح المحامي وقتًا إضافيًا للتسليم. سيتم إشعار العميل والمحامي.",
+        "currentDeadline": "الموعد الحالي",
+        "newDeadline": "الموعد الجديد",
+        "daysLabel": "التمديد لمدة",
+        "daysPlaceholder": "اختر عدد الأيام",
+        "dayOption": "{count, plural, one {يوم واحد} two {يومان} few {# أيام} many {# يومًا} other {# يوم}}",
+        "daysRequired": "اختر عدد أيام التمديد.",
+        "reasonLabel": "السبب (مطلوب، يُحفظ في سجل النشاط)",
+        "reasonPlaceholder": "اشرح سبب تمديد الموعد…",
+        "reasonHint": "{min} أحرف على الأقل.",
+        "reasonRequired": "السبب مطلوب.",
+        "reasonMinLength": "يجب أن يتكون السبب من 8 أحرف على الأقل.",
+        "reasonMaxLength": "يجب ألا يتجاوز السبب 1000 حرف.",
+        "back": "رجوع",
+        "submit": "تمديد الموعد",
+        "success": "تم تمديد موعد التسليم.",
+        "failure": "تعذر تمديد موعد التسليم.",
+        "forbidden": "ليس لديك صلاحية لتنفيذ هذا الإجراء."
+      },
       "Activity": {
         "title": "سجل النشاط",
         "entries": "{count, plural, one {إدخال واحد} other {# إدخالات}}",

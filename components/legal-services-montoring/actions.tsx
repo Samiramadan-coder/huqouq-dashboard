@@ -1,8 +1,9 @@
 import { Button } from "../ui/button";
 import CancelRefund from "./cancel-refund";
+import ExtendDeadline from "./extend-deadline";
 import { useTranslations } from "next-intl";
 import { LegalServiceDetails } from "@/types/legal-services-montoring";
-import { CalendarClock, CircleCheck, Send, Timer } from "lucide-react";
+import { CircleCheck, Send, Timer } from "lucide-react";
 
 type ActionKey = keyof LegalServiceDetails["actions"];
 const actions = [
@@ -10,11 +11,6 @@ const actions = [
     key: "checkin",
     Icon: Send,
     labelKey: "checkin",
-  },
-  {
-    key: "extend_deadline",
-    Icon: CalendarClock,
-    labelKey: "extendDeadline",
   },
   {
     key: "extend_review",
@@ -40,10 +36,18 @@ export default function Actions({
   onChanged: () => void;
 }) {
   const t = useTranslations("LegalServicesMonitoring.Details");
-  const cancelRefund = service.actions.cancel_refund;
+  const { cancel_refund: cancelRefund, extend_deadline: extendDeadline } =
+    service.actions;
 
   return (
     <div className="flex flex-wrap gap-2">
+      <ExtendDeadline
+        service={service}
+        disabled={!extendDeadline.available}
+        title={extendDeadline.available ? undefined : extendDeadline.reason}
+        onSuccess={onChanged}
+      />
+
       {actions.map(({ key, Icon, labelKey }) => {
         const action = service.actions[key];
 

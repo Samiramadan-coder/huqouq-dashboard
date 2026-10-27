@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
+import { Download, Search } from "lucide-react";
 import { Field } from "../ui/field";
 import { useTranslations } from "next-intl";
 import QuerySelect from "../reusable/query-select";
@@ -22,6 +22,7 @@ import {
   Filters,
   monitoringTabs,
 } from "@/types/legal-services-montoring";
+import { Button } from "../ui/button";
 
 const SEARCH_DEBOUNCE_MS = 400;
 
@@ -89,73 +90,83 @@ export default function FilterControl({
         </TabsList>
       </Tabs>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="relative w-full max-w-80">
-          <Field>
-            <InputGroup className="bg-white h-8.5 border border-gray-200">
-              <InputGroupInput
-                type="search"
-                value={q}
-                aria-label={t("Filters.searchPlaceholder")}
-                onChange={(e) =>
-                  setFilters(
-                    { q: e.target.value, page: null },
-                    {
-                      history: "replace",
-                      limitUrlUpdates: e.target.value
-                        ? debounce(SEARCH_DEBOUNCE_MS)
-                        : undefined,
-                    },
-                  )
-                }
-                placeholder={t("Filters.searchPlaceholder")}
-                className="min-w-50 placeholder:text-gray-400 placeholder:text-[13px]"
-              />
-              <InputGroupAddon align="inline-start">
-                <Search className="text-gray-400 size-4" />
-              </InputGroupAddon>
-            </InputGroup>
-          </Field>
+      <div className="flex items-center justify-between">
+        <div className="flex-1 flex flex-wrap items-center gap-4">
+          <div className="relative w-full max-w-80">
+            <Field>
+              <InputGroup className="bg-white h-8.5 border border-gray-200">
+                <InputGroupInput
+                  type="search"
+                  value={q}
+                  aria-label={t("Filters.searchPlaceholder")}
+                  onChange={(e) =>
+                    setFilters(
+                      { q: e.target.value, page: null },
+                      {
+                        history: "replace",
+                        limitUrlUpdates: e.target.value
+                          ? debounce(SEARCH_DEBOUNCE_MS)
+                          : undefined,
+                      },
+                    )
+                  }
+                  placeholder={t("Filters.searchPlaceholder")}
+                  className="min-w-50 placeholder:text-gray-400 placeholder:text-[13px]"
+                />
+                <InputGroupAddon align="inline-start">
+                  <Search className="text-gray-400 size-4" />
+                </InputGroupAddon>
+              </InputGroup>
+            </Field>
+          </div>
+
+          <QuerySelect
+            label={t("Filters.allServiceTypes")}
+            placeholder={t("Filters.allServiceTypes")}
+            className="w-full max-w-48"
+            value={service_type}
+            onChange={setFilter("service_type")}
+            options={[
+              { value: "", label: t("Filters.allServiceTypes") },
+              ...filters.service_types,
+            ]}
+          />
+
+          <QuerySelect
+            label={t("Filters.allLawyers")}
+            placeholder={t("Filters.allLawyers")}
+            className="w-full max-w-48"
+            value={lawyer_id}
+            onChange={setFilter("lawyer_id")}
+            options={[
+              { value: "", label: t("Filters.allLawyers") },
+              ...filters.lawyers.map((lawyer) => ({
+                value: String(lawyer.id),
+                label: lawyer.name,
+              })),
+            ]}
+          />
+
+          <QuerySelect
+            label={t("Filters.allUrgencies")}
+            placeholder={t("Filters.allUrgencies")}
+            className="w-full max-w-48"
+            value={urgency}
+            onChange={setFilter("urgency")}
+            options={[
+              { value: "", label: t("Filters.allUrgencies") },
+              ...filters.urgencies,
+            ]}
+          />
         </div>
 
-        <QuerySelect
-          label={t("Filters.allServiceTypes")}
-          placeholder={t("Filters.allServiceTypes")}
-          className="w-full max-w-48"
-          value={service_type}
-          onChange={setFilter("service_type")}
-          options={[
-            { value: "", label: t("Filters.allServiceTypes") },
-            ...filters.service_types,
-          ]}
-        />
-
-        <QuerySelect
-          label={t("Filters.allLawyers")}
-          placeholder={t("Filters.allLawyers")}
-          className="w-full max-w-48"
-          value={lawyer_id}
-          onChange={setFilter("lawyer_id")}
-          options={[
-            { value: "", label: t("Filters.allLawyers") },
-            ...filters.lawyers.map((lawyer) => ({
-              value: String(lawyer.id),
-              label: lawyer.name,
-            })),
-          ]}
-        />
-
-        <QuerySelect
-          label={t("Filters.allUrgencies")}
-          placeholder={t("Filters.allUrgencies")}
-          className="w-full max-w-48"
-          value={urgency}
-          onChange={setFilter("urgency")}
-          options={[
-            { value: "", label: t("Filters.allUrgencies") },
-            ...filters.urgencies,
-          ]}
-        />
+        <Button
+          className="border-gray-200 text-[12.5px] text-primary font-normal h-9 bg-white"
+          variant="outline"
+        >
+          <Download className="size-3.5" />
+          {t("Filters.exportCSV")}
+        </Button>
       </div>
     </div>
   );

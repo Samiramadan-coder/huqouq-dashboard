@@ -747,7 +747,8 @@
       "searchPlaceholder": "Search by reference, client, lawyer…",
       "allServiceTypes": "All service types",
       "allLawyers": "All lawyers",
-      "allUrgencies": "All urgencies"
+      "allUrgencies": "All urgencies",
+      "exportCSV": "Export CSV"
     },
     "Details": {
       "loading": "Loading service details…",

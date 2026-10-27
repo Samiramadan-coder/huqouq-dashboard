@@ -747,7 +747,8 @@
       "searchPlaceholder": "ابحث بالمرجع أو العميل أو المحامي…",
       "allServiceTypes": "جميع أنواع الخدمات",
       "allLawyers": "جميع المحامين",
-      "allUrgencies": "جميع درجات الاستعجال"
+      "allUrgencies": "جميع درجات الاستعجال",
+      "exportCSV": "استخراج ملف إكسل"
     },
     "Details": {
       "loading": "جارٍ تحميل تفاصيل الخدمة…",

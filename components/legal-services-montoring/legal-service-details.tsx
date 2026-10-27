@@ -151,7 +151,7 @@ export default function LegalServiceDetails({
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="data-[side=right]:sm:max-w-3xl gap-0">
+      <SheetContent className="data-[side=right]:sm:max-w-5xl gap-0">
         {details.status === "ready" ? (
           <DetailsContent service={details.service} />
         ) : (

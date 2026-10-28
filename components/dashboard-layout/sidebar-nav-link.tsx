@@ -29,11 +29,11 @@ export default function SidebarNavLink({
     <SidebarMenuButton
       asChild
       isActive={isActive}
-      className="relative rounded-lg h-10 px-3 py-2.5 text-[13px] font-medium text-gray-600 transition-colors hover:bg-muted hover:text-foreground data-[active=true]:bg-secondary/12 data-[active=true]:text-primary"
+      className="relative rounded-lg h-10 px-2 py-2.5 text-[13px] font-medium text-gray-600 transition-colors hover:bg-muted hover:text-foreground data-[active=true]:bg-secondary/12 data-[active=true]:text-primary"
     >
       <Link
         href={item.href}
-        className="flex items-center gap-3"
+        className="flex items-center gap"
         onClick={handleClick}
       >
         <div className="flex items-center gap-3">
@@ -41,11 +41,11 @@ export default function SidebarNavLink({
           <span>{t(item.label)}</span>
         </div>
 
-        {item.count && (
+        {item.count ? (
           <Badge className="ms-auto bg-amber-100! text-amber-700! text-[10px] w-5 h-5">
             {format.number(item.count)}
           </Badge>
-        )}
+        ) : null}
       </Link>
     </SidebarMenuButton>
   );

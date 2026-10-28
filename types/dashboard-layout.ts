@@ -17,3 +17,11 @@ export type DashboardNavigationLinkItem = Extract<
   DashboardNavigationItem,
   { type: "link" }
 >;
+
+export type SidebarBadges = {
+  case_approvals: number;
+  disputes: number;
+  lawyer_approvals: number;
+  legal_service_approvals: number;
+  legal_services_monitoring: number;
+};

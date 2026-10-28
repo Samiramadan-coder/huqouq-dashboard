@@ -3,6 +3,8 @@
     "English": "English",
     "Arabic": "Arabic",
     "Showing": "Showing",
+    "showingCount": "Showing {count} {unit}",
+    "showingRange": "Showing {from} to {to} of {total} {unit}",
     "Previous": "Previous",
     "Next": "Next",
     "Save": "Save",

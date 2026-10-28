@@ -71,20 +71,20 @@ export function DataTable({
             <TableCell className="px-4 py-3 text-[11px] text-gray-400">
               {!pagination ? (
                 <p>
-                  {t("Showing")} <span>{format.number(rowsCount)}</span>{" "}
-                  {countUnit}
+                  {t("showingCount", {
+                    count: format.number(rowsCount),
+                    unit: countUnit,
+                  })}
                 </p>
               ) : (
+                // One message per locale keeps real spaces and word order.
                 <p>
-                  {t("Showing")}
-                  <span className="mx-1">{format.number(pagination.from)}</span>
-                  {t("To")}
-                  <span className="mx-1">{format.number(pagination.to)}</span>
-                  {t("Of")}
-                  <span className="mx-1">
-                    {format.number(pagination.total)}
-                  </span>
-                  {countUnit}
+                  {t("showingRange", {
+                    from: format.number(pagination.from),
+                    to: format.number(pagination.to),
+                    total: format.number(pagination.total),
+                    unit: countUnit,
+                  })}
                 </p>
               )}
             </TableCell>

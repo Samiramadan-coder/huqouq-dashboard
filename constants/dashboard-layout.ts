@@ -12,6 +12,7 @@ import {
 import type {
   DashboardNavigationItem,
   DashboardNavigationLinkItem,
+  SidebarBadges,
 } from "@/types/dashboard-layout";
 
 export function isNavHrefActive(href: string, pathname: string) {
@@ -26,7 +27,9 @@ export const findActiveNavLink = (pathname: string) =>
       item.type === "link" && isNavHrefActive(item.href, pathname),
   );
 
-export const navigation = (): DashboardNavigationItem[] => [
+export const navigation = (
+  sidebarBadges?: SidebarBadges,
+): DashboardNavigationItem[] => [
   {
     label: "layout.sidebar.navigation.overview",
     type: "label",
@@ -46,18 +49,21 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/lawyer-approvals",
     type: "link",
     icon: createElement(UserRoundCheck, { className: "h-4 w-4" }),
+    count: sidebarBadges?.lawyer_approvals,
   },
   {
     label: "layout.sidebar.navigation.caseApprovals",
     href: "/case-approvals",
     type: "link",
     icon: createElement(Briefcase, { className: "h-4 w-4" }),
+    count: sidebarBadges?.case_approvals,
   },
   {
     label: "layout.sidebar.navigation.legalServicesApprovals",
     href: "/legal-services-approvals",
     type: "link",
     icon: createElement(Users, { className: "h-4 w-4" }),
+    count: sidebarBadges?.legal_service_approvals,
   },
   {
     label: "layout.sidebar.navigation.operations",
@@ -74,6 +80,7 @@ export const navigation = (): DashboardNavigationItem[] => [
     href: "/legal-services-monitoring",
     type: "link",
     icon: createElement(FileSearch, { className: "h-4 w-4" }),
+    count: sidebarBadges?.legal_services_monitoring,
   },
   {
     label: "layout.sidebar.navigation.users",

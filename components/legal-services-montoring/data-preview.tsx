@@ -76,6 +76,12 @@ export default async function DataPreview({
           const isInactive = service.attention.some(
             (attention) => attention.value === "inactive",
           );
+          // Once delivered, the next deadline is the client's review window,
+          // after which the delivery auto-approves.
+          const dueAt =
+            service.status === "delivered"
+              ? service.review_deadline
+              : service.delivery_deadline;
 
           return (
             <TableRow
@@ -160,16 +166,16 @@ export default async function DataPreview({
               </TableCell>
 
               <TableCell className="px-5 py-3">
-                {service.delivery_deadline ? (
+                {dueAt ? (
                   <div className="whitespace-nowrap">
                     <p className="text-gray-700 text-[13px]">
                       {format.dateTime(
-                        new Date(service.delivery_deadline),
+                        new Date(dueAt),
                         DATE_FORMAT,
                       )}
                     </p>
                     <p className="text-gray-500 text-[11px]">
-                      {format.dateTime(new Date(service.delivery_deadline), {
+                      {format.dateTime(new Date(dueAt), {
                         hour: "2-digit",
                         minute: "2-digit",
                         hour12: false,

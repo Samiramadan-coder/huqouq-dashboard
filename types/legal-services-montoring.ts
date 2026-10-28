@@ -168,7 +168,8 @@ export type LegalServiceDetails = LegalService & {
     lawyer_amount: number;
     paid_at: string;
     platform_fee: number;
-    provider: "manual";
+    // Known values have a translation under Payment.providers; others show as-is.
+    provider: string;
     reference: string;
     refunded_amount: number;
     refunded_at: null | string;

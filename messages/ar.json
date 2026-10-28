@@ -3,6 +3,8 @@
     "English": "الإنجليزية",
     "Arabic": "العربية",
     "Showing": "عرض",
+    "showingCount": "عرض {count} {unit}",
+    "showingRange": "عرض {from} إلى {to} من {total} {unit}",
     "Previous": "السابق",
     "Next": "التالي",
     "Save": "حفظ",

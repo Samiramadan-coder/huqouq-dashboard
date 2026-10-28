@@ -96,7 +96,13 @@ export default function PaymentContent({
               label: t("reference"),
               value: <span className="font-mono">{payment.reference}</span>,
             },
-            { label: t("method"), value: t(`providers.${payment.provider}`) },
+            {
+              label: t("method"),
+              // Providers without a translation (e.g. "demo") show as sent.
+              value: t.has(`providers.${payment.provider}`)
+                ? t(`providers.${payment.provider}`)
+                : payment.provider,
+            },
           ]}
         />
       </Section>

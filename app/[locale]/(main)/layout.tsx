@@ -7,6 +7,8 @@ import {
   SidebarProvider,
   SidebarInset,
 } from "@/components/ui/sidebar";
+
+import { http } from "@/lib/http";
 import type { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -17,6 +19,7 @@ import SidebarNavLink from "@/components/dashboard-layout/sidebar-nav-link";
 import DashboardHeader from "@/components/dashboard-layout/dashboard-header";
 import SidebarNavSection from "@/components/dashboard-layout/sidebar-nav-section";
 import SidebarToggleControl from "@/components/dashboard-layout/sidebar-toggle-control";
+import { SidebarBadges } from "@/types/dashboard-layout";
 
 export default async function MainLayout({
   children,
@@ -26,6 +29,10 @@ export default async function MainLayout({
   const locale = await getLocale();
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+
+  const { data } = await http.get<{
+    data: SidebarBadges;
+  }>("/api/admin/badges");
 
   if (!token) {
     redirect("/login");
@@ -42,7 +49,7 @@ export default async function MainLayout({
           <SidebarGroup className="p-0">
             <SidebarLogo />
             <SidebarMenu className="p-2">
-              {navigation().map((item) => (
+              {navigation(data.data).map((item) => (
                 <SidebarMenuItem key={item.label}>
                   {item.type === "link" ? (
                     <SidebarNavLink item={item} />

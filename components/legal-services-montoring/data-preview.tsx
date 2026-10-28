@@ -14,6 +14,10 @@ import StatusBadge from "./status-badge";
 // The API doesn't send a currency for legal services; fees are always in AED.
 const CURRENCY = "AED";
 
+// Tighter than the shared default so all 8 columns fit at 1440px without
+// horizontal scroll.
+const CELL_PADDING = "px-3";
+
 function Person({
   name,
   photoUrl,
@@ -27,7 +31,7 @@ function Person({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <Avatar className="size-5">
+      <Avatar className="size-5 shrink-0">
         <AvatarImage src={photoUrl} alt={name} />
         <AvatarFallback
           className={cn("text-white text-[10px]", fallbackClassName)}
@@ -35,7 +39,9 @@ function Person({
           {name[0]}
         </AvatarFallback>
       </Avatar>
-      <p className="whitespace-nowrap text-gray-700 text-[13px]">{name}</p>
+      <p title={name} className="max-w-32 truncate text-gray-700 text-[13px]">
+        {name}
+      </p>
       {children}
     </div>
   );
@@ -53,14 +59,14 @@ export default async function DataPreview({
   const locale = await getLocale();
 
   const columns: DataTableColumn[] = [
-    { label: t("service") },
-    { label: t("clientLawyer") },
-    { label: t("agreedFee") },
-    { label: t("status") },
-    { label: t("due") },
-    { label: t("round") },
-    { label: t("lastActivity") },
-    { label: t("actions") },
+    { label: t("service"), className: CELL_PADDING },
+    { label: t("clientLawyer"), className: CELL_PADDING },
+    { label: t("agreedFee"), className: CELL_PADDING },
+    { label: t("status"), className: CELL_PADDING },
+    { label: t("due"), className: CELL_PADDING },
+    { label: t("round"), className: CELL_PADDING },
+    { label: t("lastActivity"), className: CELL_PADDING },
+    { label: t("actions"), className: CELL_PADDING },
   ];
 
   return (
@@ -92,8 +98,8 @@ export default async function DataPreview({
                   "bg-amber-50/30 shadow-[inset_3px_0_0_var(--color-amber-400)] rtl:shadow-[inset_-3px_0_0_var(--color-amber-400)]",
               )}
             >
-              <TableCell className="px-5 py-3">
-                <div className="max-w-80">
+              <TableCell className="px-3 py-3">
+                <div className="max-w-60 whitespace-normal">
                   <p className="text-[11px] text-gray-400">
                     <span className="font-mono font-semibold text-gray-800">
                       {service.reference}
@@ -119,7 +125,7 @@ export default async function DataPreview({
                 </div>
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 <div className="space-y-1.5">
                   <Person
                     name={service.client.name}
@@ -150,7 +156,7 @@ export default async function DataPreview({
                 </div>
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 <p className="whitespace-nowrap text-gray-800 text-[13px]">
                   {service.agreed_fee
                     ? formatMoney(service.agreed_fee, CURRENCY, locale)
@@ -158,14 +164,14 @@ export default async function DataPreview({
                 </p>
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 <StatusBadge
                   status={service.status}
                   label={service.status_label}
                 />
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 {dueAt ? (
                   <div className="whitespace-nowrap">
                     <p className="text-gray-700 text-[13px]">
@@ -187,7 +193,7 @@ export default async function DataPreview({
                 )}
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 <p className="whitespace-nowrap text-gray-700 text-[13px]">
                   {service.round
                     ? t("roundNumber", { round: service.round })
@@ -195,7 +201,7 @@ export default async function DataPreview({
                 </p>
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 <p
                   className={cn(
                     "whitespace-nowrap text-[13px]",
@@ -210,7 +216,7 @@ export default async function DataPreview({
                 </p>
               </TableCell>
 
-              <TableCell className="px-5 py-3">
+              <TableCell className="px-3 py-3">
                 <LegalServiceDetails
                   reference={service.reference}
                   serviceId={service.id}

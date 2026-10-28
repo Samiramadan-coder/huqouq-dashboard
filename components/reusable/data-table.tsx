@@ -89,7 +89,12 @@ export function DataTable({
               )}
             </TableCell>
 
-            <TableCell className="px-4 py-3" colSpan={columns.length}>
+            {/* The count cell takes the first column; spanning exactly the rest
+                avoids adding a phantom column that widens the table. */}
+            <TableCell
+              className="px-4 py-3"
+              colSpan={columns.length - (onCheckboxChange ? 0 : 1)}
+            >
               {pagination && (
                 <PaginationTemplate
                   currentPage={pagination.current_page}

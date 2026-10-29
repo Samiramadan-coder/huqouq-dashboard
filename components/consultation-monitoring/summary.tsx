@@ -48,7 +48,7 @@ export default function Summary({ summary }: { summary: SummaryType }) {
   const locale = useLocale();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
       {cards.map(({ key, Icon, iconClassName }) => {
         const value =
           key === "refunds_this_month"

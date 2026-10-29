@@ -981,6 +981,13 @@
       "cancelled_30_days": "Cancelled (30 days)",
       "open_reports": "Open reports",
       "refunds_this_month": "Refunds this month"
+    },
+    "Filters": {
+      "searchPlaceholder": "Search by reference, client, lawyer…",
+      "allTypes": "All types",
+      "allLawyers": "All lawyers",
+      "allClients": "All clients",
+      "sort": "Sort by"
     }
   },
   "Home": {

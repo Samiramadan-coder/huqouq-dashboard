@@ -980,6 +980,13 @@
       "cancelled_30_days": "الملغاة (30 يومًا)",
       "open_reports": "البلاغات المفتوحة",
       "refunds_this_month": "المبالغ المستردة هذا الشهر"
+    },
+    "Filters": {
+      "searchPlaceholder": "ابحث بالمرجع أو العميل أو المحامي…",
+      "allTypes": "جميع الأنواع",
+      "allLawyers": "جميع المحامين",
+      "allClients": "جميع العملاء",
+      "sort": "ترتيب حسب"
     }
   },
   "Home": {

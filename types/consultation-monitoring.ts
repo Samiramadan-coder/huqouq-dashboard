@@ -6,6 +6,16 @@ export type SummaryType = {
   upcoming_today: number;
 };
 
+// Consultations are booked in UAE time, whatever the admin's timezone.
+export const TIME_ZONE = "Asia/Dubai";
+
+export const TIME_FORMAT = {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: TIME_ZONE,
+} as const satisfies Intl.DateTimeFormatOptions;
+
 export const consultationTabs = [
   "all",
   "upcoming",
@@ -108,6 +118,14 @@ export type ConsultationDetailsType = Consultation & {
     refund_amount: number;
     refunded_at: null | string;
   };
+  // Not in every response yet, so the section is hidden when it's missing.
+  timeline?: {
+    key: string;
+    label: string;
+    actor: string;
+    at: string;
+    note: null | string;
+  }[];
   payout: {
     detail: null | string;
     label: string;

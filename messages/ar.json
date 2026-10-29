@@ -1005,7 +1005,82 @@
       "refunded": "تم استرداد {amount}",
       "noRefund": "بدون استرداد",
       "consultations": "استشارات",
-      "noConsultations": "لا توجد استشارات"
+      "noConsultations": "لا توجد استشارات",
+      "actions": "الإجراءات",
+      "view": "عرض",
+      "viewConsultation": "عرض الاستشارة {reference}"
+    },
+    "Details": {
+      "loading": "جارٍ تحميل تفاصيل الاستشارة…",
+      "failure": "تعذّر تحميل تفاصيل الاستشارة. يرجى المحاولة مرة أخرى.",
+      "forbidden": "ليست لديك صلاحية لعرض هذه الاستشارة.",
+      "retry": "إعادة المحاولة",
+      "uae": "(الإمارات)",
+      "minutes": "{minutes} دقيقة",
+      "cancelRefund": "إلغاء واسترداد كامل المبلغ",
+      "addNote": "إضافة ملاحظة داخلية",
+      "cancelled": "ملغاة",
+      "cancelledBy": "ألغاها {actor}",
+      "brief": "ما شاركه العميل عند الحجز",
+      "noBrief": "لم يشارك العميل أي تفاصيل عند الحجز.",
+      "CancelRefund": {
+        "title": "إلغاء واسترداد كامل المبلغ",
+        "description": "سيُسترد للعميل مبلغ {amount} ولن يحصل المحامي على أي مستحقات. سيتم إشعار الطرفين بالسبب الذي تكتبه.",
+        "reasonLabel": "السبب",
+        "required": "(مطلوب)",
+        "reasonPlaceholder": "وضّح سبب إلغاء هذه الاستشارة…",
+        "reasonRequired": "السبب مطلوب.",
+        "reasonMinLength": "يجب ألا يقل السبب عن ٨ أحرف.",
+        "reasonMaxLength": "يجب ألا يزيد السبب عن ١٠٠٠ حرف.",
+        "keep": "الإبقاء على الاستشارة",
+        "submit": "إلغاء واسترداد {amount}"
+      },
+      "AddNote": {
+        "private": "الملاحظات الداخلية مرئية للمشرفين فقط.",
+        "label": "الملاحظة",
+        "required": "(مطلوبة)",
+        "placeholder": "اكتب ملاحظة لبقية المشرفين…",
+        "reasonRequired": "الملاحظة مطلوبة.",
+        "reasonMinLength": "يجب ألا تقل الملاحظة عن ١٠ أحرف.",
+        "reasonMaxLength": "يجب ألا تزيد الملاحظة عن ١٠٠٠ حرف.",
+        "cancel": "إلغاء",
+        "submit": "حفظ الملاحظة"
+      },
+      "Parties": {
+        "client": "العميل",
+        "lawyer": "المحامي",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "rating": "التقييم",
+        "reviews": "{count, plural, zero {لا توجد تقييمات} one {تقييم واحد} two {تقييمان} few {{count, number, digits} تقييمات} many {{count, number, digits} تقييمًا} other {{count, number, digits} تقييم}}",
+        "contactHidden": "بيانات التواصل مخفية",
+        "noLawyer": "لم يتم تعيين محامٍ"
+      },
+      "Payment": {
+        "payment": "الدفع",
+        "amountPaid": "المبلغ المدفوع",
+        "paymentDate": "تاريخ الدفع",
+        "reference": "المرجع",
+        "method": "طريقة الدفع",
+        "noPayment": "لم يتم الدفع بعد.",
+        "feeBreakdown": "تفاصيل الرسوم",
+        "consultationFee": "رسوم الاستشارة",
+        "platformFee": "رسوم منصة حقوق ({percentage}٪)",
+        "refunded": "المبلغ المسترد",
+        "refundedOn": "تم الاسترداد في {date}",
+        "lawyerEarning": "أرباح المحامي",
+        "feeNote": "تُحدَّد رسوم المنصة من إعدادات الإدارة ← المالية. لا تأخذ حقوق أي رسوم عند الاسترداد الكامل.",
+        "payout": "صرف المستحقات"
+      },
+      "Timeline": {
+        "title": "الجدول الزمني للاستشارة",
+        "by": "بواسطة {actor}",
+        "noTimeline": "لا توجد أحداث بعد"
+      },
+      "Notes": {
+        "title": "الملاحظات الداخلية ({count})",
+        "noNotes": "لا توجد ملاحظات داخلية بعد. الملاحظات مرئية للمشرفين فقط."
+      }
     }
   },
   "Home": {

@@ -1005,7 +1005,82 @@
       "refunded": "Refunded {amount}",
       "noRefund": "No refund",
       "consultations": "consultations",
-      "noConsultations": "No consultations found"
+      "noConsultations": "No consultations found",
+      "actions": "Actions",
+      "view": "View",
+      "viewConsultation": "View consultation {reference}"
+    },
+    "Details": {
+      "loading": "Loading consultation details…",
+      "failure": "Couldn't load the consultation details. Please try again.",
+      "forbidden": "You don't have permission to view this consultation.",
+      "retry": "Retry",
+      "uae": "(UAE)",
+      "minutes": "{minutes} min",
+      "cancelRefund": "Cancel & refund in full",
+      "addNote": "Add internal note",
+      "cancelled": "Cancelled",
+      "cancelledBy": "Cancelled by {actor}",
+      "brief": "What the client shared when booking",
+      "noBrief": "The client didn't share anything when booking.",
+      "CancelRefund": {
+        "title": "Cancel and refund in full",
+        "description": "The client is refunded {amount} and the lawyer earns nothing. Both are notified with your reason.",
+        "reasonLabel": "Reason",
+        "required": "(required)",
+        "reasonPlaceholder": "Explain why this consultation is being cancelled…",
+        "reasonRequired": "Reason is required.",
+        "reasonMinLength": "Reason must be at least 8 characters.",
+        "reasonMaxLength": "Reason must be at most 1000 characters.",
+        "keep": "Keep consultation",
+        "submit": "Cancel and refund {amount}"
+      },
+      "AddNote": {
+        "private": "Only admins can see internal notes.",
+        "label": "Note",
+        "required": "(required)",
+        "placeholder": "Write a note for other admins…",
+        "reasonRequired": "Note is required.",
+        "reasonMinLength": "Note must be at least 10 characters.",
+        "reasonMaxLength": "Note must be at most 1000 characters.",
+        "cancel": "Cancel",
+        "submit": "Save note"
+      },
+      "Parties": {
+        "client": "Client",
+        "lawyer": "Lawyer",
+        "email": "Email",
+        "phone": "Phone",
+        "rating": "Rating",
+        "reviews": "{count, plural, one {{count, number, digits} review} other {{count, number, digits} reviews}}",
+        "contactHidden": "Contact details are hidden",
+        "noLawyer": "No lawyer assigned"
+      },
+      "Payment": {
+        "payment": "Payment",
+        "amountPaid": "Amount paid",
+        "paymentDate": "Payment date",
+        "reference": "Reference",
+        "method": "Method",
+        "noPayment": "No payment has been made yet.",
+        "feeBreakdown": "Fee breakdown",
+        "consultationFee": "Consultation fee",
+        "platformFee": "Huqouq platform fee ({percentage}%)",
+        "refunded": "Refunded",
+        "refundedOn": "Refunded on {date}",
+        "lawyerEarning": "Lawyer earning",
+        "feeNote": "The platform fee is set in Admin Settings → Financial. Huqouq takes no fee on a full refund.",
+        "payout": "Payout"
+      },
+      "Timeline": {
+        "title": "Consultation timeline",
+        "by": "by {actor}",
+        "noTimeline": "No timeline events yet"
+      },
+      "Notes": {
+        "title": "Internal notes ({count})",
+        "noNotes": "No internal notes yet. Notes are only visible to admins."
+      }
     }
   },
   "Home": {

@@ -1,28 +1,23 @@
-import { getAppFormatter } from "@/lib/get-app-formatter";
-import { DATE_FORMAT, formatMoney } from "@/lib/format";
+import {
+  TIME_ZONE,
+  TIME_FORMAT,
+  Consultation,
+} from "@/types/consultation-monitoring";
+
 import { cn } from "@/lib/utils";
-import { Pagination } from "@/types/shared";
+import StatusBadge from "./status-badge";
 import { Phone, Video } from "lucide-react";
+import { Pagination } from "@/types/shared";
 import { TableCell, TableRow } from "../ui/table";
+import { DATE_FORMAT, formatMoney } from "@/lib/format";
+import ConsultationDetails from "./consultation-details";
+import { getAppFormatter } from "@/lib/get-app-formatter";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
-import { Consultation } from "@/types/consultation-monitoring";
-import StatusBadge from "./status-badge";
-import ConsultationDetails from "./consultation-details";
 
 // The API doesn't send a currency for consultations; fees are always in AED.
-const CURRENCY = "AED";
-
-// Consultations are booked in UAE time, whatever the admin's timezone.
-const TIME_ZONE = "Asia/Dubai";
-
-const TIME_FORMAT = {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-  timeZone: TIME_ZONE,
-} as const satisfies Intl.DateTimeFormatOptions;
+// const CURRENCY = "AED";
 
 const CELL_PADDING = "px-3";
 
@@ -59,9 +54,10 @@ export default async function DataPreview({
   data: Consultation[];
   pagination: Pagination;
 }) {
-  const t = await getTranslations("ConsultationMonitoring.Table");
-  const format = await getAppFormatter();
   const locale = await getLocale();
+  const format = await getAppFormatter();
+  const tCommon = await getTranslations("Common");
+  const t = await getTranslations("ConsultationMonitoring.Table");
 
   const columns: DataTableColumn[] = [
     { label: t("reference"), className: CELL_PADDING },
@@ -72,6 +68,7 @@ export default async function DataPreview({
     { label: t("duration"), className: CELL_PADDING },
     { label: t("amount"), className: CELL_PADDING },
     { label: t("status"), className: CELL_PADDING },
+    { label: t("actions"), className: CELL_PADDING },
     { label: "", className: CELL_PADDING },
   ];
 
@@ -149,7 +146,7 @@ export default async function DataPreview({
 
               <TableCell className="px-3 py-3">
                 <p className="whitespace-nowrap font-semibold text-gray-800 text-[13px]">
-                  {formatMoney(consultation.amount, CURRENCY, locale)}
+                  {formatMoney(consultation.amount, tCommon("AED"), locale)}
                 </p>
               </TableCell>
 
@@ -164,7 +161,7 @@ export default async function DataPreview({
                       ? t("refunded", {
                           amount: formatMoney(
                             consultation.refund_amount,
-                            CURRENCY,
+                            tCommon("AED"),
                             locale,
                           ),
                         })
@@ -174,7 +171,10 @@ export default async function DataPreview({
               </TableCell>
 
               <TableCell className="px-3 py-3">
-                <ConsultationDetails consultationId={consultation.id} />
+                <ConsultationDetails
+                  reference={consultation.reference}
+                  consultationId={consultation.id}
+                />
               </TableCell>
             </TableRow>
           );

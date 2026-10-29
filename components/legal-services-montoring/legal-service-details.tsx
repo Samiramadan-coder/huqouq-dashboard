@@ -95,8 +95,6 @@ export default function LegalServiceDetails({
       const result = await getLegalServiceDetails(serviceId);
       if (current !== requestId.current) return;
 
-      console.log(result);
-
       setDetails(
         result.success
           ? { status: "ready", service: result.data }

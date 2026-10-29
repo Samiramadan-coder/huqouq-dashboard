@@ -72,8 +72,6 @@ export default async function Page({
     },
   });
 
-  // console.log(data);
-
   return (
     <div className="p-4 sm:p-6 space-y-6">
       <p className="text-[13px] text-gray-500 max-w-2xl">{t("description")}</p>

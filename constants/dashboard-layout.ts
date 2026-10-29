@@ -77,18 +77,18 @@ export const navigation = (
     icon: createElement(MonitorCheck, { className: "size-4" }),
   },
   {
-    label: "layout.sidebar.navigation.legalServicesMonitoring",
-    href: "/legal-services-monitoring",
-    type: "link",
-    icon: createElement(FileSearch, { className: "size-4" }),
-    count: sidebarBadges?.legal_services_monitoring,
-  },
-  {
     label: "layout.sidebar.navigation.consultationMonitoring",
     href: "/consultation-monitoring",
     type: "link",
     icon: createElement(Video, { className: "size-4" }),
     count: sidebarBadges?.consultations_monitoring,
+  },
+  {
+    label: "layout.sidebar.navigation.legalServicesMonitoring",
+    href: "/legal-services-monitoring",
+    type: "link",
+    icon: createElement(FileSearch, { className: "size-4" }),
+    count: sidebarBadges?.legal_services_monitoring,
   },
   {
     label: "layout.sidebar.navigation.users",

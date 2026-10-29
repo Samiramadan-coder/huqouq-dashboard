@@ -34,8 +34,6 @@ export default async function MainLayout({
     data: SidebarBadges;
   }>("/api/admin/badges");
 
-  console.log(data);
-
   if (!token) {
     redirect("/login");
   }

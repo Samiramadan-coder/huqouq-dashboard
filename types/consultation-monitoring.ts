@@ -29,8 +29,11 @@ export type ConsultationTab = (typeof consultationTabs)[number];
 
 export type Counts = Record<ConsultationTab, number>;
 
-// Every tab except "all" is also a consultation status.
-export type ConsultationStatus = Exclude<ConsultationTab, "all">;
+// Every tab except "all" is also a consultation status; "under_review" has
+// no tab of its own (a client report is open).
+export type ConsultationStatus =
+  | Exclude<ConsultationTab, "all">
+  | "under_review";
 
 export type FiltersType = {
   tabs: { value: ConsultationTab; label: string }[];
@@ -120,7 +123,7 @@ export type ConsultationDetailsType = Consultation & {
   };
   // Not in every response yet, so the section is hidden when it's missing.
   timeline?: {
-    key: string;
+    key: "booked" | "cancelled" | "refund" | "completed";
     label: string;
     actor: string;
     at: string;

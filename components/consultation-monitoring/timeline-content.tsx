@@ -1,11 +1,9 @@
 import {
   Ban,
   Circle,
-  Banknote,
   RotateCcw,
   CircleCheck,
   CalendarCheck,
-  CalendarClock,
 } from "lucide-react";
 import { DATE_FORMAT } from "@/lib/format";
 import { useTranslations } from "next-intl";
@@ -19,18 +17,18 @@ import {
 
 type TimelineEntry = NonNullable<ConsultationDetailsType["timeline"]>[number];
 
-const entryStyles: Record<string, { Icon: typeof Circle; className: string }> =
-  {
-    booked: { Icon: CalendarCheck, className: "bg-gray-100 text-gray-600" },
-    rescheduled: { Icon: CalendarClock, className: "bg-blue-50 text-blue-600" },
-    completed: {
-      Icon: CircleCheck,
-      className: "bg-emerald-50 text-emerald-700",
-    },
-    cancelled: { Icon: Ban, className: "bg-red-50 text-red-600" },
-    refunded: { Icon: RotateCcw, className: "bg-amber-50 text-amber-700" },
-    payout: { Icon: Banknote, className: "bg-emerald-50 text-emerald-700" },
-  };
+const entryStyles: Record<
+  TimelineEntry["key"],
+  { Icon: typeof Circle; className: string }
+> = {
+  booked: { Icon: CalendarCheck, className: "bg-gray-100 text-gray-600" },
+  cancelled: { Icon: Ban, className: "bg-red-50 text-red-600" },
+  refund: { Icon: RotateCcw, className: "bg-amber-50 text-amber-700" },
+  completed: {
+    Icon: CircleCheck,
+    className: "bg-emerald-50 text-emerald-700",
+  },
+};
 
 // Keys the dashboard doesn't know yet still render, with a neutral icon.
 const fallbackStyle = { Icon: Circle, className: "bg-gray-100 text-gray-500" };

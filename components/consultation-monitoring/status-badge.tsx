@@ -7,6 +7,7 @@ const statusClassNames: Record<ConsultationStatus, string> = {
   completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
   needs_new_time: "bg-amber-50 text-amber-700 border-amber-200",
   cancelled: "bg-gray-50 text-gray-500 border-gray-200",
+  under_review: "bg-red-50 text-red-700 border-red-200",
 };
 
 // Status pill; the label text carries the meaning, color only reinforces it.

@@ -61,8 +61,6 @@ export default function ConsultationDetails({
       const result = await getConsultationDetails(consultationId);
       if (current !== requestId.current) return;
 
-      console.log(result);
-
       setDetails(
         result.success
           ? { status: "ready", consultation: result.data }

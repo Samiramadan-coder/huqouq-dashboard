@@ -96,7 +96,7 @@
         "finance": "Finance",
         "payouts": "Payouts",
         "legalServicesMonitoring": "Legal Services Monitoring",
-        "consultationMonitoring": "Consultation Monitoring"
+        "consultationMonitoring": "Consultations Monitoring"
       }
     }
   },
@@ -714,7 +714,7 @@
     "payouts": "Payouts",
     "settings": "Settings",
     "legalServicesMonitoring": "Legal Services Monitoring",
-    "consultationMonitoring": "Consultation Monitoring"
+    "consultationMonitoring": "Consultations Monitoring"
   },
   "LegalServicesMonitoring": {
     "description": "Track every accepted legal service from payment to payout. Services that need an admin are pinned to the top.",

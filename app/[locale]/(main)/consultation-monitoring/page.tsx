@@ -1,19 +1,25 @@
-import { http } from "@/lib/http";
-import { Pagination } from "@/types/shared";
 import {
+  Consultation,
   ConsultationTab,
   Counts,
   FiltersType,
   SummaryType,
   consultationTabs,
 } from "@/types/consultation-monitoring";
+
+import { Metadata } from "next";
+import { http } from "@/lib/http";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { Pagination } from "@/types/shared";
 import Summary from "@/components/consultation-monitoring/summary";
 import Filters from "@/components/consultation-monitoring/filters";
+import DataPreview from "@/components/consultation-monitoring/data-preview";
 
-export async function generateMetadata() {
-  return {
-    title: "Consultation Monitoring",
-  };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+
+  return { title: t("consultationMonitoring") };
 }
 
 type SearchParams = {
@@ -42,10 +48,11 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { tab, q, type, lawyer_id, client_id, sort, page } =
-    await searchParams;
+  const { tab, q, type, lawyer_id, client_id, sort, page } = await searchParams;
+  const t = await getTranslations("ConsultationMonitoring");
 
   const { data } = await http.get<{
+    data: Consultation[];
     filters: FiltersType;
     summary: SummaryType;
     counts: Counts;
@@ -69,14 +76,23 @@ export default async function Page({
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
-      <p className="text-[13px] text-gray-500 max-w-2xl">
-        Follow every booked voice and video consultation, from payment to
-        payout, and decide on problems reported by clients.
-      </p>
+      <p className="text-[13px] text-gray-500 max-w-2xl">{t("description")}</p>
 
       <Summary summary={data.summary} />
 
       <Filters counts={data.counts} filters={data.filters} />
+
+      <DataPreview data={data.data} pagination={data.meta} />
+
+      <p className="text-[11.5px] text-gray-400">
+        {t.rich("settingsNote", {
+          link: (chunks) => (
+            <Link className="underline hover:text-gray-600" href="/settings">
+              {chunks}
+            </Link>
+          ),
+        })}
+      </p>
     </div>
   );
 }

@@ -95,7 +95,8 @@
         "settings": "الإعدادات",
         "finance": "المالية",
         "payouts": "المدفوعات",
-        "legalServicesMonitoring": "مراقبة الخدمات القانونية"
+        "legalServicesMonitoring": "مراقبة الخدمات القانونية",
+        "consultationMonitoring": "مراقبة الاستشارات"
       }
     }
   },
@@ -712,7 +713,8 @@
     "clients": "العملاء",
     "payouts": "المدفوعات",
     "settings": "الإعدادات",
-    "legalServicesMonitoring": "مراقبة الخدمات القانونية"
+    "legalServicesMonitoring": "مراقبة الخدمات القانونية",
+    "consultationMonitoring": "مراقبة الاستشارات"
   },
   "LegalServicesMonitoring": {
     "description": "تابع كل خدمة قانونية مقبولة من الدفع حتى صرف المستحقات. تُثبَّت الخدمات التي تحتاج إلى تدخل الإدارة في الأعلى.",
@@ -973,6 +975,8 @@
     }
   },
   "ConsultationMonitoring": {
+    "description": "تابع كل استشارة صوتية أو مرئية محجوزة من الدفع حتى صرف المستحقات، واتخذ القرار في المشكلات التي يبلّغ عنها العملاء.",
+    "settingsNote": "تأتي الرسوم ومدة حجز المستحقات من <link>إعدادات الإدارة ← المالية</link>",
     "Summary": {
       "upcoming_today": "القادمة اليوم",
       "this_week": "هذا الأسبوع",
@@ -987,6 +991,21 @@
       "allLawyers": "جميع المحامين",
       "allClients": "جميع العملاء",
       "sort": "ترتيب حسب"
+    },
+    "Table": {
+      "reference": "المرجع",
+      "client": "العميل",
+      "lawyer": "المحامي",
+      "type": "النوع",
+      "dateTime": "التاريخ والوقت (الإمارات)",
+      "duration": "المدة",
+      "amount": "المبلغ",
+      "status": "الحالة",
+      "minutes": "{minutes} دقيقة",
+      "refunded": "تم استرداد {amount}",
+      "noRefund": "بدون استرداد",
+      "consultations": "استشارات",
+      "noConsultations": "لا توجد استشارات"
     }
   },
   "Home": {

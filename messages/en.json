@@ -713,7 +713,8 @@
     "clients": "Clients",
     "payouts": "Payouts",
     "settings": "Settings",
-    "legalServicesMonitoring": "Legal Services Monitoring"
+    "legalServicesMonitoring": "Legal Services Monitoring",
+    "consultationMonitoring": "Consultation Monitoring"
   },
   "LegalServicesMonitoring": {
     "description": "Track every accepted legal service from payment to payout. Services that need an admin are pinned to the top.",
@@ -974,6 +975,8 @@
     }
   },
   "ConsultationMonitoring": {
+    "description": "Follow every booked voice and video consultation, from payment to payout, and decide on problems reported by clients.",
+    "settingsNote": "Fee and payout hold come from <link>Admin Settings → Financial</link>",
     "Summary": {
       "upcoming_today": "Upcoming today",
       "this_week": "This week",
@@ -988,6 +991,21 @@
       "allLawyers": "All lawyers",
       "allClients": "All clients",
       "sort": "Sort by"
+    },
+    "Table": {
+      "reference": "Reference",
+      "client": "Client",
+      "lawyer": "Lawyer",
+      "type": "Type",
+      "dateTime": "Date & time (UAE)",
+      "duration": "Duration",
+      "amount": "Amount",
+      "status": "Status",
+      "minutes": "{minutes} min",
+      "refunded": "Refunded {amount}",
+      "noRefund": "No refund",
+      "consultations": "consultations",
+      "noConsultations": "No consultations found"
     }
   },
   "Home": {

@@ -95,7 +95,8 @@
         "settings": "Settings",
         "finance": "Finance",
         "payouts": "Payouts",
-        "legalServicesMonitoring": "Legal Services Monitoring"
+        "legalServicesMonitoring": "Legal Services Monitoring",
+        "consultationMonitoring": "Consultation Monitoring"
       }
     }
   },
@@ -970,6 +971,16 @@
         },
         "noActivity": "No activity yet"
       }
+    }
+  },
+  "ConsultationMonitoring": {
+    "Summary": {
+      "upcoming_today": "Upcoming today",
+      "this_week": "This week",
+      "completed_30_days": "Completed (30 days)",
+      "cancelled_30_days": "Cancelled (30 days)",
+      "open_reports": "Open reports",
+      "refunds_this_month": "Refunds this month"
     }
   },
   "Home": {

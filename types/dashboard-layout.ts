@@ -24,4 +24,5 @@ export type SidebarBadges = {
   lawyer_approvals: number;
   legal_service_approvals: number;
   legal_services_monitoring: number;
+  consultation_monitoring: number;
 };

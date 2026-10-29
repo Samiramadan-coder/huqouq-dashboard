@@ -972,6 +972,16 @@
       }
     }
   },
+  "ConsultationMonitoring": {
+    "Summary": {
+      "upcoming_today": "القادمة اليوم",
+      "this_week": "هذا الأسبوع",
+      "completed_30_days": "المكتملة (30 يومًا)",
+      "cancelled_30_days": "الملغاة (30 يومًا)",
+      "open_reports": "البلاغات المفتوحة",
+      "refunds_this_month": "المبالغ المستردة هذا الشهر"
+    }
+  },
   "Home": {
     "underDevelopment": "لوحة تحكم حقوق لا تزال قيد التطوير"
   }

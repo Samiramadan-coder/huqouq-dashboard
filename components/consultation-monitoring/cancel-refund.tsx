@@ -17,7 +17,9 @@ import {
   CANCEL_REASON_MIN_LENGTH,
 } from "@/types/legal-services-montoring";
 
+import { toast } from "sonner";
 import { Ban } from "lucide-react";
+import { cancelRefundConsultation } from "@/lib/consultation-monitoring";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { useMemo, useState } from "react";
@@ -33,10 +35,12 @@ export default function CancelRefund({
   consultation,
   disabled,
   title,
+  onSuccess,
 }: {
   consultation: ConsultationDetailsType;
   disabled: boolean;
   title?: string;
+  onSuccess: () => void;
 }) {
   const t = useTranslations("ConsultationMonitoring.Details");
   const locale = useLocale();
@@ -50,6 +54,7 @@ export default function CancelRefund({
   const {
     control,
     register,
+    setError,
     reset,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -60,10 +65,33 @@ export default function CancelRefund({
 
   const reason = useWatch({ control, name: "reason" });
 
-  // TODO: call the cancel & refund endpoint once the backend has it.
-  const onSubmit: SubmitHandler<CancelRefundFormValues> = async () => {
-    reset();
-    setOpen(false);
+  const onSubmit: SubmitHandler<CancelRefundFormValues> = async (data) => {
+    try {
+      const result = await cancelRefundConsultation(data, consultation.id);
+
+      if (result.success) {
+        toast.success(result.message || t("CancelRefund.success"));
+        reset();
+        setOpen(false);
+        onSuccess();
+        return;
+      }
+
+      if (result.errors?.reason) {
+        setError("reason", { type: "server", message: result.errors.reason });
+        return;
+      }
+
+      toast.error(
+        t(
+          result.error === "forbidden"
+            ? "CancelRefund.forbidden"
+            : "CancelRefund.failure",
+        ),
+      );
+    } catch {
+      toast.error(t("CancelRefund.failure"));
+    }
   };
 
   // The full amount paid goes back to the client.

@@ -16,7 +16,9 @@ import {
   NOTE_REASON_MIN_LENGTH,
 } from "@/types/legal-services-montoring";
 
+import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { addConsultationNote } from "@/lib/consultation-monitoring";
 import { Spinner } from "../ui/spinner";
 import { useMemo, useState } from "react";
 import { NotebookPen } from "lucide-react";
@@ -26,7 +28,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 
 // "Add internal note" button with a dialog; notes are only visible to admins.
-export default function AddNote() {
+export default function AddNote({
+  consultationId,
+  onSuccess,
+}: {
+  consultationId: number;
+  onSuccess: () => void;
+}) {
   const t = useTranslations("ConsultationMonitoring.Details");
   const [open, setOpen] = useState(false);
 
@@ -35,6 +43,7 @@ export default function AddNote() {
   const {
     control,
     register,
+    setError,
     reset,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -45,10 +54,33 @@ export default function AddNote() {
 
   const body = useWatch({ control, name: "body" });
 
-  // TODO: call the add note endpoint once the backend has it.
-  const onSubmit: SubmitHandler<NoteFormValues> = async () => {
-    reset();
-    setOpen(false);
+  const onSubmit: SubmitHandler<NoteFormValues> = async (data) => {
+    try {
+      const result = await addConsultationNote(data, consultationId);
+
+      if (result.success) {
+        toast.success(result.message || t("AddNote.success"));
+        reset();
+        setOpen(false);
+        onSuccess();
+        return;
+      }
+
+      if (result.errors?.body) {
+        setError("body", { type: "server", message: result.errors.body });
+        return;
+      }
+
+      toast.error(
+        t(
+          result.error === "forbidden"
+            ? "AddNote.forbidden"
+            : "AddNote.failure",
+        ),
+      );
+    } catch {
+      toast.error(t("AddNote.failure"));
+    }
   };
 
   return (

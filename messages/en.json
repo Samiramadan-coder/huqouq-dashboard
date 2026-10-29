@@ -1033,7 +1033,10 @@
         "reasonMinLength": "Reason must be at least 8 characters.",
         "reasonMaxLength": "Reason must be at most 1000 characters.",
         "keep": "Keep consultation",
-        "submit": "Cancel and refund {amount}"
+        "submit": "Cancel and refund {amount}",
+        "success": "The consultation was cancelled and the client refunded.",
+        "failure": "Failed to cancel and refund the consultation.",
+        "forbidden": "You don't have permission to perform this action."
       },
       "AddNote": {
         "private": "Only admins can see internal notes.",
@@ -1044,7 +1047,10 @@
         "reasonMinLength": "Note must be at least 10 characters.",
         "reasonMaxLength": "Note must be at most 1000 characters.",
         "cancel": "Cancel",
-        "submit": "Save note"
+        "submit": "Save note",
+        "success": "Note saved.",
+        "failure": "Failed to save the note.",
+        "forbidden": "You don't have permission to perform this action."
       },
       "Parties": {
         "client": "Client",

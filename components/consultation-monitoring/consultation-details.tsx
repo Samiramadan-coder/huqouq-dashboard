@@ -51,9 +51,11 @@ export default function ConsultationDetails({
   const [details, setDetails] = useState<DetailsState>({ status: "loading" });
   const requestId = useRef(0);
 
-  async function loadDetails() {
+  // A silent reload keeps the current details on screen while refetching,
+  // e.g. after an admin action.
+  async function loadDetails({ silent = false } = {}) {
     const current = ++requestId.current;
-    setDetails({ status: "loading" });
+    if (!silent) setDetails({ status: "loading" });
 
     try {
       const result = await getConsultationDetails(consultationId);
@@ -97,7 +99,10 @@ export default function ConsultationDetails({
 
       <SheetContent className="data-[side=right]:sm:max-w-3xl gap-0">
         {details.status === "ready" ? (
-          <DetailsContent consultation={details.consultation} />
+          <DetailsContent
+            consultation={details.consultation}
+            onChanged={() => void loadDetails({ silent: true })}
+          />
         ) : (
           <>
             <SheetHeader className="border-b border-border">
@@ -139,8 +144,10 @@ export default function ConsultationDetails({
 
 function DetailsContent({
   consultation,
+  onChanged,
 }: {
   consultation: ConsultationDetailsType;
+  onChanged: () => void;
 }) {
   const t = useTranslations("ConsultationMonitoring.Details");
   const format = useAppFormatter();
@@ -199,8 +206,9 @@ function DetailsContent({
             consultation={consultation}
             disabled={!cancelRefund.available}
             title={cancelRefund.available ? undefined : cancelRefund.reason}
+            onSuccess={onChanged}
           />
-          <AddNote />
+          <AddNote consultationId={consultation.id} onSuccess={onChanged} />
         </div>
       </SheetHeader>
 

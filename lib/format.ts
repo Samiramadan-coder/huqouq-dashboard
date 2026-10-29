@@ -81,6 +81,36 @@ export function formatMoney(
   return locale === "ar" ? `${value} ${label}` : `${label} ${value}`;
 }
 
+// Largest unit first; months are skipped because their narrow form ("3m")
+// reads like minutes.
+const ELAPSED_UNITS = [
+  { unit: "year", seconds: 365 * 24 * 60 * 60 },
+  { unit: "week", seconds: 7 * 24 * 60 * 60 },
+  { unit: "day", seconds: 24 * 60 * 60 },
+  { unit: "hour", seconds: 60 * 60 },
+  { unit: "minute", seconds: 60 },
+] as const;
+
+// Compact time since a date for tight table cells: "15s", "4h", "3d" in
+// English and "١٥ ث", "٤ س", "٣ ي" in Arabic.
+export function formatElapsed(
+  date: string | Date,
+  locale: string,
+  now: Date = new Date(),
+): string {
+  const elapsed = Math.max(
+    0,
+    Math.floor((now.getTime() - new Date(date).getTime()) / 1000),
+  );
+  const match = ELAPSED_UNITS.find(({ seconds }) => elapsed >= seconds);
+
+  return formatNumber(
+    match ? Math.floor(elapsed / match.seconds) : elapsed,
+    locale,
+    { style: "unit", unit: match?.unit ?? "second", unitDisplay: "narrow" },
+  );
+}
+
 // Wraps a next-intl formatter so dates, numbers and relative times use the
 // locale's digits. Use through useAppFormatter / getAppFormatter.
 export function withLocaleDigits(format: Formatter, locale: string): Formatter {

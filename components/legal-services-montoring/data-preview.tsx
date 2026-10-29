@@ -1,5 +1,5 @@
 import { getAppFormatter } from "@/lib/get-app-formatter";
-import { DATE_FORMAT, formatMoney } from "@/lib/format";
+import { DATE_TIME_FORMAT, formatElapsed, formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
 import { TableCell, TableRow } from "../ui/table";
@@ -17,6 +17,8 @@ const CURRENCY = "AED";
 // Tighter than the shared default so all 8 columns fit at 1440px without
 // horizontal scroll.
 const CELL_PADDING = "px-3";
+// Long headers wrap so they don't set the column width.
+const WRAPPING_HEADER = `${CELL_PADDING} whitespace-normal`;
 
 function Person({
   name,
@@ -39,7 +41,7 @@ function Person({
           {name[0]}
         </AvatarFallback>
       </Avatar>
-      <p title={name} className="max-w-32 truncate text-gray-700 text-[13px]">
+      <p title={name} className="max-w-28 truncate text-gray-700 text-[13px]">
         {name}
       </p>
       {children}
@@ -57,15 +59,16 @@ export default async function DataPreview({
   const t = await getTranslations("LegalServicesMonitoring.Table");
   const format = await getAppFormatter();
   const locale = await getLocale();
+  const now = new Date();
 
   const columns: DataTableColumn[] = [
     { label: t("service"), className: CELL_PADDING },
-    { label: t("clientLawyer"), className: CELL_PADDING },
-    { label: t("agreedFee"), className: CELL_PADDING },
+    { label: t("clientLawyer"), className: WRAPPING_HEADER },
+    { label: t("agreedFee"), className: WRAPPING_HEADER },
     { label: t("status"), className: CELL_PADDING },
     { label: t("due"), className: CELL_PADDING },
     { label: t("round"), className: CELL_PADDING },
-    { label: t("lastActivity"), className: CELL_PADDING },
+    { label: t("lastActivity"), className: WRAPPING_HEADER },
     { label: t("actions"), className: CELL_PADDING },
   ];
 
@@ -99,8 +102,8 @@ export default async function DataPreview({
               )}
             >
               <TableCell className="px-3 py-3">
-                <div className="max-w-60 whitespace-normal">
-                  <p className="text-[11px] text-gray-400">
+                <div className="w-65 whitespace-normal">
+                  <p className="truncate text-[11px] text-gray-400">
                     <span className="font-mono font-semibold text-gray-800">
                       {service.reference}
                     </span>
@@ -168,6 +171,7 @@ export default async function DataPreview({
                 <StatusBadge
                   status={service.status}
                   label={service.status_label}
+                  className="max-w-28 whitespace-normal rounded-lg"
                 />
               </TableCell>
 
@@ -175,10 +179,13 @@ export default async function DataPreview({
                 {dueAt ? (
                   <div className="whitespace-nowrap">
                     <p className="text-gray-700 text-[13px]">
-                      {format.dateTime(
-                        new Date(dueAt),
-                        DATE_FORMAT,
-                      )}
+                      {format.dateTime(new Date(dueAt), {
+                        day: "2-digit",
+                        month: "short",
+                        // The year only matters outside the current one.
+                        ...(new Date(dueAt).getFullYear() !==
+                          now.getFullYear() && { year: "numeric" }),
+                      })}
                     </p>
                     <p className="text-gray-500 text-[11px]">
                       {format.dateTime(new Date(dueAt), {
@@ -203,6 +210,14 @@ export default async function DataPreview({
 
               <TableCell className="px-3 py-3">
                 <p
+                  title={
+                    service.last_activity_at
+                      ? format.dateTime(
+                          new Date(service.last_activity_at),
+                          DATE_TIME_FORMAT,
+                        )
+                      : undefined
+                  }
                   className={cn(
                     "whitespace-nowrap text-[13px]",
                     isInactive
@@ -211,7 +226,7 @@ export default async function DataPreview({
                   )}
                 >
                   {service.last_activity_at
-                    ? format.relativeTime(new Date(service.last_activity_at))
+                    ? formatElapsed(service.last_activity_at, locale, now)
                     : "-"}
                 </p>
               </TableCell>

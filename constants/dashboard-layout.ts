@@ -88,7 +88,7 @@ export const navigation = (
     href: "/consultation-monitoring",
     type: "link",
     icon: createElement(Video, { className: "size-4" }),
-    count: sidebarBadges?.consultation_monitoring,
+    count: sidebarBadges?.consultations_monitoring,
   },
   {
     label: "layout.sidebar.navigation.users",

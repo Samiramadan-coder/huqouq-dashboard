@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DataTable, DataTableColumn } from "../reusable/data-table";
 import { Consultation } from "@/types/consultation-monitoring";
 import StatusBadge from "./status-badge";
+import ConsultationDetails from "./consultation-details";
 
 // The API doesn't send a currency for consultations; fees are always in AED.
 const CURRENCY = "AED";
@@ -71,6 +72,7 @@ export default async function DataPreview({
     { label: t("duration"), className: CELL_PADDING },
     { label: t("amount"), className: CELL_PADDING },
     { label: t("status"), className: CELL_PADDING },
+    { label: "", className: CELL_PADDING },
   ];
 
   return (
@@ -169,6 +171,10 @@ export default async function DataPreview({
                       : t("noRefund")}
                   </p>
                 )}
+              </TableCell>
+
+              <TableCell className="px-3 py-3">
+                <ConsultationDetails consultationId={consultation.id} />
               </TableCell>
             </TableRow>
           );

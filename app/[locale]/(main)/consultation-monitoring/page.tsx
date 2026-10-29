@@ -9,9 +9,9 @@ import {
 
 import { Metadata } from "next";
 import { http } from "@/lib/http";
-import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/types/shared";
+import { getTranslations } from "next-intl/server";
 import Summary from "@/components/consultation-monitoring/summary";
 import Filters from "@/components/consultation-monitoring/filters";
 import DataPreview from "@/components/consultation-monitoring/data-preview";
@@ -72,7 +72,7 @@ export default async function Page({
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
